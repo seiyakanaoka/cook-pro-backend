@@ -1,0 +1,69 @@
+openapi: 3.0.3
+info:
+  title: クッキングアプリ REST API
+  description: |-
+    クッキングアプリのREST API
+  version: 1.0.11
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: https://{ domain }/api/v1
+# tags:
+#   - name: Data
+#     description: ポケモンの情報
+#     externalDocs:
+#       description: Find out more
+#       url: http://swagger.io
+paths:
+  /dish:
+    get:
+      tags:
+        - Dish
+      summary: 料理一覧取得API
+      description: 登録された料理の一覧を取得
+      parameters:
+        - name: category
+          in: query
+          description: カテゴリ−別に絞り込む
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          example: [jpFood, westernFood]
+          style: form
+          explode: true
+      responses:
+        '200':
+          description: カテゴリー別に配列形式で返す
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DishResponse'
+        '400':
+          description: Invalid status value
+
+components:
+  schemas:
+    DishResponse:
+      type: object
+      properties:
+        id:
+          description: ID
+          type: string
+          example: f59fa544-abfe-423d-a20c-2799eed2d606
+        title:
+          description: タイトル
+          type: string
+          example: 季節の野菜たっぷりのカレー
+        image:
+          description: 画像
+          type: string
+          example: https://image.png
+        dishCreateRequiredTime:
+          description: 所要時間（分）
+          type: number
+          example: 20
