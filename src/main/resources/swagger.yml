@@ -11,6 +11,71 @@ servers:
   - url: https://{ domain }/api/v1
 paths:
   /user:
+    get:
+      tags:
+        - User
+      summary: ユーザー情報取得API
+      description: ユーザーの情報を取得する
+      responses:
+        '200':
+          description: |-
+            ユーザー情報をJSONで返す
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '400':
+          description: 不正リクエストエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestException'
+        '401':
+          description: 認証エラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        '403':
+          description: 操作権限エラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Forbidden'
+    patch:
+      tags:
+        - User
+      summary: ユーザー名編集API
+      description: ユーザー名を編集する
+      requestBody:
+        description: 編集するユーザー名
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserNameRequest'
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: 不正リクエストエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestException'
+        '401':
+          description: 認証エラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        '403':
+          description: 操作権限エラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Forbidden'
+  /user/signup:
     post:
       tags:
         - User
@@ -22,32 +87,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                lastName:
-                  type: string
-                  example: 料理
-                firstName:
-                  type: string
-                  example: 太郎
-                lastNameKana:
-                  type: string
-                  example: リョウリ
-                firstNameKana:
-                  type: string
-                  example: タロウ
-                userName:
-                  type: string
-                  example: リョーリタロー
-                email:
-                  type: string
-                  example: ryoritaro@hoge.com
-                password:
-                  type: string
-                  example: "**********"
-                tel_number:
-                  type: string
-                  example: "000-0000-0000"
+              $ref: '#/components/schemas/UserSignupRequest'
       responses:
         '200':
           description: |-
@@ -63,6 +103,132 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/BadRequestException'
+  /user/login:
+    post:
+      tags:
+        - User
+      summary: ユーザーログインAPI
+      description: ログイン情報をリクエストして、認証トークンを返すAPI
+      requestBody:
+        description: 新規登録するユーザー情報
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLoginRequest'
+      responses:
+        '200':
+          description: 認証トークン
+          content:
+            application/json:
+              schema:
+                type: string
+                example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+        '400':
+          description: 不正リクエストエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestException'
+  /user/password:
+    post:
+      tags:
+        - User
+      summary: ユーザーパスワード変更受付メール配信API
+      description: パスワードの変更を行うメールを配信するAPI
+      requestBody:
+        description: パスワードを変更するユーザーのメールアドレス
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserPasswordChangeMailRequest'
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: 不正リクエストエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestException'
+    patch:
+      tags:
+        - User
+      summary: ユーザーパスワード変更API
+      description: ユーザーのパスワードを変更する
+      requestBody:
+        description: 新しいパスワード
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserPasswordChangeRequest'
+      responses:
+        '200':
+          description: |-
+            カテゴリー別に配列形式で返す
+            
+            一覧表示時のソートは「料理名」の昇順
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestException'
+        '400':
+          description: 不正リクエストエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestException'
+  /user/logout:
+    post:
+      tags:
+        - User
+      summary: ユーザーログアウトAPI
+      description: ユーザーがログアウトする時のAPI
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: 不正リクエストエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestException'
+  /user/image:
+    post:
+      tags:
+        - User
+      summary: ユーザー画像変更API
+      description: ユーザーを新規登録する
+      requestBody:
+        description: 画像
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserImageRequest'
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: 不正リクエストエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestException'
+        '401':
+          description: 認証エラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        '403':
+          description: 操作権限エラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Forbidden'
   /dish:
     get:
       tags:
@@ -93,37 +259,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/DishResponse'
-        '400':
-          description: 不正リクエストエラー
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BadRequestException'
-        '401':
-          description: 認証エラー
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Unauthorized'
-        '403':
-          description: 操作権限エラー
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Forbidden'
-    post:
-      tags:
-        - Dish
-      summary: 料理お気に入りAPI
-      description: 料理をお気に入り登録するAPI
-      responses:
-        '200':
-          description: お気に入り結果を返す
-          content:
-            application/json:
-              schema:
-                type: boolean
-                example: true
         '400':
           description: 不正リクエストエラー
           content:
@@ -207,6 +342,46 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DishDetailResponse'
+        '400':
+          description: 不正リクエストエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestException'
+        '401':
+          description: 認証エラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        '403':
+          description: 操作権限エラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Forbidden'
+    post:
+      tags:
+        - Dish
+      summary: 料理お気に入りAPI
+      description: 料理をお気に入り登録するAPI
+      parameters:
+        - name: dishId
+          in: path
+          description: 料理ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: お気に入りフラグ
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DishFavoriteRequest'
+      responses:
+        '200':
+          description: OK
         '400':
           description: 不正リクエストエラー
           content:
@@ -339,6 +514,131 @@ paths:
                 $ref: '#/components/schemas/Forbidden'
 components:
   schemas:
+    UserSignupRequest:
+      type: object
+      required:
+        - lastName
+        - firstName
+        - lastNameKana
+        - firstNameKana
+        - userName
+        - email
+        - password
+        - telNumber
+      properties:
+        lastName:
+          type: string
+          description: 姓
+          example: 料理
+        firstName:
+          type: string
+          description: 名
+          example: 太郎
+        lastNameKana:
+          type: string
+          description: 姓カナ
+          example: リョウリ
+        firstNameKana:
+          type: string
+          description: 名カナ
+          example: タロウ
+        userName:
+          type: string
+          description: ユーザー名
+          example: リョーリタロー
+        email:
+          type: string
+          description: email
+          example: ryoritaro@hoge.com
+        password:
+          type: string
+          description: パスワード
+          example: "**********"
+        telNumber:
+          type: string
+          description: 電話番号
+          example: "000-0000-0000"
+    UserLoginRequest:
+      type: object
+      required:
+        - password
+      properties:
+        userName:
+          type: string
+          description: ユーザー名
+          example: リョーリタロー
+        email:
+          type: string
+          description: email
+          example: ryoritaro@hoge.com
+        password:
+          type: string
+          description: パスワード
+          example: "**********"
+    UserNameRequest:
+      type: object
+      required:
+        - userName
+      properties:
+        userName:
+          type: string
+          description: ユーザー名
+          example: リョーリタロー
+    UserPasswordChangeMailRequest:
+      type: object
+      required:
+        - email
+      properties:
+        email:
+          type: string
+          description: Email
+          example: ryoritaro@hoge.com
+    UserPasswordChangeRequest:
+      type: object
+      required:
+        - password
+      properties:
+        password:
+          type: string
+          description: パスワード
+          example: "**********"
+    UserImageRequest:
+      type: object
+      required:
+        - image
+      properties:
+        image:
+          type: string
+          format: binary
+          description: 画像のバイナリ
+    UserResponse:
+      type: object
+      properties:
+        userName:
+          type: string
+          description: ユーザー名
+          example: リョーリタロー
+        image:
+          type: string
+          description: 画像
+          example: https://image.png
+        email:
+          type: string
+          description: Email
+          example: ryoritaro@hoge.com
+        telNumber:
+          type: string
+          description: 電話番号
+          example: 000-0000-0000
+    DishFavoriteRequest:
+      type: object
+      required:
+        - favoriteFlag
+      properties:
+        favoriteFlag:
+          description: お気に入りフラグ
+          type: boolean
+          example: true
     DishResponse:
       type: object
       properties:
@@ -396,6 +696,10 @@ components:
           description: 所要時間（分）
           type: number
           example: 20
+        favoriteFlag:
+          description: お気に入りフラグ
+          type: boolean
+          example: true
     CategoryResponse:
       type: array
       description: カテゴリー配列
@@ -468,9 +772,3 @@ components:
           description: フィールドメッセージ
           type: string
           example: 必須項目です
-
-
-
-
-
-
