@@ -9,13 +9,60 @@ externalDocs:
   url: http://swagger.io
 servers:
   - url: https://{ domain }/api/v1
-# tags:
-#   - name: Data
-#     description: ポケモンの情報
-#     externalDocs:
-#       description: Find out more
-#       url: http://swagger.io
 paths:
+  /user:
+    post:
+      tags:
+        - User
+      summary: ユーザー新規登録API
+      description: ユーザーを新規登録する
+      requestBody:
+        description: 新規登録するユーザー情報
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                lastName:
+                  type: string
+                  example: 料理
+                firstName:
+                  type: string
+                  example: 太郎
+                lastNameKana:
+                  type: string
+                  example: リョウリ
+                firstNameKana:
+                  type: string
+                  example: タロウ
+                userName:
+                  type: string
+                  example: リョーリタロー
+                email:
+                  type: string
+                  example: ryoritaro@hoge.com
+                password:
+                  type: string
+                  example: "**********"
+                tel_number:
+                  type: string
+                  example: "000-0000-0000"
+      responses:
+        '200':
+          description: |-
+            認証トークンを返す
+          content:
+            application/json:
+              schema:
+                type: string
+                example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+        '400':
+          description: 不正リクエストエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestException'
   /dish:
     get:
       tags:
@@ -31,9 +78,166 @@ paths:
             type: array
             items:
               type: string
-          example: [jpFood, westernFood]
+          example: [japanFood, westernFood]
           style: form
           explode: true
+      responses:
+        '200':
+          description: |-
+            カテゴリー別に配列形式で返す
+            
+            一覧表示時のソートは「料理名」の昇順
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DishResponse'
+        '400':
+          description: 不正リクエストエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestException'
+        '401':
+          description: 認証エラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        '403':
+          description: 操作権限エラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Forbidden'
+    post:
+      tags:
+        - Dish
+      summary: 料理お気に入りAPI
+      description: 料理をお気に入り登録するAPI
+      responses:
+        '200':
+          description: お気に入り結果を返す
+          content:
+            application/json:
+              schema:
+                type: boolean
+                example: true
+        '400':
+          description: 不正リクエストエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestException'
+        '401':
+          description: 認証エラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        '403':
+          description: 操作権限エラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Forbidden'
+
+  /dish/search:
+    get:
+      tags:
+        - Dish
+      summary: 料理検索一覧取得API
+      description: サジェスト検索時に使用する一覧取得API
+      parameters:
+        - name: value
+          in: query
+          description: 入力内容を元に、部分一致で検索する
+          required: false
+          schema:
+            type: string
+          example: 季節
+      responses:
+        '200':
+          description: |-
+            idとタイトルのJSONを配列で返す
+            
+            一覧表示時のソートは「料理名」の昇順
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DishSearchResponse'
+        '400':
+          description: 不正リクエストエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestException'
+        '401':
+          description: 認証エラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        '403':
+          description: 操作権限エラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Forbidden'
+  /dish/{dishId}:
+    get:
+      tags:
+        - Dish
+      summary: 料理詳細取得API
+      description: 登録された料理の一覧を取得
+      parameters:
+        - name: dishId
+          in: path
+          description: 料理ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 料理の詳細レスポンスを返す
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DishDetailResponse'
+        '400':
+          description: 不正リクエストエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestException'
+        '401':
+          description: 認証エラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        '403':
+          description: 操作権限エラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Forbidden'
+  /dish/{dishId}/process:
+    get:
+      tags:
+        - Dish
+      summary: 料理工程取得API
+      description: 料理を作る工程を取得するAPI
+      parameters:
+        - name: dishId
+          in: path
+          description: 料理ID
+          required: true
+          schema:
+            type: string
       responses:
         '200':
           description: カテゴリー別に配列形式で返す
@@ -42,10 +246,97 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/DishResponse'
+                  $ref: '#/components/schemas/DishSearchResponse'
         '400':
-          description: Invalid status value
-
+          description: 不正リクエストエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestException'
+        '401':
+          description: 認証エラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        '403':
+          description: 操作権限エラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Forbidden'
+  /dish/{dishId}/material:
+    get:
+      tags:
+        - Dish
+      summary: 料理材料一覧取得API
+      description: 料理の材料一覧を取得するAPI
+      parameters:
+        - name: dishId
+          in: path
+          description: 料理ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: カテゴリー別に配列形式で返す
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DishSearchResponse'
+        '400':
+          description: 不正リクエストエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestException'
+        '401':
+          description: 認証エラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        '403':
+          description: 操作権限エラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Forbidden'
+  /category:
+    get:
+      tags:
+        - Category
+      summary: カテゴリ一覧取得API
+      description: 料理のカテゴリ一覧を取得する
+      responses:
+        '200':
+          description: |-
+            配列形式で返す
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryResponse'
+        '400':
+          description: 不正リクエストエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestException'
+        '401':
+          description: 認証エラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        '403':
+          description: 操作権限エラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Forbidden'
 components:
   schemas:
     DishResponse:
@@ -67,3 +358,119 @@ components:
           description: 所要時間（分）
           type: number
           example: 20
+    DishSearchResponse:
+      type: object
+      properties:
+        id:
+          description: ID
+          type: string
+          example: f59fa544-abfe-423d-a20c-2799eed2d606
+        title:
+          description: タイトル
+          type: string
+          example: 季節の野菜たっぷりのカレー
+    DishDetailResponse:
+      type: object
+      properties:
+        id:
+          description: ID
+          type: string
+          example: f59fa544-abfe-423d-a20c-2799eed2d606
+        title:
+          description: タイトル
+          type: string
+          example: 季節の野菜たっぷりのカレー
+        images:
+          description: 画像配列
+          type: array
+          items:
+            type: string
+            description: 画像
+            example: https://image.png
+        categories:
+          description: カテゴリー
+          type: array
+          items:
+            $ref: '#/components/schemas/Category'
+        dishCreateRequiredTime:
+          description: 所要時間（分）
+          type: number
+          example: 20
+    CategoryResponse:
+      type: array
+      description: カテゴリー配列
+      items:
+        $ref: '#/components/schemas/Category'
+    Category:
+      type: string
+      description: |-
+        - JAPAN_FOOD - 和食
+        
+        - WESTERN_FOOD - 洋食
+        
+        - CHINESE_FOOD - 中華
+        
+        - MEAT_DISH - 肉料理
+        
+        - FISH_DISH - 魚料理
+        
+        - NOODLE - 麺
+        
+        - RICE - 米
+        
+        - SALAD - サラダ
+        
+        - WITH_ALCOHOL - お酒に合う
+      enum:
+        - JAPAN_FOOD
+        - WESTERN_FOOD
+        - CHINESE_FOOD
+        - MEAT_DISH
+        - FISH_DISH
+        - NOODLE
+        - RICE
+        - SALAD
+        - WITH_ALCOHOL
+    BadRequestException:
+      type: object
+      properties:
+        message:
+          description: エラーメッセージ
+          type: string
+          example: 不正なリクエストです
+        httpStatus:
+          description: HTTPステータス
+          type: number
+          example: 400
+        httpMethod:
+          description: HTTPメソッド
+          type: string
+          example: GET
+        fieldErrors:
+          description: フィールドエラー
+          type: array
+          items:
+            $ref: '#/components/schemas/FieldError'
+    Unauthorized:
+      type: string
+      example: Unauthorized
+    Forbidden:
+      type: string
+      example: Forbidden
+    FieldError:
+      type: object
+      properties:
+        fieldName:
+          description: フィールド名
+          type: string
+          example: last_name_kana
+        message:
+          description: フィールドメッセージ
+          type: string
+          example: 必須項目です
+
+
+
+
+
+
