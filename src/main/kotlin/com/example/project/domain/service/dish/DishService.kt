@@ -1,8 +1,7 @@
-package com.example.project.domain.service
+package com.example.project.domain.service.dish
 
-import com.example.project.domain.dto.DishDto
-import com.example.project.domain.entity.Dish
-import com.example.project.domain.repository.DishRepository
+import com.example.project.domain.dto.dish.DishDto
+import com.example.project.domain.repository.dish.DishRepository
 import lombok.RequiredArgsConstructor
 import org.springframework.stereotype.Service
 

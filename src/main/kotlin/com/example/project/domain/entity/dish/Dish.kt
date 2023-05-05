@@ -1,4 +1,4 @@
-package com.example.project.domain.entity
+package com.example.project.domain.entity.dish
 
 import jakarta.persistence.*
 import lombok.Data

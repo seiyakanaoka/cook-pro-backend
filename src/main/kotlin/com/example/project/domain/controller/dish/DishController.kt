@@ -1,8 +1,7 @@
-package com.example.project.domain.controller
+package com.example.project.domain.controller.dish
 
-import com.example.project.domain.dto.DishDto
-import com.example.project.domain.entity.Dish
-import com.example.project.domain.service.DishService
+import com.example.project.domain.dto.dish.DishDto
+import com.example.project.domain.service.dish.DishService
 import lombok.RequiredArgsConstructor
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
