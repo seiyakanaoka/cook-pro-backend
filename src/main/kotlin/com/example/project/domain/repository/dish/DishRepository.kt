@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository
 import java.util.*
 
 @Repository
-interface DishRepository : JpaRepository<Dish, UUID> {
+interface DishRepository : JpaRepository<Dish, String> {
 }
