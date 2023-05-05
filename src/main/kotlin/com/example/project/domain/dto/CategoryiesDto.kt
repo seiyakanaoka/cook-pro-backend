@@ -5,7 +5,7 @@ import lombok.Data
 
 @Data
 data class CategoriesDto(
-  val CategoriesDto: Array<CategoryEnum>
+  val Categories: Array<CategoryEnum>
 ) {
   override fun equals(other: Any?): Boolean {
     if (this === other) return true
@@ -13,12 +13,12 @@ data class CategoriesDto(
 
     other as CategoriesDto
 
-    if (!CategoriesDto.contentEquals(other.CategoriesDto)) return false
+    if (!Categories.contentEquals(other.Categories)) return false
 
     return true
   }
 
   override fun hashCode(): Int {
-    return CategoriesDto.contentHashCode()
+    return Categories.contentHashCode()
   }
 }
