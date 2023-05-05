@@ -4,16 +4,12 @@ import com.example.project.domain.dto.DishDto
 import com.example.project.domain.dto.DishSearchDto
 import com.example.project.domain.service.DishService
 import lombok.RequiredArgsConstructor
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("api/v1")
 @RequiredArgsConstructor
-class DishController (private val dishService: DishService) {
+class DishController(private val dishService: DishService) {
   /**
    * 料理一覧取得API
    */
@@ -30,5 +26,6 @@ class DishController (private val dishService: DishService) {
    * 料理検索一覧取得API
    */
   @GetMapping("/dish/search")
-  fun getSearchDishes(@RequestParam("value") value: String): List<DishSearchDto> = dishService.getSearchDishes(value)
+  fun getSearchDishes(@RequestParam("dishName") dishName: String): List<DishSearchDto> =
+    dishService.getSearchDishes(dishName)
 }
