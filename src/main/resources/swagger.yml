@@ -244,7 +244,7 @@ paths:
             type: array
             items:
               type: string
-          example: [japanFood, westernFood]
+          example: [ JAPAN_FOOD, WESTERN_FOOD ]
           style: form
           explode: true
       responses:
@@ -285,7 +285,7 @@ paths:
       summary: 料理検索一覧取得API
       description: サジェスト検索時に使用する一覧取得API
       parameters:
-        - name: value
+        - name: dishName
           in: query
           description: 入力内容を元に、部分一致で検索する
           required: false
@@ -648,15 +648,15 @@ components:
       type: object
       required:
         - dishId
-        - title
+        - dishName
         - dishCreateRequiredTime
       properties:
         dishId:
           description: 料理ID
           type: string
           example: f59fa544-abfe-423d-a20c-2799eed2d606
-        title:
-          description: タイトル
+        dishName:
+          description: 料理名
           type: string
           example: 季節の野菜たっぷりのカレー
         image:
@@ -669,20 +669,23 @@ components:
           example: 20
     DishSearchResponse:
       type: object
+      required:
+        - dishId
+        - dishName
       properties:
-        id:
+        dishId:
           description: ID
           type: string
           example: f59fa544-abfe-423d-a20c-2799eed2d606
-        title:
-          description: タイトル
+        dishName:
+          description: 料理名
           type: string
           example: 季節の野菜たっぷりのカレー
     DishDetailResponse:
       type: object
       required:
         - dishId
-        - title
+        - dishName
         - images
         - categories
         - dishCreateRequiredTime
@@ -692,8 +695,8 @@ components:
           description: ID
           type: string
           example: f59fa544-abfe-423d-a20c-2799eed2d606
-        title:
-          description: タイトル
+        dishName:
+          description: 料理名
           type: string
           example: 季節の野菜たっぷりのカレー
         images:
