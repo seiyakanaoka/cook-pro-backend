@@ -9,7 +9,8 @@ import lombok.Data
 data class Dish(
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  val id: String,
+  val dishId: String,
+  val userId: String,
   val title: String,
   val image: String,
   val dishCreateRequiredTime: Int

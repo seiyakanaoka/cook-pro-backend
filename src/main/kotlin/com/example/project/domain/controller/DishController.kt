@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("api/vi")
+@RequestMapping("api/v1")
 @RequiredArgsConstructor
 class DishController (private val dishService: DishService) {
   /**
