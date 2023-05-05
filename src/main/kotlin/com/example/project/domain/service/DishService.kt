@@ -29,6 +29,6 @@ class DishService (
   /**
    * 料理一覧をサジェスト検索用に加工する
    */
-  fun getSearchDishes(): List<Unit> = dishRepository.findAll().map { it -> DishSearchDto(it.dishId, it.dishName) }
+  fun getSearchDishes(value: String): List<DishSearchDto> = dishRepository.findAll().map { it -> DishSearchDto(it.dishId, it.dishName) }
 
 }
