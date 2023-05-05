@@ -14,6 +14,6 @@ class DishService (
   /**
    * 料理一覧を取得する
    */
-  fun getDishes(): List<DishDto> = dishRepository.findAll().map { it -> DishDto(it.dishId, it.title, it.image, it.dishCreateRequiredTime) }
+  fun getDishes(): List<DishDto> = dishRepository.findAll().map { it -> DishDto(it.dishId, it.dishName, null, it.dishCreateRequiredTime) }
 
 }
