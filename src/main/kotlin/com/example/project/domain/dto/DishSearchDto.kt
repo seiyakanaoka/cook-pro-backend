@@ -5,5 +5,5 @@ import lombok.Data
 @Data
 data class DishSearchDto(
   val dishId: String,
-  val title: String
+  val dishName: String
 )

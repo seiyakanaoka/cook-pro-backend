@@ -14,7 +14,7 @@ class DishService(
   /**
    * 料理一覧を取得する
    */
-  fun getDishes(): List<DishDto> = dishRepository.findAll()
+  fun getDishes(): List<DishDto> = dishRepository.findAllByOrderByCreateTimestampAsc()
     .map { it -> DishDto(it.dishId, it.dishName, null, it.dishCreateRequiredTime) }
 
   /**
@@ -29,5 +29,6 @@ class DishService(
    * 料理一覧をサジェスト検索用に加工する
    */
   fun getSearchDishes(dishName: String): List<DishSearchDto> =
-    dishRepository.findByDishNameContaining(dishName).map { it -> DishSearchDto(it.dishId, it.dishName) }
+    dishRepository.findByDishNameContainingOrderByCreateTimestampAsc(dishName)
+      .map { it -> DishSearchDto(it.dishId, it.dishName) }
 }
