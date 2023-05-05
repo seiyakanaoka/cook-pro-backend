@@ -256,9 +256,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/DishResponse'
+                $ref: '#/components/schemas/DishesResponse'
         '400':
           description: 不正リクエストエラー
           content:
@@ -301,9 +299,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/DishSearchResponse'
+                $ref: '#/components/schemas/DishesSearchResponse'
         '400':
           description: 不正リクエストエラー
           content:
@@ -644,6 +640,14 @@ components:
           description: お気に入りフラグ
           type: boolean
           example: true
+    DishesResponse:
+      type: object
+      properties:
+        dishes:
+          description: 料理一覧
+          type: array
+          items:
+            $ref: '#/components/schemas/DishResponse'
     DishResponse:
       type: object
       required:
@@ -667,6 +671,14 @@ components:
           description: 所要時間（分）
           type: number
           example: 20
+    DishesSearchResponse:
+      type: object
+      properties:
+        dishesSearch:
+          description: 料理検索一覧
+          type: array
+          items:
+            $ref: '#/components/schemas/DishSearchResponse'
     DishSearchResponse:
       type: object
       required:
