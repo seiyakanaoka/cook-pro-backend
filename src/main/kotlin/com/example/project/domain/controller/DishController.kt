@@ -1,5 +1,6 @@
 package com.example.project.domain.controller
 
+import com.example.project.domain.dto.DishDto
 import com.example.project.domain.entity.Dish
 import com.example.project.domain.service.DishService
 import lombok.RequiredArgsConstructor
@@ -15,5 +16,5 @@ class DishController (private val dishService: DishService) {
    * 料理一覧を取得する
    */
   @GetMapping("/dish")
-  fun getDishes(): MutableList<Dish> = dishService.getDishes()
+  fun getDishes(): List<DishDto> = dishService.getDishes()
 }
