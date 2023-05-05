@@ -613,6 +613,11 @@ components:
           description: 画像のバイナリ
     UserResponse:
       type: object
+      required:
+        - userName
+        - image
+        - email
+        - telNumber
       properties:
         userName:
           type: string
@@ -641,9 +646,13 @@ components:
           example: true
     DishResponse:
       type: object
+      required:
+        - dishId
+        - title
+        - dishCreateRequiredTime
       properties:
-        id:
-          description: ID
+        dishId:
+          description: 料理ID
           type: string
           example: f59fa544-abfe-423d-a20c-2799eed2d606
         title:
@@ -671,8 +680,15 @@ components:
           example: 季節の野菜たっぷりのカレー
     DishDetailResponse:
       type: object
+      required:
+        - dishId
+        - title
+        - images
+        - categories
+        - dishCreateRequiredTime
+        - favoriteFlag
       properties:
-        id:
+        dishId:
           description: ID
           type: string
           example: f59fa544-abfe-423d-a20c-2799eed2d606
@@ -737,6 +753,10 @@ components:
         - WITH_ALCOHOL
     BadRequestException:
       type: object
+      required:
+        - message
+        - httpStatus
+        - httpMethod
       properties:
         message:
           description: エラーメッセージ
