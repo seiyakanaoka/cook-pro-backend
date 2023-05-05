@@ -1,4 +1,4 @@
-package com.example.project.domain.dto.dish
+package com.example.project.domain.dto
 
 import lombok.Data
 import java.util.*
