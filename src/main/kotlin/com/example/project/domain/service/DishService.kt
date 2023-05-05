@@ -11,7 +11,7 @@ class DishService (
   private val dishRepository: DishRepository,
         ) {
   /**
-   * ユーザーを取得する
-   * */
+   * 料理一覧を取得する
+   */
   fun getDishes(): MutableList<Dish> = dishRepository.findAll()
 }
