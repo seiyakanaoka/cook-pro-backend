@@ -720,10 +720,7 @@ components:
           type: boolean
           example: true
     CategoryResponse:
-      type: array
-      description: カテゴリー配列
-      items:
-        $ref: '#/components/schemas/Category'
+      $ref: '#/components/schemas/Categories'
     Category:
       type: string
       description: |-
@@ -754,6 +751,14 @@ components:
         - RICE
         - SALAD
         - WITH_ALCOHOL
+    Categories:
+      type: object
+      properties:
+        categories:
+          description: カテゴリー配列
+          type: array
+          items:
+            $ref: '#/components/schemas/Category'
     BadRequestException:
       type: object
       required:
