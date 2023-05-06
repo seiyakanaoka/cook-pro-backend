@@ -12,9 +12,9 @@ import java.util.*
 @Entity
 @Table(name = "material")
 data class Material(
-  val materialId: String,
+  val materialId: String = UUID.randomUUID().toString(),
   @ManyToOne(fetch = FetchType.LAZY) val dishId: String,
-  val material: String,
+  val materialName: String,
   val createTimestamp: Timestamp? = Timestamp(
     Date().time
   ),

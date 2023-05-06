@@ -15,6 +15,7 @@ data class Dish(
   @Id
   @Column(name = "dish_id", updatable = false, nullable = false)
   val dishId: String = UUID.randomUUID().toString(),
+  // TODO: リレーション入れる
   val userId: String = UUID.randomUUID().toString(),
   val dishName: String,
   val dishCreateRequiredTime: Int,
