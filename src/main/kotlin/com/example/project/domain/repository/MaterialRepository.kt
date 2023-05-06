@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface MaterialRepository : JpaRepository<Material, String> {
+  fun findByDishId(dishId: String): List<Material>
 }
