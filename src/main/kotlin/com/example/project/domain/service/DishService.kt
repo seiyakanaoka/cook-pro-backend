@@ -2,6 +2,8 @@ package com.example.project.domain.service
 
 import com.example.project.domain.dto.DishDto
 import com.example.project.domain.dto.DishSearchDto
+import com.example.project.domain.dto.MaterialDto
+import com.example.project.domain.dto.MaterialsDto
 import com.example.project.domain.repository.DishRepository
 import lombok.RequiredArgsConstructor
 import org.springframework.stereotype.Service
@@ -14,7 +16,7 @@ class DishService(
   /**
    * 料理一覧を取得する
    */
-  fun getDishes(): List<DishDto> = dishRepository.findAllByOrderByCreateTimestampAsc()
+  fun getDishes(): List<DishDto> = dishRepository.findAllByOrderByCreateTimestampDesc()
     .map { it -> DishDto(it.dishId, it.dishName, null, it.dishCreateRequiredTime) }
 
   /**
@@ -29,6 +31,14 @@ class DishService(
    * 料理一覧をサジェスト検索用に加工する
    */
   fun getSearchDishes(dishName: String): List<DishSearchDto> =
-    dishRepository.findByDishNameContainingOrderByCreateTimestampAsc(dishName)
+    dishRepository.findByDishNameContainingOrderByCreateTimestampDesc(dishName)
       .map { it -> DishSearchDto(it.dishId, it.dishName) }
+
+  /**
+   * 料理に紐づいた材料一覧を取得する
+   */
+  fun getMaterials(dishId: String): MaterialsDto =
+    MaterialsDto(
+      dishRepository.findByMaterialsOrderByCreateTimestampDesc(dishId)
+        .map { it -> MaterialDto(it.materialId, it.materialName) })
 }

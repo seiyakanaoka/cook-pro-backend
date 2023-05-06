@@ -2,6 +2,7 @@ package com.example.project.domain.controller
 
 import com.example.project.domain.dto.DishDto
 import com.example.project.domain.dto.DishSearchDto
+import com.example.project.domain.dto.MaterialsDto
 import com.example.project.domain.service.DishService
 import lombok.RequiredArgsConstructor
 import org.springframework.web.bind.annotation.*
@@ -28,4 +29,11 @@ class DishController(private val dishService: DishService) {
   @GetMapping("/dish/search")
   fun getSearchDishes(@RequestParam("dishName") dishName: String): List<DishSearchDto> =
     dishService.getSearchDishes(dishName)
+
+  /**
+   * 料理材料一覧取得API
+   */
+  @GetMapping("/dish/{dishId}/material")
+  fun getMaterials(@PathVariable dishId: String): MaterialsDto =
+    dishService.getMaterials(dishId)
 }
