@@ -1,7 +1,7 @@
 package com.example.project.domain.service
 
-import com.example.project.domain.CategoryEnum
 import com.example.project.domain.dto.CategoriesDto
+import com.example.project.domain.enums.CategoryEnum
 import org.springframework.stereotype.Service
 
 @Service
