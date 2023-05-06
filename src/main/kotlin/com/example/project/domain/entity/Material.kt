@@ -1,9 +1,6 @@
 package com.example.project.domain.entity
 
-import jakarta.persistence.Entity
-import jakarta.persistence.FetchType
-import jakarta.persistence.ManyToOne
-import jakarta.persistence.Table
+import jakarta.persistence.*
 import lombok.Data
 import java.sql.Timestamp
 import java.util.*
@@ -13,7 +10,7 @@ import java.util.*
 @Table(name = "material")
 data class Material(
   val materialId: String = UUID.randomUUID().toString(),
-  @ManyToOne(fetch = FetchType.LAZY) val dishId: String,
+  @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "dish_id") val dish: Dish,
   val materialName: String,
   val createTimestamp: Timestamp? = Timestamp(
     Date().time
