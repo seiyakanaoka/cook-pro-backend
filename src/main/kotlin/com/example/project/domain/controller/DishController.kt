@@ -2,7 +2,7 @@ package com.example.project.domain.controller
 
 import com.example.project.domain.dto.DishDto
 import com.example.project.domain.dto.DishSearchDto
-import com.example.project.domain.entity.Material
+import com.example.project.domain.dto.MaterialsDto
 import com.example.project.domain.service.DishService
 import lombok.RequiredArgsConstructor
 import org.springframework.web.bind.annotation.*
@@ -34,6 +34,6 @@ class DishController(private val dishService: DishService) {
    * 料理材料一覧取得API
    */
   @GetMapping("/dish/{dishId}/material")
-  fun getMaterials(@PathVariable dishId: String): List<Material> =
+  fun getMaterials(@PathVariable dishId: String): MaterialsDto =
     dishService.getMaterials(dishId)
 }

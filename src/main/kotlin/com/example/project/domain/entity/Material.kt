@@ -9,6 +9,8 @@ import java.util.*
 @Entity
 @Table(name = "material")
 data class Material(
+  @Id
+  @Column(name = "material_id", updatable = false, nullable = false)
   val materialId: String = UUID.randomUUID().toString(),
   @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "dish_id") val dish: Dish,
   val materialName: String,
