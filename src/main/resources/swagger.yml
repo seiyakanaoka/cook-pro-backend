@@ -451,13 +451,14 @@ paths:
             type: string
       responses:
         '200':
-          description: カテゴリー別に配列形式で返す
+          description: 材料配列
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/DishSearchResponse'
+                type: object
+                properties:
+                  materials:
+                    $ref: '#/components/schemas/DishMaterialResponse'
         '400':
           description: 不正リクエストエラー
           content:
@@ -731,6 +732,23 @@ components:
           description: お気に入りフラグ
           type: boolean
           example: true
+    DishMaterialResponse:
+      type: array
+      description: 材料配列
+      items:
+        $ref: '#/components/schemas/MaterialResponse'
+    MaterialResponse:
+      type: object
+      description: 材料
+      properties:
+        materialId:
+          type: string
+          description: 材料ID
+          example: f59fa544-abfe-423d-a20c-2799eed2d606
+        materialName:
+          type: string
+          description: 材料名
+          example: にんじん2本
     CategoryResponse:
       $ref: '#/components/schemas/Categories'
     Category:
