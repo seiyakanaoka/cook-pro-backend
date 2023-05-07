@@ -6,7 +6,6 @@ import com.example.project.domain.repository.DishRepository
 import lombok.RequiredArgsConstructor
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
-import java.net.URL
 import java.util.*
 
 @Service
@@ -31,9 +30,7 @@ class DishService(
    */
   fun getDish(dishId: String): DishDto {
     val dish = dishRepository.findById(dishId).orElseThrow { RuntimeException() }
-    val dishImages = getDishImages(dishId)
-    getImageURL("fish.jpeg")
-    return DishDto(dish.dishId, dish.dishName, null, dish.dishCreateRequiredTime)
+    return DishDto(dish.dishId, dish.dishName, getDishImages(dishId), dish.dishCreateRequiredTime)
   }
 
   /**
@@ -65,8 +62,8 @@ class DishService(
    * 料理に紐づいた料理画像を取得する
    */
   fun getDishImages(dishId: String): List<DishImageDto> {
-    val dishImageKeys = dishRepository.findByDishImages(dishId).map { it -> it.dishImageKey }
-    return dishRepository.findByDishImages(dishId).map { it -> DishImageDto(it.dishImageId, it.dishImageKey) }
+    return dishRepository.findByDishImages(dishId)
+      .map { it -> DishImageDto(it.dishImageId, getImageURL(it.dishImageKey)) }
   }
 
   /**
@@ -75,7 +72,8 @@ class DishService(
    * @param objectKey オブジェクトキー名
    * @param expirationDate 有効期限(指定しなかった場合、1時間を有効期限とする)
    * */
-  fun getImageURL(objectKey: String): URL? {
-    return s3.getUrl(bucketName, objectKey) ?: throw IllegalStateException("URL is null")
+  fun getImageURL(objectKey: String): String {
+    val url = s3.getUrl(bucketName, objectKey) ?: throw IllegalStateException("URL is null")
+    return url.toString()
   }
 }
