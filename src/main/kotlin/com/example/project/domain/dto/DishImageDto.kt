@@ -5,5 +5,5 @@ import lombok.Data
 @Data
 data class DishImageDto(
   val dishImageId: String,
-  val dishImageKey: String,
+  val dishImageUrl: String,
 )

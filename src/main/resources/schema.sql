@@ -28,7 +28,7 @@ create table if not exists dish_process (
 );
 
 create table if not exists dish_image (
-  dish_process_id varchar(36) not null primary key comment '料理画像ID',
+  dish_image_id varchar(36) not null primary key comment '料理画像ID',
   dish_id varchar(36) not null comment '料理ID',
   dish_image_key varchar(255) not null comment '画像を一意に識別するキー',
   create_timestamp timestamp default current_timestamp comment '作成日時',

@@ -13,3 +13,8 @@ spring:
       mode: always
 cors:
   originPatterns: http://localhost:3000/
+aws:
+  s3:
+    bucket:
+      name:
+        cooking_app: test-template-2023-03-05
