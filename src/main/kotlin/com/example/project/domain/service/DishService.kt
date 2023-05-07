@@ -43,7 +43,7 @@ class DishService(
    * 料理に紐づいた料理工程を取得する
    */
   fun getProcesses(dishId: String): DishProcessesDto {
-    val processes = dishRepository.findByProcessesOrderByCreateTimestampDesc(dishId)
+    val processes = dishRepository.findByProcesses(dishId)
       .map { it -> DishProcessDto(it.dishProcessId, it.dishProcessText) }
     val dish = getDish(dishId)
     return DishProcessesDto(processes, dish.dishName)
