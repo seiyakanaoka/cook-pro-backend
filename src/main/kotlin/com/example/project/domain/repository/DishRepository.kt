@@ -1,6 +1,7 @@
 package com.example.project.domain.repository
 
 import com.example.project.domain.entity.Dish
+import com.example.project.domain.entity.DishImage
 import com.example.project.domain.entity.DishProcess
 import com.example.project.domain.entity.Material
 import org.springframework.data.jpa.repository.JpaRepository
@@ -20,5 +21,8 @@ interface DishRepository : JpaRepository<Dish, String> {
   fun findByMaterialsOrderByCreateTimestampDesc(@Param("dishId") dishId: String): List<Material>
 
   @Query("select dp from Dish d inner join DishProcess dp on d.dishId = dp.dish.dishId where d.dishId = :dishId")
-  fun findByProcessesOrderByCreateTimestampDesc(@Param("dishId") dishId: String): List<DishProcess>
+  fun findByProcesses(@Param("dishId") dishId: String): List<DishProcess>
+
+  @Query("select di from Dish d inner join DishImage di on d.dishId = di.dish.dishId where d.dishId = :dishId")
+  fun findByDishImages(@Param("dishId") dishId: String): List<DishImage>
 }
