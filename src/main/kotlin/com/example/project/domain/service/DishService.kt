@@ -1,9 +1,6 @@
 package com.example.project.domain.service
 
-import com.example.project.domain.dto.DishDto
-import com.example.project.domain.dto.DishSearchDto
-import com.example.project.domain.dto.MaterialDto
-import com.example.project.domain.dto.MaterialsDto
+import com.example.project.domain.dto.*
 import com.example.project.domain.repository.DishRepository
 import lombok.RequiredArgsConstructor
 import org.springframework.stereotype.Service
@@ -45,8 +42,10 @@ class DishService(
   /**
    * 料理に紐づいた料理工程を取得する
    */
-  fun getProcesses(dishId: String): MaterialsDto =
-    MaterialsDto(
-      dishRepository.findByMaterialsOrderByCreateTimestampDesc(dishId)
-        .map { it -> MaterialDto(it.materialId, it.materialName) })
+  fun getProcesses(dishId: String): DishProcessesDto {
+    val processes = dishRepository.findByProcessesOrderByCreateTimestampDesc(dishId)
+      .map { it -> DishProcessDto(it.dishProcessId, it.dishProcessText) }
+    val dish = getDish(dishId)
+    return DishProcessesDto(processes, dish.dishName)
+  }
 }

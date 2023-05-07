@@ -9,7 +9,7 @@ import lombok.Data
 data class DishProcess(
   @Id
   @Column(name = "dish_process_id", updatable = false, nullable = false)
-  val dish_process_id: String,
+  val dishProcessId: String,
   @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "dish_id") val dish: Dish,
-  val dish_process_text: String
+  val dishProcessText: String
 )
