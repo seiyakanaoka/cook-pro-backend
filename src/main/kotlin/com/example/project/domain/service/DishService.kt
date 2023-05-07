@@ -41,4 +41,12 @@ class DishService(
     MaterialsDto(
       dishRepository.findByMaterialsOrderByCreateTimestampDesc(dishId)
         .map { it -> MaterialDto(it.materialId, it.materialName) })
+
+  /**
+   * 料理に紐づいた料理工程を取得する
+   */
+  fun getProcesses(dishId: String): MaterialsDto =
+    MaterialsDto(
+      dishRepository.findByMaterialsOrderByCreateTimestampDesc(dishId)
+        .map { it -> MaterialDto(it.materialId, it.materialName) })
 }
