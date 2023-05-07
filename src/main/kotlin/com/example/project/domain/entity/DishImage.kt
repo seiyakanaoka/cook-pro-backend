@@ -11,5 +11,5 @@ data class DishImage(
   @Column(name = "dish_image_id", updatable = false, nullable = false)
   val dishImageId: String,
   @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "dish_id") val dish: Dish,
-  val dishProcessText: String
+  val dishImageKey: String
 )

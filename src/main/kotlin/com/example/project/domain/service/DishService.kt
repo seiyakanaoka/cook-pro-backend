@@ -48,4 +48,10 @@ class DishService(
     val dish = getDish(dishId)
     return DishProcessesDto(processes, dish.dishName)
   }
+
+  /**
+   * 料理に紐づいた料理画像を取得する
+   */
+  fun getDishImages(dishId: String) =
+    dishRepository.findByDishImages(dishId).map { it -> DishImageDto(it.dishImageId, it.dishImageKey) }
 }
