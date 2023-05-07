@@ -1,6 +1,7 @@
 package com.example.project.domain.controller
 
 import com.example.project.domain.dto.DishDto
+import com.example.project.domain.dto.DishProcessesDto
 import com.example.project.domain.dto.DishSearchDto
 import com.example.project.domain.dto.MaterialsDto
 import com.example.project.domain.service.DishService
@@ -36,4 +37,11 @@ class DishController(private val dishService: DishService) {
   @GetMapping("/dish/{dishId}/material")
   fun getMaterials(@PathVariable dishId: String): MaterialsDto =
     dishService.getMaterials(dishId)
+
+  /**
+   * 料理工程取得API
+   */
+  @GetMapping("/dish/{dishId}/process")
+  fun getProcesses(@PathVariable dishId: String): DishProcessesDto =
+    dishService.getProcesses(dishId)
 }
