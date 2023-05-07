@@ -411,13 +411,14 @@ paths:
             type: string
       responses:
         '200':
-          description: カテゴリー別に配列形式で返す
+          description: |-
+            工程の配列と料理名を返す
+            
+            配列の順番ずつ表示する
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/DishSearchResponse'
+                $ref: '#/components/schemas/DishProcessesResponse'
         '400':
           description: 不正リクエストエラー
           content:
@@ -716,9 +717,17 @@ components:
           description: 画像配列
           type: array
           items:
-            type: string
+            type: object
             description: 画像
-            example: https://image.png
+            properties:
+              dishImageId:
+                type: string
+                description: 料理画像ID
+                example: f59fa544-abfe-423d-a20c-2799eed2d606
+              dishImageUrl:
+                type: string
+                description: 料理画像パス
+                example: https://image.png
         categories:
           description: カテゴリー
           type: array
@@ -732,6 +741,31 @@ components:
           description: お気に入りフラグ
           type: boolean
           example: true
+    DishProcessResponse:
+      type: object
+      description: 工程
+      properties:
+        dishProcessId:
+          description: ID
+          type: string
+          example: f59fa544-abfe-423d-a20c-2799eed2d606
+        dishProcessText:
+          description: 説明文
+          type: string
+          example: にんじんをイチョウ切りにします
+    DishProcessesResponse:
+      type: object
+      description: 工程
+      properties:
+        processes:
+          type: array
+          description: 工程配列
+          items:
+            $ref: '#/components/schemas/DishProcessResponse'
+        dishName:
+          description: 料理名
+          type: string
+          example: 季節の野菜たっぷりのカレー
     DishMaterialResponse:
       type: array
       description: 材料配列
