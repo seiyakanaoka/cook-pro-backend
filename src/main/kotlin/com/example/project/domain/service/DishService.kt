@@ -68,10 +68,8 @@ class DishService(
 
   /**
    * S3の指定したバケットの画像urlを取得する
-   * @param bucketName バケット名
    * @param objectKey オブジェクトキー名
-   * @param expirationDate 有効期限(指定しなかった場合、1時間を有効期限とする)
-   * */
+   */
   fun getImageURL(objectKey: String): String {
     val url = s3.getUrl(bucketName, objectKey) ?: throw IllegalStateException("URL is null")
     return url.toString()
