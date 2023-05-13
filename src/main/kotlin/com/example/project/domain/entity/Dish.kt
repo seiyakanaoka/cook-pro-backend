@@ -1,9 +1,6 @@
 package com.example.project.domain.entity
 
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.Id
-import jakarta.persistence.Table
+import jakarta.persistence.*
 import lombok.Data
 import java.sql.Timestamp
 import java.util.*
@@ -20,5 +17,12 @@ data class Dish(
   val dishName: String,
   val dishCreateRequiredTime: Int,
   val createTimestamp: Timestamp? = Timestamp(Date().time),
-  val updateTimestamp: Timestamp? = Timestamp(Date().time)
+  val updateTimestamp: Timestamp? = Timestamp(Date().time),
+  @ManyToMany
+  @JoinTable(
+    name = "dish_category",
+    joinColumns = [JoinColumn(name = "dish_id")],
+    inverseJoinColumns = [JoinColumn(name = "category_id")]
+  )
+  var categories: MutableSet<Category> = mutableSetOf()
 )

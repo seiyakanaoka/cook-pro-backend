@@ -23,8 +23,13 @@ class DishService(
   /**
    * 料理一覧を取得する
    */
-  fun getDishes(categories: List<CategoryEnum>?): List<DishDto> = dishRepository.findAllByOrderByCreateTimestampDesc()
-    .map { it -> DishDto(it.dishId, it.dishName, null, it.dishCreateRequiredTime) }
+  fun getDishes(categories: List<CategoryEnum>?): List<DishDto>? {
+    return categories?.map { it -> it.name.toString() }
+      ?.let { it1 ->
+        dishRepository.findByCategoriesCategoryIdInOrderByCreateTimestampDesc(it1)
+          .map { it -> DishDto(it.dishId, it.dishName, null, it.dishCreateRequiredTime) }
+      }
+  }
 
   /**
    * 料理詳細を取得する

@@ -17,7 +17,7 @@ class DishController(private val dishService: DishService) {
    * 料理一覧取得API
    */
   @GetMapping("/dish")
-  fun getDishes(@RequestParam(name = "category", required = false) categories: List<CategoryEnum>?): List<DishDto> =
+  fun getDishes(@RequestParam(name = "category", required = false) categories: List<CategoryEnum>?): List<DishDto>? =
     dishService.getDishes(categories)
 
   /**
