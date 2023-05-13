@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
 
+
 @Repository
 interface DishRepository : JpaRepository<Dish, String> {
   @Query("select d from Dish d order by d.createTimestamp desc")
@@ -25,4 +26,6 @@ interface DishRepository : JpaRepository<Dish, String> {
 
   @Query("select di from Dish d inner join DishImage di on d.dishId = di.dish.dishId where d.dishId = :dishId")
   fun findByDishImages(@Param("dishId") dishId: String): List<DishImage>
+
+  fun findByCategoriesCategoryIdInOrderByCreateTimestampDesc(categoryIds: List<String>): List<Dish>
 }

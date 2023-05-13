@@ -2,6 +2,7 @@ package com.example.project.domain.service
 
 import com.example.project.config.aws.S3Config
 import com.example.project.domain.dto.*
+import com.example.project.domain.enums.CategoryEnum
 import com.example.project.domain.repository.DishRepository
 import lombok.RequiredArgsConstructor
 import org.springframework.beans.factory.annotation.Value
@@ -22,8 +23,16 @@ class DishService(
   /**
    * 料理一覧を取得する
    */
-  fun getDishes(): List<DishDto> = dishRepository.findAllByOrderByCreateTimestampDesc()
-    .map { it -> DishDto(it.dishId, it.dishName, null, it.dishCreateRequiredTime) }
+  fun getDishes(categories: List<CategoryEnum>?): List<DishDto>? {
+    if (categories == null) {
+      return dishRepository.findAllByOrderByCreateTimestampDesc()
+        .map { it -> DishDto(it.dishId, it.dishName, getDishImages(it.dishId), it.dishCreateRequiredTime) }
+    } else if (categories.isEmpty()) {
+      return listOf<DishDto>()
+    }
+    return dishRepository.findByCategoriesCategoryIdInOrderByCreateTimestampDesc(categories.map { it -> it.name })
+      .map { it1 -> DishDto(it1.dishId, it1.dishName, getDishImages(it1.dishId), it1.dishCreateRequiredTime) }
+  }
 
   /**
    * 料理詳細を取得する

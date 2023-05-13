@@ -1,5 +1,7 @@
 package com.example.project.domain.enums
 
+import java.util.*
+
 enum class CategoryEnum {
   JAPAN_FOOD,
   WESTERN_FOOD,
@@ -9,5 +11,9 @@ enum class CategoryEnum {
   NOODLE,
   RICE,
   SALAD,
-  WITH_ALCOHOL,
+  WITH_ALCOHOL;
+
+  override fun toString(): String {
+    return this.name.lowercase(Locale.getDefault()).replace("_", " ")
+  }
 }
