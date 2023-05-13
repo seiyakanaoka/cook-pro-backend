@@ -24,10 +24,16 @@ class DishService(
    * 料理一覧を取得する
    */
   fun getDishes(categories: List<CategoryEnum>?): List<DishDto>? {
-    return categories?.map { it -> it.name.toString() }
+    if (categories == null) {
+      return dishRepository.findAllByOrderByCreateTimestampDesc()
+        .map { it -> DishDto(it.dishId, it.dishName, getDishImages(it.dishId), it.dishCreateRequiredTime) }
+    } else if (categories.isEmpty()) {
+      return listOf<DishDto>()
+    }
+    return categories?.map { it -> it.name }
       ?.let { it1 ->
         dishRepository.findByCategoriesCategoryIdInOrderByCreateTimestampDesc(it1)
-          .map { it -> DishDto(it.dishId, it.dishName, null, it.dishCreateRequiredTime) }
+          .map { it -> DishDto(it.dishId, it.dishName, getDishImages(it.dishId), it.dishCreateRequiredTime) }
       }
   }
 
