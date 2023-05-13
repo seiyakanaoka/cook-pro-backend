@@ -30,11 +30,8 @@ class DishService(
     } else if (categories.isEmpty()) {
       return listOf<DishDto>()
     }
-    return categories?.map { it -> it.name }
-      ?.let { it1 ->
-        dishRepository.findByCategoriesCategoryIdInOrderByCreateTimestampDesc(it1)
-          .map { it -> DishDto(it.dishId, it.dishName, getDishImages(it.dishId), it.dishCreateRequiredTime) }
-      }
+    return dishRepository.findByCategoriesCategoryIdInOrderByCreateTimestampDesc(categories.map { it -> it.name })
+      .map { it1 -> DishDto(it1.dishId, it1.dishName, getDishImages(it1.dishId), it1.dishCreateRequiredTime) }
   }
 
   /**
