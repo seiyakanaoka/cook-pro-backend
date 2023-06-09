@@ -54,7 +54,7 @@ class IdTokenFilter(private val idTokenValidator: IdTokenValidator) : Filter {
   fun filter(): FilterRegistrationBean<IdTokenFilter>? {
     val bean: FilterRegistrationBean<IdTokenFilter> = FilterRegistrationBean<IdTokenFilter>()
     bean.filter = IdTokenFilter(idTokenValidator)
-    bean.addUrlPatterns("/api/product/*") //または、 `setUrlPatterns()`を使用します
+    bean.addUrlPatterns("/api/v1/*")
     return bean
   }
 }
