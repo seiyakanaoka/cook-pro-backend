@@ -19,6 +19,10 @@ import java.util.*
  * Cognitoで認証して得られるid tokenを扱う
  */
 class IdTokenValidator {
+  private var verifier: JWTVerifier? = null
+
+  private val jwt = JWT()
+
   /**
    * IDトークン を検証する
    *
@@ -29,7 +33,7 @@ class IdTokenValidator {
    */
   @Throws(InvalidTokenException::class)
   fun idTokenVerify(idToken: String): DecodedJWT? {
-    val decodedToken: DecodedJWT = JWT.decode(idToken)
+    val decodedToken: DecodedJWT = jwt.decodeJwt(idToken)
 
     // cognitoのユーザプールで署名された事を確認する
     val iss: String = decodedToken.issuer
@@ -37,24 +41,20 @@ class IdTokenValidator {
       throw InvalidTokenException(500, "ID トークンの発行者が対象のシステムではありません。iss=$iss idToken=$idToken")
     }
 
-    //  ID トークンの用途が「ID」であることを確認します。
+    //  ID トークンの用途が「ID」であることを確認する
     val tokenUse: String = decodedToken.getClaim("token_use").asString()
     if ("id" != tokenUse) {
       throw InvalidTokenException(500, "ID トークンの用途が ID ではありません。token_use=$tokenUse idToken=$idToken")
     }
 
-    // 署名のアルゴリズムを確認します。
+    // 署名のアルゴリズムを確認する
     val alg: String = decodedToken.algorithm
     if ("RS256" != decodedToken.algorithm) {
       throw InvalidTokenException(500, "ID トークンの署名アルゴリズムが対応していないものです。alg =$alg idToken=$idToken")
     }
 
-    // payloadと署名を検証します。
-    var decodedJWT: DecodedJWT? = null
-    if (tokenVerify(decodedToken).also { decodedJWT = it } == null) {
-      throw InvalidTokenException(500, "ID Tokenの検証に失敗しました。")
-    }
-    return decodedJWT
+    // jwtを検証する
+    return tokenVerify(decodedToken) ?: throw InvalidTokenException(500, "ID Tokenの検証に失敗しました。")
   }
 
   /**
@@ -66,9 +66,9 @@ class IdTokenValidator {
    * @throws InvalidTokenException 検証に失敗した
    */
   @Throws(InvalidTokenException::class)
-  private fun tokenVerify(jwToken: DecodedJWT): DecodedJWT? {
+  private fun tokenVerify(decodedJWT: DecodedJWT): DecodedJWT? {
     return try {
-      getVerifier(jwToken)?.verify(jwToken)
+      getVerifier(decodedJWT)?.verify(decodedJWT)
 
     } catch (e: Exception) {
       throw InvalidTokenException(500, e.message)
@@ -77,7 +77,6 @@ class IdTokenValidator {
 
   /**
    * JWTVerifier のインスタンスを取得する。
-   * JWTVerifier は ver.3 からスレッドセーフになったので再利用する。
    * ただし、署名に使われた RSAキーペアが更新される可能性を考えて、定期的に更新する
    * @param kid 署名に使われたキーID
    *
@@ -91,13 +90,22 @@ class IdTokenValidator {
     if (decodedToken.expiresAt.time < Date().time) {
       throw InvalidTokenException(500, "有効期限が切れています")
     }
-    val http = UrlJwkProvider(URL(jwksUrl(decodedToken.issuer)))
-    val provider = GuavaCachedJwkProvider(http)
-    val jwk: Jwk = provider.get(decodedToken.keyId)
-    val algorithm: Algorithm = Algorithm.RSA256(jwk.publicKey as RSAPublicKey, null)
-    return JWT.require(algorithm)
-      .withIssuer(decodedToken.issuer)
-      .build()
+    
+    // synchronizedで複数スレッドが実行した場合、同期処理として扱うようにしてスレッドセーフにする
+    synchronized(jwt) {
+      if (decodedToken.expiresAt.time < Date().time) {
+        throw InvalidTokenException(500, "有効期限が切れています")
+      }
+      val http = UrlJwkProvider(URL(jwksUrl(decodedToken.issuer)))
+      val provider = GuavaCachedJwkProvider(http)
+      val jwk: Jwk = provider.get(decodedToken.keyId)
+      val algorithm: Algorithm = Algorithm.RSA256(jwk.publicKey as RSAPublicKey, null)
+      verifier = JWT.require(algorithm)
+        .withIssuer(decodedToken.issuer)
+        .build()
+    }
+
+    return verifier
   }
 
   /**
