@@ -28,7 +28,7 @@ class IdTokenValidator {
    * @throws InvalidTokenException ID Tokenの値が不正なので認証に失敗した
    */
   @Throws(InvalidTokenException::class)
-  fun verify(idToken: String?): DecodedJWT? {
+  fun idTokenVerify(idToken: String): DecodedJWT? {
     val decodedToken: DecodedJWT = JWT.decode(idToken)
 
     // cognitoのユーザプールで署名された事を確認する
