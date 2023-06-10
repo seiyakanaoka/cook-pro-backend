@@ -2,14 +2,28 @@ create database if not exists cooking_app;
 
 use cooking_app;
 
+create table if not exists user (
+  user_id varchar(36) not null primary key comment 'ユーザーID',
+  last_name varchar(255) not null comment '姓',
+  first_name varchar(255) not null comment '名',
+  user_name varchar(36) not null comment 'ユーザー名',
+  email varchar(255) not null comment 'Eメール',
+  tel_number varchar(255) not null comment '電話番号',
+  user_image_key varchar(255) comment 'ユーザー画像',
+  create_timestamp timestamp default current_timestamp comment '作成日時',
+  update_timestamp timestamp default current_timestamp on update current_timestamp comment '更新日時'
+);
+
 create table if not exists dish (
   dish_id varchar(36) not null primary key comment '料理ID',
   user_id varchar(36) not null comment 'ユーザーID',
   dish_name varchar(255) not null comment '料理名',
   dish_create_required_time bigint(20) unsigned not null comment '所要時間',
   create_timestamp timestamp default current_timestamp comment '作成日時',
-  update_timestamp timestamp default current_timestamp on update current_timestamp comment '更新日時'
+  update_timestamp timestamp default current_timestamp on update current_timestamp comment '更新日時',
+  foreign key (user_id) references user (user_id) on delete cascade
 );
+
 
 create table if not exists material (
   material_id varchar(36) not null primary key comment '材料ID',

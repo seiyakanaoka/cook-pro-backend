@@ -10,6 +10,7 @@ import com.auth0.jwt.JWTVerifier
 import com.auth0.jwt.algorithms.Algorithm
 import com.auth0.jwt.interfaces.DecodedJWT
 import com.example.project.exception.InvalidTokenException
+import org.springframework.stereotype.Component
 import java.net.MalformedURLException
 import java.net.URL
 import java.security.interfaces.RSAPublicKey
@@ -18,6 +19,7 @@ import java.util.*
 /**
  * Cognitoで認証して得られるid tokenを扱う
  */
+@Component
 class IdTokenValidator {
   private var verifier: JWTVerifier? = null
 
@@ -90,7 +92,7 @@ class IdTokenValidator {
     if (decodedToken.expiresAt.time < Date().time) {
       throw InvalidTokenException(500, "有効期限が切れています")
     }
-    
+
     // synchronizedで複数スレッドが実行した場合、同期処理として扱うようにしてスレッドセーフにする
     synchronized(jwt) {
       if (decodedToken.expiresAt.time < Date().time) {
