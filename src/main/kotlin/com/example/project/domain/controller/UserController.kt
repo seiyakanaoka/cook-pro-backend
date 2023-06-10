@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController
 class UserController(private val userService: UserService) {
   /**
    * 新規登録API
+   * 本来はjwtなしでリクエスト可能だが、cognitoによる認証を行った後に実行される想定のため
+   * cognitoから受け取ったjwtを検証してから実行される
    */
   @PostMapping("/signup")
   fun signup(@RequestBody userForm: UserForm) {

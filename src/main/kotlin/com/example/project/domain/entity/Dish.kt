@@ -12,8 +12,7 @@ data class Dish(
   @Id
   @Column(name = "dish_id", updatable = false, nullable = false)
   val dishId: String = UUID.randomUUID().toString(),
-  // TODO: リレーション入れる
-  val userId: String = UUID.randomUUID().toString(),
+  @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "user_id") val user: User,
   val dishName: String,
   val dishCreateRequiredTime: Int,
   val createTimestamp: Timestamp? = Timestamp(Date().time),
