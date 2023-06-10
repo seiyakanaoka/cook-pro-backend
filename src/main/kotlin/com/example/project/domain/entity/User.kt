@@ -15,7 +15,7 @@ import java.util.*
 data class User(
   @Id
   @Column(name = "user_id", updatable = false, nullable = false)
-  val userId: String = UUID.randomUUID().toString(),
+  val userId: String,
   val lastName: String,
   val firstName: String,
   val userName: String,
@@ -28,7 +28,7 @@ data class User(
   companion object {
     fun convert(userForm: UserForm): User {
       return User(
-        UUID.randomUUID().toString(),
+        userForm.userId,
         userForm.lastName,
         userForm.firstName,
         userForm.userName,
