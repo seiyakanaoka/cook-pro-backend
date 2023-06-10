@@ -21,7 +21,7 @@ data class User(
   val userName: String,
   val email: String,
   val telNumber: String,
-  val user_image_key: String? = null,
+  val userImageKey: String? = null,
   val createTimestamp: Timestamp? = Timestamp(Date().time),
   val updateTimestamp: Timestamp? = Timestamp(Date().time),
 ) {
