@@ -180,21 +180,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/BadRequestException'
-  /user/logout:
-    post:
-      tags:
-        - User
-      summary: ユーザーログアウトAPI
-      description: ユーザーがログアウトする時のAPI
-      responses:
-        '200':
-          description: OK
-        '400':
-          description: 不正リクエストエラー
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BadRequestException'
   /user/image:
     post:
       tags:
@@ -517,11 +502,8 @@ components:
       required:
         - lastName
         - firstName
-        - lastNameKana
-        - firstNameKana
         - userName
         - email
-        - password
         - telNumber
       properties:
         lastName:
@@ -532,14 +514,6 @@ components:
           type: string
           description: 名
           example: 太郎
-        lastNameKana:
-          type: string
-          description: 姓カナ
-          example: リョウリ
-        firstNameKana:
-          type: string
-          description: 名カナ
-          example: タロウ
         userName:
           type: string
           description: ユーザー名
@@ -548,10 +522,6 @@ components:
           type: string
           description: email
           example: ryoritaro@hoge.com
-        password:
-          type: string
-          description: パスワード
-          example: "**********"
         telNumber:
           type: string
           description: 電話番号
