@@ -3,10 +3,7 @@ package com.example.project.domain.controller
 import com.example.project.domain.form.UserForm
 import com.example.project.domain.service.UserService
 import lombok.RequiredArgsConstructor
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("api/v1")
@@ -21,4 +18,7 @@ class UserController(private val userService: UserService) {
   fun signup(@RequestBody userForm: UserForm) {
     userService.createUser(userForm)
   }
+
+  @GetMapping("/user/{userId}")
+  fun getUser(@PathVariable userId: String) = userService.getUser(userId)
 }
