@@ -19,6 +19,6 @@ class UserController(private val userService: UserService) {
     userService.createUser(userForm)
   }
 
-  @GetMapping("/user/{userId}")
-  fun getUser(@PathVariable userId: String) = userService.getUser(userId)
+  @GetMapping("/user")
+  fun getUser(@RequestAttribute("userId") userId: String) = userService.getUser(userId)
 }
