@@ -1,5 +1,6 @@
 package com.example.project.filter
 
+import com.auth0.jwt.interfaces.DecodedJWT
 import com.example.project.util.IdTokenValidator
 import jakarta.servlet.Filter
 import jakarta.servlet.FilterChain
@@ -19,6 +20,7 @@ class IdTokenFilter(private val idTokenValidator: IdTokenValidator) : Filter {
   override fun doFilter(servletRequest: ServletRequest?, servletResponse: ServletResponse?, chain: FilterChain?) {
     var request = servletRequest as? HttpServletRequest
     var response = servletResponse as? HttpServletResponse
+    var decodedToken: DecodedJWT? = null
     val header = request?.getHeader("Authorization")
     // Authorizationヘッダーがnullの場合はエラー
     if (header == null) {
@@ -33,8 +35,10 @@ class IdTokenFilter(private val idTokenValidator: IdTokenValidator) : Filter {
       return;
     }
 
+    decodedToken = idTokenValidator.idTokenVerify(token)
+
     // デコードできなかったらエラー
-    if (idTokenValidator.idTokenVerify(token) == null) {
+    if (decodedToken == null) {
       response?.sendError(HttpServletResponse.SC_UNAUTHORIZED, "不正な操作です。")
       return;
     }
@@ -45,6 +49,9 @@ class IdTokenFilter(private val idTokenValidator: IdTokenValidator) : Filter {
 //      response?.sendError(HttpServletResponse.SC_UNAUTHORIZED, "ログインしてください。")
 //      return;
 //    }
+
+    // IDをリクエスト属性に設定
+    servletRequest?.setAttribute("userId", decodedToken.subject);
 
     chain?.doFilter(servletRequest, servletResponse);
 
