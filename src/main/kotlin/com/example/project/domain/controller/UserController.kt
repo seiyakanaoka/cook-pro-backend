@@ -1,6 +1,7 @@
 package com.example.project.domain.controller
 
 import com.example.project.domain.form.UserForm
+import com.example.project.domain.form.UserNameForm
 import com.example.project.domain.service.UserService
 import lombok.RequiredArgsConstructor
 import org.springframework.web.bind.annotation.*
@@ -21,4 +22,8 @@ class UserController(private val userService: UserService) {
 
   @GetMapping("/user")
   fun getUser(@RequestAttribute("userId") userId: String) = userService.getUser(userId)
+
+  @PatchMapping("/user")
+  fun patchUser(@RequestAttribute("userId") userId: String, @RequestBody userNameForm: UserNameForm) =
+    userService.patchUserName(userId, userNameForm)
 }
