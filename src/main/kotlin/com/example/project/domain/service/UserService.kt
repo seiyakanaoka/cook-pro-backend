@@ -50,21 +50,23 @@ class UserService(
 
   /**
    * ユーザー名編集
+   * TODO: CognitoもしくはDBへの変更が失敗した場合、両方とも変更しない構造にする
    */
-  fun patchUserName(userId: String, userNameForm: UserNameForm) {
+  fun patchUserName(userId: String, email: String, userNameForm: UserNameForm) {
     val user = userRepository.findById(userId).orElseThrow() { RuntimeException() }
     user.userName = userNameForm.userName
     userRepository.save(user)
     val request: AdminUpdateUserAttributesRequest = AdminUpdateUserAttributesRequest.builder()
       .userPoolId(userPoolId)
-      .username("test-user-1")
+      .username(email)
       .userAttributes(
         AttributeType.builder()
-          .name("username")
+          .name("preferred_username")
           .value(userNameForm.userName)
           .build()
       )
       .build()
+
     cognito.adminUpdateUserAttributes(request)
   }
 

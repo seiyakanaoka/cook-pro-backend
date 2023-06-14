@@ -50,8 +50,9 @@ class IdTokenFilter(private val idTokenValidator: IdTokenValidator) : Filter {
 //      return;
 //    }
 
-    // IDをリクエスト属性に設定
+    // IDとEメールをリクエスト属性に設定
     servletRequest?.setAttribute("userId", decodedToken.subject);
+    servletRequest?.setAttribute("email", decodedToken.getClaim("email").asString());
 
     chain?.doFilter(servletRequest, servletResponse);
 

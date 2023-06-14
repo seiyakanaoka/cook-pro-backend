@@ -24,6 +24,10 @@ class UserController(private val userService: UserService) {
   fun getUser(@RequestAttribute("userId") userId: String) = userService.getUser(userId)
 
   @PatchMapping("/user")
-  fun patchUser(@RequestAttribute("userId") userId: String, @RequestBody userNameForm: UserNameForm) =
-    userService.patchUserName(userId, userNameForm)
+  fun patchUser(
+    @RequestAttribute("userId") userId: String,
+    @RequestAttribute("email") email: String,
+    @RequestBody userNameForm: UserNameForm
+  ) =
+    userService.patchUserName(userId, email, userNameForm)
 }
