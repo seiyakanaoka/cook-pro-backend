@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import software.amazon.awssdk.services.cognitoidentityprovider.model.AdminUpdateUserAttributesRequest
-import software.amazon.awssdk.services.cognitoidentityprovider.model.AdminUpdateUserAttributesResponse
 import software.amazon.awssdk.services.cognitoidentityprovider.model.AttributeType
 
 
@@ -23,10 +22,13 @@ class UserService(
   private val cognitoConfig: CognitoConfig
 ) {
   private val s3 = s3Client.s3Client()
-  private val cognito = cognitoConfig.cognitoConfig()
+  private val cognito = cognitoConfig.cognitoClient()
 
   @Value("\${aws.s3.bucket.name.cooking_app}")
   private val bucketName = ""
+
+  @Value("\${aws.cognito.user-pool-id}")
+  private val userPoolId = ""
 
   /**
    * 新規登録
@@ -54,17 +56,16 @@ class UserService(
     user.userName = userNameForm.userName
     userRepository.save(user)
     val request: AdminUpdateUserAttributesRequest = AdminUpdateUserAttributesRequest.builder()
-      .userPoolId("ap-northeast-1_RcfdArzNy")
+      .userPoolId(userPoolId)
       .username("test-user-1")
       .userAttributes(
         AttributeType.builder()
-          .name("preferred_username")
+          .name("username")
           .value(userNameForm.userName)
           .build()
       )
       .build()
-    val response: AdminUpdateUserAttributesResponse = cognito.adminUpdateUserAttributes(request)
-    println("response : $response")
+    cognito.adminUpdateUserAttributes(request)
   }
 
   /**
