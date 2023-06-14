@@ -18,7 +18,7 @@ data class User(
   val userId: String,
   val lastName: String,
   val firstName: String,
-  val userName: String,
+  var userName: String,
   val email: String,
   val telNumber: String,
   val userImageKey: String? = null,
