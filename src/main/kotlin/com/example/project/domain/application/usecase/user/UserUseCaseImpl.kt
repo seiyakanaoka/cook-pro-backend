@@ -45,7 +45,7 @@ class UserUseCaseImpl(
    */
   override fun getUser(userId: String): UserDTO {
     val user = userRepository.findById(userId).orElseThrow { RuntimeException() }
-    return UserDTO.convert(user, user.userImageKey?.let { getImageURL(it) })
+    return userMapper.toDto(user, user.userImageKey?.let { getImageURL(it) })
   }
 
   /**

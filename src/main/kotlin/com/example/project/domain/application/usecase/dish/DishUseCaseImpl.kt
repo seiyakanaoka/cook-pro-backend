@@ -1,10 +1,7 @@
 package com.example.project.domain.application.usecase.dish
 
 import com.example.project.config.aws.S3Config
-import com.example.project.domain.application.dto.dish.DishDTO
-import com.example.project.domain.application.dto.dish.DishImageDTO
-import com.example.project.domain.application.dto.dish.DishProcessDTO
-import com.example.project.domain.application.dto.dish.DishProcessesDTO
+import com.example.project.domain.application.dto.dish.*
 import com.example.project.domain.application.dto.material.MaterialDTO
 import com.example.project.domain.application.dto.material.MaterialsDTO
 import com.example.project.domain.domain.repository.dish.DishRepository
@@ -43,17 +40,17 @@ class DishUseCaseImpl(
   /**
    * 料理詳細を取得する
    */
-  override fun getDish(dishId: String): DishDto {
+  override fun getDish(dishId: String): DishDTO {
     val dish = dishRepository.findById(dishId).orElseThrow { RuntimeException() }
-    return DishDto(dish.dishId, dish.dishName, getDishImages(dishId), dish.dishCreateRequiredTime)
+    return DishDTO(dish.dishId, dish.dishName, getDishImages(dishId), dish.dishCreateRequiredTime)
   }
 
   /**
    * 料理一覧をサジェスト検索用に加工する
    */
-  override fun getSearchDishes(dishName: String): List<DishSearchDto> =
+  override fun getSearchDishes(dishName: String): List<DishSearchDTO> =
     dishRepository.findByDishNameContainingOrderByCreateTimestampDesc(dishName)
-      .map { it -> DishSearchDto(it.dishId, it.dishName) }
+      .map { it -> DishSearchDTO(it.dishId, it.dishName) }
 
   /**
    * 料理に紐づいた材料一覧を取得する

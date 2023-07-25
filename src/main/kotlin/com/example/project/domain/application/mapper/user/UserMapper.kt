@@ -14,10 +14,10 @@ class UserMapper {
     )
   }
 
-  fun toDto(user: User): UserDTO {
+  fun toDto(user: User, image: String?): UserDTO {
     return UserDTO(
-      user.userId,
       user.userName,
+      image,
       user.email,
       user.telNumber
     )
