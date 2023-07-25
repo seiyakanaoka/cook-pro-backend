@@ -16,8 +16,6 @@ data class User(
   @Id
   @Column(name = "user_id", updatable = false, nullable = false)
   val userId: String,
-  val lastName: String,
-  val firstName: String,
   var userName: String,
   val email: String,
   val telNumber: String,
@@ -29,8 +27,6 @@ data class User(
     fun convert(userForm: UserForm): User {
       return User(
         userForm.userId,
-        userForm.lastName,
-        userForm.firstName,
         userForm.userName,
         userForm.email,
         userForm.telNumber
