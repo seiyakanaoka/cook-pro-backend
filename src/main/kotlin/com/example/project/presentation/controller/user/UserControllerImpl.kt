@@ -3,14 +3,15 @@ package com.example.project.presentation.controller.user
 import com.example.project.application.usecase.user.UserUseCase
 import com.example.project.presentation.form.user.UserForm
 import com.example.project.presentation.form.user.UserNameForm
-import com.example.project.presentation.mapper.user.UserMapper
+import com.example.project.presentation.mapper.user.UserFormMapper
 import lombok.RequiredArgsConstructor
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("api/v1")
 @RequiredArgsConstructor
-class UserControllerImpl(private val userUseCase: UserUseCase, private val userMapper: UserMapper) : UserController {
+class UserControllerImpl(private val userUseCase: UserUseCase, private val userMapper: UserFormMapper) :
+  UserController {
   /**
    * 新規登録API
    * 本来はjwtなしでリクエスト可能だが、cognitoによる認証を行った後に実行される想定のため

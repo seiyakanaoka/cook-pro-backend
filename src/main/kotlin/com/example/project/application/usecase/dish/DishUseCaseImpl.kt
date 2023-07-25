@@ -4,8 +4,6 @@ import com.example.project.application.dto.dish.*
 import com.example.project.application.dto.material.MaterialDTO
 import com.example.project.application.dto.material.MaterialsDTO
 import com.example.project.config.aws.S3Config
-import com.example.project.domain.application.dto.dish.*
-import com.example.project.domain.dto.*
 import com.example.project.domain.enums.category.CategoryEnum
 import com.example.project.domain.repository.dish.DishRepository
 import lombok.RequiredArgsConstructor

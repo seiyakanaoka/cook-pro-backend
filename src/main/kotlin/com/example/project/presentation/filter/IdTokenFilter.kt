@@ -1,4 +1,4 @@
-package com.example.project.filter
+package com.example.project.presentation.filter
 
 import com.auth0.jwt.interfaces.DecodedJWT
 import com.example.project.util.IdTokenValidator
