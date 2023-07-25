@@ -1,6 +1,6 @@
-create database if not exists cooking_app;
+create database if not exists cook_pro;
 
-use cooking_app;
+use cook_pro;
 
 create table if not exists user (
   user_id varchar(36) not null primary key comment 'ユーザーID',

@@ -16,7 +16,7 @@ data class User(
   @Id
   @Column(name = "user_id", updatable = false, nullable = false)
   val userId: String,
-  val userName: String,
+  var userName: String,
   val email: String,
   val telNumber: String,
   val displayUserName: String? = null,
