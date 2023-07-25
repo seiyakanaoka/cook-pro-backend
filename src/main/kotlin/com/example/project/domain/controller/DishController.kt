@@ -1,11 +1,9 @@
 package com.example.project.domain.controller
 
-import com.example.project.domain.dto.DishDto
-import com.example.project.domain.dto.DishProcessesDto
-import com.example.project.domain.dto.DishSearchDto
-import com.example.project.domain.dto.MaterialsDto
+import com.example.project.domain.application.dto.dish.DishProcessesDTO
+import com.example.project.domain.application.dto.material.MaterialsDTO
+import com.example.project.domain.application.usecase.dish.DishUseCaseImpl
 import com.example.project.domain.enums.CategoryEnum
-import com.example.project.domain.service.DishService
 import lombok.RequiredArgsConstructor
 import org.springframework.web.bind.annotation.*
 
@@ -13,7 +11,7 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("api/v1")
 @RequiredArgsConstructor
-class DishController(private val dishService: DishService) {
+class DishController(private val dishService: DishUseCaseImpl) {
   /**
    * 料理一覧取得API
    */
@@ -38,13 +36,13 @@ class DishController(private val dishService: DishService) {
    * 料理材料一覧取得API
    */
   @GetMapping("/dish/{dishId}/material")
-  fun getMaterials(@PathVariable dishId: String): MaterialsDto =
+  fun getMaterials(@PathVariable dishId: String): MaterialsDTO =
     dishService.getMaterials(dishId)
 
   /**
    * 料理工程取得API
    */
   @GetMapping("/dish/{dishId}/process")
-  fun getProcesses(@PathVariable dishId: String): DishProcessesDto =
+  fun getProcesses(@PathVariable dishId: String): DishProcessesDTO =
     dishService.getProcesses(dishId)
 }

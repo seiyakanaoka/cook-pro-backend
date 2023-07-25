@@ -1,6 +1,12 @@
-package com.example.project.domain.service
+package com.example.project.domain.application.usecase.dish
 
 import com.example.project.config.aws.S3Config
+import com.example.project.domain.application.dto.dish.DishDTO
+import com.example.project.domain.application.dto.dish.DishImageDTO
+import com.example.project.domain.application.dto.dish.DishProcessDTO
+import com.example.project.domain.application.dto.dish.DishProcessesDTO
+import com.example.project.domain.application.dto.material.MaterialDTO
+import com.example.project.domain.application.dto.material.MaterialsDTO
 import com.example.project.domain.domain.repository.dish.DishRepository
 import com.example.project.domain.dto.*
 import com.example.project.domain.enums.CategoryEnum
@@ -11,33 +17,33 @@ import java.util.*
 
 @Service
 @RequiredArgsConstructor
-class DishService(
+class DishUseCaseImpl(
   private val dishRepository: DishRepository,
   private val s3Client: S3Config
-) {
-  private val s3 = s3Client.s3Client()
-
+) : DishUseCase {
   @Value("\${aws.s3.bucket.name.cooking_app}")
   private val bucketName = ""
+
+  override val s3 = s3Client.s3Client()
 
   /**
    * 料理一覧を取得する
    */
-  fun getDishes(categories: List<CategoryEnum>?): List<DishDto>? {
+  override fun getDishes(categories: List<CategoryEnum>?): List<DishDTO>? {
     if (categories == null) {
       return dishRepository.findAllByOrderByCreateTimestampDesc()
-        .map { it -> DishDto(it.dishId, it.dishName, getDishImages(it.dishId), it.dishCreateRequiredTime) }
+        .map { it -> DishDTO(it.dishId, it.dishName, getDishImages(it.dishId), it.dishCreateRequiredTime) }
     } else if (categories.isEmpty()) {
-      return listOf<DishDto>()
+      return listOf<DishDTO>()
     }
     return dishRepository.findByCategoriesCategoryIdInOrderByCreateTimestampDesc(categories.map { it -> it.name })
-      .map { it1 -> DishDto(it1.dishId, it1.dishName, getDishImages(it1.dishId), it1.dishCreateRequiredTime) }
+      .map { it1 -> DishDTO(it1.dishId, it1.dishName, getDishImages(it1.dishId), it1.dishCreateRequiredTime) }
   }
 
   /**
    * 料理詳細を取得する
    */
-  fun getDish(dishId: String): DishDto {
+  override fun getDish(dishId: String): DishDto {
     val dish = dishRepository.findById(dishId).orElseThrow { RuntimeException() }
     return DishDto(dish.dishId, dish.dishName, getDishImages(dishId), dish.dishCreateRequiredTime)
   }
@@ -45,41 +51,41 @@ class DishService(
   /**
    * 料理一覧をサジェスト検索用に加工する
    */
-  fun getSearchDishes(dishName: String): List<DishSearchDto> =
+  override fun getSearchDishes(dishName: String): List<DishSearchDto> =
     dishRepository.findByDishNameContainingOrderByCreateTimestampDesc(dishName)
       .map { it -> DishSearchDto(it.dishId, it.dishName) }
 
   /**
    * 料理に紐づいた材料一覧を取得する
    */
-  fun getMaterials(dishId: String): MaterialsDto =
-    MaterialsDto(
+  override fun getMaterials(dishId: String): MaterialsDTO =
+    MaterialsDTO(
       dishRepository.findByMaterialsOrderByCreateTimestampDesc(dishId)
-        .map { it -> MaterialDto(it.materialId, it.materialName) })
+        .map { it -> MaterialDTO(it.materialId, it.materialName) })
 
   /**
    * 料理に紐づいた料理工程を取得する
    */
-  fun getProcesses(dishId: String): DishProcessesDto {
+  override fun getProcesses(dishId: String): DishProcessesDTO {
     val processes = dishRepository.findByProcesses(dishId)
-      .map { it -> DishProcessDto(it.dishProcessId, it.dishProcessText) }
+      .map { it -> DishProcessDTO(it.dishProcessId, it.dishProcessText) }
     val dish = getDish(dishId)
-    return DishProcessesDto(processes, dish.dishName)
+    return DishProcessesDTO(processes, dish.dishName)
   }
 
   /**
    * 料理に紐づいた料理画像を取得する
    */
-  fun getDishImages(dishId: String): List<DishImageDto> {
+  override fun getDishImages(dishId: String): List<DishImageDTO> {
     return dishRepository.findByDishImages(dishId)
-      .map { it -> DishImageDto(it.dishImageId, getImageURL(it.dishImageKey)) }
+      .map { it -> DishImageDTO(it.dishImageId, getImageURL(it.dishImageKey)) }
   }
 
   /**
    * S3の指定したバケットの画像urlを取得する
    * @param objectKey オブジェクトキー名
    */
-  fun getImageURL(objectKey: String): String {
+  override fun getImageURL(objectKey: String): String {
     val url = s3.getUrl(bucketName, objectKey) ?: throw IllegalStateException("URL is null")
     return url.toString()
   }
