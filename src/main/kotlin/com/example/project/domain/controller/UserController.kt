@@ -2,7 +2,6 @@ package com.example.project.domain.controller
 
 import com.example.project.domain.form.UserForm
 import com.example.project.domain.form.UserNameForm
-import com.example.project.domain.service.UserService
 import lombok.RequiredArgsConstructor
 import org.springframework.web.bind.annotation.*
 

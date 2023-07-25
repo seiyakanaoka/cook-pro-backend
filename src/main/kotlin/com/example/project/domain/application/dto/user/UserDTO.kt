@@ -1,7 +1,9 @@
 package com.example.project.domain.application.dto.user
 
 import com.example.project.domain.domain.model.user.User
+import lombok.Data
 
+@Data
 data class UserDTO(
   val userName: String,
   val image: String?,

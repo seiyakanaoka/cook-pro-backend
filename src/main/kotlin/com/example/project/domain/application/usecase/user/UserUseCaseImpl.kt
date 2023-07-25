@@ -3,9 +3,9 @@ package com.example.project.domain.application.usecase.user
 import com.example.project.config.aws.CognitoConfig
 import com.example.project.config.aws.S3Config
 import com.example.project.domain.application.dto.user.UserDTO
-import com.example.project.domain.domain.model.user.User
+import com.example.project.domain.application.dto.user.UserFormDTO
+import com.example.project.domain.application.mapper.user.UserMapper
 import com.example.project.domain.domain.repository.user.UserRepository
-import com.example.project.domain.form.UserForm
 import com.example.project.domain.form.UserNameForm
 import lombok.RequiredArgsConstructor
 import org.springframework.beans.factory.annotation.Value
@@ -18,7 +18,8 @@ import software.amazon.awssdk.services.cognitoidentityprovider.model.AttributeTy
 class UserUseCaseImpl(
   private val userRepository: UserRepository,
   private val s3Client: S3Config,
-  private val cognitoConfig: CognitoConfig
+  private val cognitoConfig: CognitoConfig,
+  private val userMapper: UserMapper
 ) : UserUseCase {
   override val s3 = s3Client.s3Client()
   override val cognito = cognitoConfig.cognitoClient()
@@ -31,10 +32,10 @@ class UserUseCaseImpl(
 
   /**
    * 新規登録
-   * @param userForm UserForm
+   * @param userFormDTO UserFormDTO
    */
-  override fun createUser(userForm: UserForm) {
-    val user = User.convert(userForm)
+  override fun createUser(userFormDTO: UserFormDTO) {
+    val user = userMapper.toDomainEntity(userFormDTO)
     userRepository.save(user)
   }
 

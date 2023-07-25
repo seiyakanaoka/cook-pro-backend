@@ -1,6 +1,5 @@
 package com.example.project.domain.domain.model.user
 
-import com.example.project.domain.form.UserForm
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
@@ -23,15 +22,4 @@ data class User(
   val userImageKey: String? = null,
   val createTimestamp: Timestamp? = Timestamp(Date().time),
   val updateTimestamp: Timestamp? = Timestamp(Date().time),
-) {
-  companion object {
-    fun convert(userForm: UserForm): User {
-      return User(
-        userForm.userId,
-        userForm.userName,
-        userForm.email,
-        userForm.telNumber
-      )
-    }
-  }
-}
+)
