@@ -1,4 +1,4 @@
-package com.example.project.domain.service
+package com.example.project.domain.application.usecase.user
 
 import com.example.project.config.aws.CognitoConfig
 import com.example.project.config.aws.S3Config
@@ -13,16 +13,15 @@ import org.springframework.stereotype.Service
 import software.amazon.awssdk.services.cognitoidentityprovider.model.AdminUpdateUserAttributesRequest
 import software.amazon.awssdk.services.cognitoidentityprovider.model.AttributeType
 
-
 @Service
 @RequiredArgsConstructor
-class UserService(
+class UserUseCaseImpl(
   private val userRepository: UserRepository,
   private val s3Client: S3Config,
   private val cognitoConfig: CognitoConfig
-) {
-  private val s3 = s3Client.s3Client()
-  private val cognito = cognitoConfig.cognitoClient()
+) : UserUseCase {
+  override val s3 = s3Client.s3Client()
+  override val cognito = cognitoConfig.cognitoClient()
 
   @Value("\${aws.s3.bucket.name.cooking_app}")
   private val bucketName = ""
@@ -34,7 +33,7 @@ class UserService(
    * 新規登録
    * @param userForm UserForm
    */
-  fun createUser(userForm: UserForm) {
+  override fun createUser(userForm: UserForm) {
     val user = User.convert(userForm)
     userRepository.save(user)
   }
@@ -43,7 +42,7 @@ class UserService(
    * ユーザー情報取得
    * @param userId String
    */
-  fun getUser(userId: String): UserDTO {
+  override fun getUser(userId: String): UserDTO {
     val user = userRepository.findById(userId).orElseThrow { RuntimeException() }
     return UserDTO.convert(user, user.userImageKey?.let { getImageURL(it) })
   }
@@ -52,7 +51,7 @@ class UserService(
    * ユーザー名編集
    * TODO: CognitoもしくはDBへの変更が失敗した場合、両方とも変更しない構造にする
    */
-  fun patchUserName(userId: String, email: String, userNameForm: UserNameForm) {
+  override fun patchUserName(userId: String, email: String, userNameForm: UserNameForm) {
     val user = userRepository.findById(userId).orElseThrow() { RuntimeException() }
     user.userName = userNameForm.userName
     userRepository.save(user)
@@ -74,7 +73,7 @@ class UserService(
    * S3の指定したバケットの画像urlを取得する
    * @param objectKey オブジェクトキー名
    */
-  fun getImageURL(objectKey: String): String {
+  override fun getImageURL(objectKey: String): String {
     val url = s3.getUrl(bucketName, objectKey) ?: throw IllegalStateException("URL is null")
     return url.toString()
   }
