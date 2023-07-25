@@ -1,6 +1,7 @@
-package com.example.project.domain.entity
+package com.example.project.domain.domain.model.dish
 
 import com.example.project.domain.domain.model.user.User
+import com.example.project.domain.entity.Category
 import jakarta.persistence.*
 import lombok.Data
 import java.sql.Timestamp

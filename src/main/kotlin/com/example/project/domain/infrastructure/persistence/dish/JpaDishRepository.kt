@@ -1,7 +1,7 @@
 package com.example.project.domain.infrastructure.persistence.dish
 
+import com.example.project.domain.domain.model.dish.Dish
 import com.example.project.domain.domain.repository.dish.DishRepository
-import com.example.project.domain.entity.Dish
 import com.example.project.domain.entity.DishImage
 import com.example.project.domain.entity.DishProcess
 import com.example.project.domain.entity.Material

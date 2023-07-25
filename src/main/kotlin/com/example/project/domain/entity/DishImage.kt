@@ -1,5 +1,6 @@
 package com.example.project.domain.entity
 
+import com.example.project.domain.domain.model.dish.Dish
 import jakarta.persistence.*
 import lombok.Data
 

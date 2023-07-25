@@ -1,4 +1,4 @@
-package com.example.project.domain.dto
+package com.example.project.domain.application.dto.category
 
 import com.example.project.domain.enums.CategoryEnum
 import lombok.Data
