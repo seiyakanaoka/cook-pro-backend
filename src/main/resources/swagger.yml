@@ -90,40 +90,7 @@ paths:
               $ref: '#/components/schemas/UserSignupRequest'
       responses:
         '200':
-          description: |-
-            認証トークンを返す
-          content:
-            application/json:
-              schema:
-                type: string
-                example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
-        '400':
-          description: 不正リクエストエラー
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BadRequestException'
-  /user/login:
-    post:
-      tags:
-        - User
-      summary: ユーザーログインAPI
-      description: ログイン情報をリクエストして、認証トークンを返すAPI
-      requestBody:
-        description: 新規登録するユーザー情報
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UserLoginRequest'
-      responses:
-        '200':
-          description: 認証トークン
-          content:
-            application/json:
-              schema:
-                type: string
-                example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+          description: OK
         '400':
           description: 不正リクエストエラー
           content:
@@ -506,14 +473,6 @@ components:
         - email
         - telNumber
       properties:
-        lastName:
-          type: string
-          description: 姓
-          example: 料理
-        firstName:
-          type: string
-          description: 名
-          example: 太郎
         userName:
           type: string
           description: ユーザー名
@@ -526,23 +485,6 @@ components:
           type: string
           description: 電話番号
           example: "000-0000-0000"
-    UserLoginRequest:
-      type: object
-      required:
-        - password
-      properties:
-        userName:
-          type: string
-          description: ユーザー名
-          example: リョーリタロー
-        email:
-          type: string
-          description: email
-          example: ryoritaro@hoge.com
-        password:
-          type: string
-          description: パスワード
-          example: "**********"
     UserNameRequest:
       type: object
       required:
@@ -829,7 +771,7 @@ components:
         fieldName:
           description: フィールド名
           type: string
-          example: last_name_kana
+          example: userName
         message:
           description: フィールドメッセージ
           type: string
