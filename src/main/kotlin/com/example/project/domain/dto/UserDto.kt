@@ -1,6 +1,6 @@
 package com.example.project.domain.dto
 
-import com.example.project.domain.entity.User
+import com.example.project.domain.domain.model.user.User
 
 data class UserDto(
   val userName: String,

@@ -1,5 +1,6 @@
 package com.example.project.domain.entity
 
+import com.example.project.domain.domain.model.user.User
 import jakarta.persistence.*
 import lombok.Data
 import java.sql.Timestamp

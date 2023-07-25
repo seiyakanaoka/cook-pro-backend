@@ -1,4 +1,4 @@
-package com.example.project.domain.entity
+package com.example.project.domain.domain.model.user
 
 import com.example.project.domain.form.UserForm
 import jakarta.persistence.Column
