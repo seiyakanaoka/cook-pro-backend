@@ -4,9 +4,8 @@ use cooking_app;
 
 create table if not exists user (
   user_id varchar(36) not null primary key comment 'ユーザーID',
-  last_name varchar(255) not null comment '姓',
-  first_name varchar(255) not null comment '名',
   user_name varchar(36) not null comment 'ユーザー名',
+  display_user_name varchar(36) comment '表示用ユーザー名',
   email varchar(255) not null comment 'Eメール',
   tel_number varchar(255) not null comment '電話番号',
   user_image_key varchar(255) comment 'ユーザー画像',
