@@ -1,7 +1,7 @@
 package com.example.project.domain.application.usecase.category
 
 import com.example.project.domain.application.dto.category.CategoriesDto
-import com.example.project.domain.enums.CategoryEnum
+import com.example.project.domain.domain.enums.category.CategoryEnum
 import org.springframework.stereotype.Service
 
 @Service

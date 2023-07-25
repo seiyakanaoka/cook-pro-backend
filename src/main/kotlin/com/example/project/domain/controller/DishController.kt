@@ -3,7 +3,7 @@ package com.example.project.domain.controller
 import com.example.project.domain.application.dto.dish.DishProcessesDTO
 import com.example.project.domain.application.dto.material.MaterialsDTO
 import com.example.project.domain.application.usecase.dish.DishUseCaseImpl
-import com.example.project.domain.enums.CategoryEnum
+import com.example.project.domain.domain.enums.category.CategoryEnum
 import lombok.RequiredArgsConstructor
 import org.springframework.web.bind.annotation.*
 

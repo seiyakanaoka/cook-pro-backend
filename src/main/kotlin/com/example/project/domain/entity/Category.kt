@@ -1,7 +1,7 @@
 package com.example.project.domain.entity
 
+import com.example.project.domain.domain.enums.category.CategoryEnum
 import com.example.project.domain.domain.model.dish.Dish
-import com.example.project.domain.enums.CategoryEnum
 import jakarta.persistence.*
 import lombok.Data
 import java.util.*

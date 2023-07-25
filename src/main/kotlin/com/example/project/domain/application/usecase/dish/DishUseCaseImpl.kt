@@ -4,9 +4,9 @@ import com.example.project.config.aws.S3Config
 import com.example.project.domain.application.dto.dish.*
 import com.example.project.domain.application.dto.material.MaterialDTO
 import com.example.project.domain.application.dto.material.MaterialsDTO
+import com.example.project.domain.domain.enums.category.CategoryEnum
 import com.example.project.domain.domain.repository.dish.DishRepository
 import com.example.project.domain.dto.*
-import com.example.project.domain.enums.CategoryEnum
 import lombok.RequiredArgsConstructor
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service

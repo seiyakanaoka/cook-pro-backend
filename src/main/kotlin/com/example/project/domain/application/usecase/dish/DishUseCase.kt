@@ -6,7 +6,7 @@ import com.example.project.domain.application.dto.dish.DishImageDTO
 import com.example.project.domain.application.dto.dish.DishProcessesDTO
 import com.example.project.domain.application.dto.dish.DishSearchDTO
 import com.example.project.domain.application.dto.material.MaterialsDTO
-import com.example.project.domain.enums.CategoryEnum
+import com.example.project.domain.domain.enums.category.CategoryEnum
 
 interface DishUseCase {
   val s3: AmazonS3

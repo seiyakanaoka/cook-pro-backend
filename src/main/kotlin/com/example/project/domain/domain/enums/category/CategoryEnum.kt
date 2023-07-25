@@ -1,4 +1,4 @@
-package com.example.project.domain.enums
+package com.example.project.domain.domain.enums.category
 
 import java.util.*
 
