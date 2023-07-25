@@ -4,6 +4,6 @@ import com.example.project.domain.enums.category.CategoryEnum
 import lombok.Data
 
 @Data
-data class CategoryDto(
+data class CategoryDTO(
   val category: CategoryEnum
 )

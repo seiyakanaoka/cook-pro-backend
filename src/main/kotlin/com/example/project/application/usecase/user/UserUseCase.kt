@@ -3,7 +3,7 @@ package com.example.project.application.usecase.user
 import com.amazonaws.services.s3.AmazonS3
 import com.example.project.application.dto.user.UserDTO
 import com.example.project.application.dto.user.UserFormDTO
-import com.example.project.form.UserNameForm
+import com.example.project.presentation.form.user.UserNameForm
 import software.amazon.awssdk.services.cognitoidentityprovider.CognitoIdentityProviderClient
 
 interface UserUseCase {

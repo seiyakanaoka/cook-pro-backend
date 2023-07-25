@@ -1,4 +1,4 @@
-package com.example.project.form
+package com.example.project.presentation.form.user
 
 import lombok.Data
 
