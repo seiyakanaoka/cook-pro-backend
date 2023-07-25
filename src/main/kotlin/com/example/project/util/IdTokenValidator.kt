@@ -9,7 +9,7 @@ import com.auth0.jwt.JWT
 import com.auth0.jwt.JWTVerifier
 import com.auth0.jwt.algorithms.Algorithm
 import com.auth0.jwt.interfaces.DecodedJWT
-import com.example.project.exception.InvalidTokenException
+import com.example.project.presentation.exception.exception.InvalidTokenException
 import org.springframework.stereotype.Component
 import java.net.MalformedURLException
 import java.net.URL
