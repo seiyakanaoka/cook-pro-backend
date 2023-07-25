@@ -1,9 +1,9 @@
 package com.example.project.domain.service
 
 import com.example.project.config.aws.S3Config
+import com.example.project.domain.domain.repository.dish.DishRepository
 import com.example.project.domain.dto.*
 import com.example.project.domain.enums.CategoryEnum
-import com.example.project.domain.repository.DishRepository
 import lombok.RequiredArgsConstructor
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service

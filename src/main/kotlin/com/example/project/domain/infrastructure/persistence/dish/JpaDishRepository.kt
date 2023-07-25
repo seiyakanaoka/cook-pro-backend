@@ -1,5 +1,6 @@
-package com.example.project.domain.repository
+package com.example.project.domain.infrastructure.persistence.dish
 
+import com.example.project.domain.domain.repository.dish.DishRepository
 import com.example.project.domain.entity.Dish
 import com.example.project.domain.entity.DishImage
 import com.example.project.domain.entity.DishProcess
@@ -11,21 +12,21 @@ import org.springframework.stereotype.Repository
 
 
 @Repository
-interface DishRepository : JpaRepository<Dish, String> {
+interface JpaDishRepository : DishRepository, JpaRepository<Dish, String> {
   @Query("select d from Dish d order by d.createTimestamp desc")
-  fun findAllByOrderByCreateTimestampDesc(): List<Dish>
+  override fun findAllByOrderByCreateTimestampDesc(): List<Dish>
 
   @Query("select d from Dish d where d.dishName like %?1% order by d.createTimestamp desc")
-  fun findByDishNameContainingOrderByCreateTimestampDesc(dishName: String): List<Dish>
+  override fun findByDishNameContainingOrderByCreateTimestampDesc(dishName: String): List<Dish>
 
   @Query("select m from Dish d inner join Material m on d.dishId = m.dish.dishId where d.dishId = :dishId order by d.createTimestamp desc")
-  fun findByMaterialsOrderByCreateTimestampDesc(@Param("dishId") dishId: String): List<Material>
+  override fun findByMaterialsOrderByCreateTimestampDesc(@Param("dishId") dishId: String): List<Material>
 
   @Query("select dp from Dish d inner join DishProcess dp on d.dishId = dp.dish.dishId where d.dishId = :dishId")
-  fun findByProcesses(@Param("dishId") dishId: String): List<DishProcess>
+  override fun findByProcesses(@Param("dishId") dishId: String): List<DishProcess>
 
   @Query("select di from Dish d inner join DishImage di on d.dishId = di.dish.dishId where d.dishId = :dishId")
-  fun findByDishImages(@Param("dishId") dishId: String): List<DishImage>
+  override fun findByDishImages(@Param("dishId") dishId: String): List<DishImage>
 
-  fun findByCategoriesCategoryIdInOrderByCreateTimestampDesc(categoryIds: List<String>): List<Dish>
+  override fun findByCategoriesCategoryIdInOrderByCreateTimestampDesc(categoryIds: List<String>): List<Dish>
 }

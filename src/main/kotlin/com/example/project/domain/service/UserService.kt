@@ -3,10 +3,10 @@ package com.example.project.domain.service
 import com.example.project.config.aws.CognitoConfig
 import com.example.project.config.aws.S3Config
 import com.example.project.domain.domain.model.user.User
+import com.example.project.domain.domain.repository.user.UserRepository
 import com.example.project.domain.dto.UserDto
 import com.example.project.domain.form.UserForm
 import com.example.project.domain.form.UserNameForm
-import com.example.project.domain.repository.UserRepository
 import lombok.RequiredArgsConstructor
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
