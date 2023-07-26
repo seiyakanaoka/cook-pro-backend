@@ -18,8 +18,8 @@ class UserControllerImpl(private val userUseCase: UserUseCase, private val userM
    * cognitoから受け取ったjwtを検証してから実行される
    */
   @PostMapping("/signup")
-  override fun signup(@RequestBody userForm: UserForm) =
-    userUseCase.createUser(userMapper.toDto("userIdw", userForm))
+  override fun signup(@RequestAttribute("userId") userId: String, @RequestBody userForm: UserForm) =
+    userUseCase.createUser(userMapper.toDto(userId, userForm))
 
 
   /**
