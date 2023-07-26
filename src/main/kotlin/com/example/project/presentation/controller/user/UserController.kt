@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestAttribute
 import org.springframework.web.bind.annotation.RequestBody
 
 interface UserController {
-  fun signup(@RequestAttribute("userId") userId: String, @RequestBody userForm: UserForm): Unit
+  fun signup(@RequestBody userForm: UserForm): Unit
 
   fun getUser(@RequestAttribute("userId") userId: String): UserDTO
 
