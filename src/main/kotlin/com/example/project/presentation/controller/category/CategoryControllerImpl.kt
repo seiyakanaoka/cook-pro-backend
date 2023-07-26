@@ -15,7 +15,5 @@ class CategoryControllerImpl(private val categoryUseCase: CategoryUseCase) : Cat
    * カテゴリー一覧取得API
    */
   @GetMapping("/category")
-  override fun getCategories(): CategoriesDto {
-    return categoryUseCase.generateCategories()
-  }
+  override fun getCategories(): CategoriesDto = categoryUseCase.generateCategories()
 }
