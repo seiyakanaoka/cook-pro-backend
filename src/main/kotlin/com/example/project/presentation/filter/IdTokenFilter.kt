@@ -13,6 +13,7 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean
 import org.springframework.context.annotation.Bean
 import org.springframework.stereotype.Component
 
+
 @Component
 @RequiredArgsConstructor
 class IdTokenFilter(private val idTokenValidator: IdTokenValidator) : Filter {
@@ -22,6 +23,13 @@ class IdTokenFilter(private val idTokenValidator: IdTokenValidator) : Filter {
     var response = servletResponse as? HttpServletResponse
     var decodedToken: DecodedJWT? = null
     val header = request?.getHeader("Authorization")
+
+//    TODO: プリフライトリクエストが飛んでくるので、拒否するようにする
+    if (request?.method == "OPTIONS") {
+      chain?.doFilter(request, response);
+      return;
+    }
+
     // Authorizationヘッダーがnullの場合はエラー
     if (header == null) {
       response?.sendError(HttpServletResponse.SC_UNAUTHORIZED, "ログインしてください。")
@@ -51,18 +59,19 @@ class IdTokenFilter(private val idTokenValidator: IdTokenValidator) : Filter {
 //    }
 
     // IDとEメールをリクエスト属性に設定
-    servletRequest?.setAttribute("userId", decodedToken.subject);
-    servletRequest?.setAttribute("email", decodedToken.getClaim("email").asString());
+    request?.setAttribute("userId", decodedToken.subject);
+    request?.setAttribute("email", decodedToken.getClaim("email").asString());
 
-    chain?.doFilter(servletRequest, servletResponse);
+    chain?.doFilter(request, response);
 
   }
 
   @Bean
-  fun filter(): FilterRegistrationBean<IdTokenFilter>? {
+  fun idTokenFilter(): FilterRegistrationBean<IdTokenFilter>? {
     val bean: FilterRegistrationBean<IdTokenFilter> = FilterRegistrationBean<IdTokenFilter>()
     bean.filter = IdTokenFilter(idTokenValidator)
     bean.addUrlPatterns("/api/v1/*")
+    bean.order = 1
     return bean
   }
 }

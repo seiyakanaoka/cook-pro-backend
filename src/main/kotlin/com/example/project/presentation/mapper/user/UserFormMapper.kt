@@ -6,9 +6,9 @@ import org.springframework.stereotype.Component
 
 @Component
 class UserFormMapper {
-  fun toDto(userForm: UserForm): UserFormDTO {
+  fun toDto(userId: String, userForm: UserForm): UserFormDTO {
     return UserFormDTO(
-      userForm.userId,
+      userId,
       userForm.userName,
       userForm.email,
       userForm.telNumber,
