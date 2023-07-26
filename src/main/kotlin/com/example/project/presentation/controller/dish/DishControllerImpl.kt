@@ -18,8 +18,11 @@ class DishControllerImpl(private val dishUseCaseImpl: DishUseCaseImpl) {
    * 料理一覧取得API
    */
   @GetMapping("/dish")
-  fun getDishes(@RequestParam(name = "category", required = false) categories: List<CategoryEnum>?): List<DishDTO>? =
-    dishUseCaseImpl.getDishes(categories)
+  fun getDishes(
+    @RequestAttribute("userId") userId: String,
+    @RequestParam(name = "category", required = false) categories: List<CategoryEnum>?
+  ): List<DishDTO>? =
+    dishUseCaseImpl.getDishes(userId, categories)
 
   /**
    * 料理詳細取得API

@@ -11,7 +11,7 @@ import com.example.project.domain.enums.category.CategoryEnum
 interface DishUseCase {
   val s3: AmazonS3
 
-  fun getDishes(categories: List<CategoryEnum>?): List<DishDTO>?
+  fun getDishes(userId: String, categories: List<CategoryEnum>?): List<DishDTO>?
 
   fun getDish(dishId: String): DishDTO
 
