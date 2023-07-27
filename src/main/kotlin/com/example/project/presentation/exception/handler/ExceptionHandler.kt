@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.client.HttpClientErrorException.Unauthorized
+import java.sql.SQLException
 
 @RestControllerAdvice
 class ExceptionHandler {
@@ -113,7 +114,7 @@ class ExceptionHandler {
    * @valid, @RequestBodyがある場合のバリデーションで発生
    * */
   @ExceptionHandler(Unauthorized::class)
-  @ResponseStatus(HttpStatus.UNAUTHORIZED)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
   @ResponseBody
   fun unauthorizedException(
     request: HttpServletRequest,
@@ -123,7 +124,7 @@ class ExceptionHandler {
 
     val error = ex.message?.let { ApplicationError(it, HttpStatus.BAD_REQUEST.value(), request.method) };
 
-    return ResponseEntity<ApplicationError>(error, HttpStatus.UNAUTHORIZED);
+    return ResponseEntity<ApplicationError>(error, HttpStatus.BAD_REQUEST);
   }
 
   /**
@@ -159,7 +160,7 @@ class ExceptionHandler {
   ): ResponseEntity<ApplicationError> {
     log.error(ex.message)
 
-    val error = ApplicationError("リクエストされた要素が見つかりません", HttpStatus.BAD_REQUEST.value(), request.method);
+    val error = ApplicationError("サーバーエラーが発生しました", HttpStatus.BAD_REQUEST.value(), request.method);
 
     return ResponseEntity<ApplicationError>(error, HttpStatus.BAD_REQUEST);
   }
@@ -179,7 +180,7 @@ class ExceptionHandler {
 
     val status: HttpStatus = getStatus(request)
 
-    val error = ApplicationError("数値に変換できない文字列です", status.value(), request.method);
+    val error = ApplicationError("サーバーエラーが発生しました", status.value(), request.method);
 
     return ResponseEntity<ApplicationError>(error, status);
   }
@@ -199,7 +200,27 @@ class ExceptionHandler {
 
     val status: HttpStatus = getStatus(request)
 
-    val error = ApplicationError("入力エラー発生", status.value(), request.method);
+    val error = ApplicationError("サーバーエラーが発生しました", status.value(), request.method);
+
+    return ResponseEntity<ApplicationError>(error, status);
+  }
+
+  /**
+   * 500 Error
+   * データベース接続例外
+   * */
+  @ExceptionHandler(SQLException::class)
+  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+  @ResponseBody
+  fun sqlException(
+    request: HttpServletRequest,
+    ex: SQLException
+  ): ResponseEntity<ApplicationError> {
+    log.error(ex.message)
+
+    val status: HttpStatus = getStatus(request)
+
+    val error = ApplicationError("サーバーエラーが発生しました", status.value(), request.method);
 
     return ResponseEntity<ApplicationError>(error, status);
   }

@@ -8,8 +8,10 @@ import com.auth0.jwk.UrlJwkProvider
 import com.auth0.jwt.JWT
 import com.auth0.jwt.JWTVerifier
 import com.auth0.jwt.algorithms.Algorithm
+import com.auth0.jwt.exceptions.AlgorithmMismatchException
+import com.auth0.jwt.exceptions.JWTDecodeException
+import com.auth0.jwt.exceptions.TokenExpiredException
 import com.auth0.jwt.interfaces.DecodedJWT
-import com.example.project.presentation.exception.exception.InvalidTokenException
 import org.springframework.stereotype.Component
 import java.net.MalformedURLException
 import java.net.URL
@@ -31,32 +33,30 @@ class IdTokenValidator {
    * @param idToken 検証対象のIDトークン
    * @return 検証に成功した場合は ID Tokenのペイロード
    *
-   * @throws InvalidTokenException ID Tokenの値が不正なので認証に失敗した
    */
-  @Throws(InvalidTokenException::class)
   fun idTokenVerify(idToken: String): DecodedJWT? {
     val decodedToken: DecodedJWT = jwt.decodeJwt(idToken)
 
     // cognitoのユーザプールで署名された事を確認する
     val iss: String = decodedToken.issuer
     if (!iss.contains("https://cognito-idp")) {
-      throw InvalidTokenException(500, "ID トークンの発行者が対象のシステムではありません。iss=$iss idToken=$idToken")
+      throw JWTDecodeException("ID トークンの発行者が対象のシステムではありません iss=$iss idToken=$idToken")
     }
 
     //  ID トークンの用途が「ID」であることを確認する
     val tokenUse: String = decodedToken.getClaim("token_use").asString()
     if ("id" != tokenUse) {
-      throw InvalidTokenException(500, "ID トークンの用途が ID ではありません。token_use=$tokenUse idToken=$idToken")
+      throw JWTDecodeException("IDトークンの用途がIDではありません token_use=$tokenUse idToken=$idToken")
     }
 
     // 署名のアルゴリズムを確認する
     val alg: String = decodedToken.algorithm
     if ("RS256" != decodedToken.algorithm) {
-      throw InvalidTokenException(500, "ID トークンの署名アルゴリズムが対応していないものです。alg =$alg idToken=$idToken")
+      throw AlgorithmMismatchException("IDトークンの署名アルゴリズムが対応していないものです alg =$alg idToken=$idToken")
     }
 
     // jwtを検証する
-    return tokenVerify(decodedToken) ?: throw InvalidTokenException(500, "ID Tokenの検証に失敗しました。")
+    return tokenVerify(decodedToken)
   }
 
   /**
@@ -64,17 +64,9 @@ class IdTokenValidator {
    *
    * @param kid ID トークンのヘッダーにある キーID
    * @return nullでなければ デコードされた ID トークン
-   *
-   * @throws InvalidTokenException 検証に失敗した
    */
-  @Throws(InvalidTokenException::class)
   private fun tokenVerify(decodedJWT: DecodedJWT): DecodedJWT? {
-    return try {
-      getVerifier(decodedJWT)?.verify(decodedJWT)
-
-    } catch (e: Exception) {
-      throw InvalidTokenException(500, e.message)
-    }
+    return getVerifier(decodedJWT)?.verify(decodedJWT)
   }
 
   /**
@@ -87,16 +79,15 @@ class IdTokenValidator {
    * @throws MalformedURLException
    * @throws JwkException
    */
-  @Throws(MalformedURLException::class, JwkException::class)
   private fun getVerifier(decodedToken: DecodedJWT): JWTVerifier? {
     if (decodedToken.expiresAt.time < Date().time) {
-      throw InvalidTokenException(500, "有効期限が切れています")
+      throw TokenExpiredException("有効期限が切れています")
     }
 
     // synchronizedで複数スレッドが実行した場合、同期処理として扱うようにしてスレッドセーフにする
     synchronized(jwt) {
       if (decodedToken.expiresAt.time < Date().time) {
-        throw InvalidTokenException(500, "有効期限が切れています")
+        throw TokenExpiredException("有効期限が切れています")
       }
       val http = UrlJwkProvider(URL(jwksUrl(decodedToken.issuer)))
       val provider = GuavaCachedJwkProvider(http)
