@@ -4,6 +4,5 @@ import lombok.Data
 
 @Data
 data class DishesSearchResponse(
-  val id: String,
-  val name: String
+  val dishesSearch: List<DishSearchResponse>
 )
