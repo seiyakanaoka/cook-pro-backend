@@ -6,6 +6,7 @@ import com.example.project.application.dto.dish.DishSearchDTO
 import com.example.project.application.dto.material.MaterialsDTO
 import com.example.project.application.usecase.dish.DishUseCaseImpl
 import com.example.project.domain.enums.category.CategoryEnum
+import com.example.project.presentation.dto.dish.DishesDTO
 import lombok.RequiredArgsConstructor
 import org.springframework.web.bind.annotation.*
 
@@ -21,8 +22,8 @@ class DishControllerImpl(private val dishUseCaseImpl: DishUseCaseImpl) {
   fun getDishes(
     @RequestAttribute("userId") userId: String,
     @RequestParam(name = "category", required = false) categories: List<CategoryEnum>?
-  ): List<DishDTO>? =
-    dishUseCaseImpl.getDishes(userId, categories)
+  ): DishesDTO? =
+    DishesDTO(dishUseCaseImpl.getDishes(userId, categories))
 
   /**
    * 料理詳細取得API

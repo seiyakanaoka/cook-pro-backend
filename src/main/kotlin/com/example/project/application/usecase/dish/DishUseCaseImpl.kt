@@ -26,7 +26,6 @@ class DishUseCaseImpl(
    * 料理一覧を取得する
    */
   override fun getDishes(userId: String, categories: List<CategoryEnum>?): List<DishDTO>? {
-    println("userId : $userId")
     if (categories == null) {
       return dishRepository.findAllByOrderByCreateTimestampDesc(userId)
         .map { it -> DishDTO(it.dishId, it.dishName, getDishImages(it.dishId), it.dishCreateRequiredTime) }
