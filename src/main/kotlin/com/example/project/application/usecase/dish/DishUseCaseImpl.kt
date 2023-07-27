@@ -17,7 +17,7 @@ class DishUseCaseImpl(
   private val dishRepository: DishRepository,
   private val s3Client: S3Config
 ) : DishUseCase {
-  @Value("\${aws.s3.bucket.name.cooking_app}")
+  @Value("\${aws.s3.bucket.name}")
   private val bucketName = ""
 
   override val s3 = s3Client.s3Client()

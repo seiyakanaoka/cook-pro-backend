@@ -24,7 +24,7 @@ class UserUseCaseImpl(
   override val s3 = s3Client.s3Client()
   override val cognito = cognitoConfig.cognitoClient()
 
-  @Value("\${aws.s3.bucket.name.cooking_app}")
+  @Value("\${aws.s3.bucket.name}")
   private val bucketName = ""
 
   @Value("\${aws.cognito.user-pool-id}")
