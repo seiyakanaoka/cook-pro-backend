@@ -25,15 +25,15 @@ class DishUseCaseImpl(
   /**
    * 料理一覧を取得する
    */
-  override fun getDishes(categories: List<CategoryEnum>?): List<DishDTO>? {
+  override fun getDishes(userId: String, categories: List<CategoryEnum>?): List<DishesDTO>? {
     if (categories == null) {
-      return dishRepository.findAllByOrderByCreateTimestampDesc()
-        .map { it -> DishDTO(it.dishId, it.dishName, getDishImages(it.dishId), it.dishCreateRequiredTime) }
+      return dishRepository.findAllByOrderByCreateTimestampDesc(userId)
+        .map { it -> DishesDTO(it.dishId, it.dishName, getDishImage(it.dishId), it.dishCreateRequiredTime) }
     } else if (categories.isEmpty()) {
-      return listOf<DishDTO>()
+      return listOf<DishesDTO>()
     }
     return dishRepository.findByCategoriesCategoryIdInOrderByCreateTimestampDesc(categories.map { it -> it.name })
-      .map { it1 -> DishDTO(it1.dishId, it1.dishName, getDishImages(it1.dishId), it1.dishCreateRequiredTime) }
+      .map { it1 -> DishesDTO(it1.dishId, it1.dishName, getDishImage(it1.dishId), it1.dishCreateRequiredTime) }
   }
 
   /**
@@ -70,11 +70,19 @@ class DishUseCaseImpl(
   }
 
   /**
-   * 料理に紐づいた料理画像を取得する
+   * 料理に紐づいた料理画像一覧を取得する
    */
   override fun getDishImages(dishId: String): List<DishImageDTO> {
     return dishRepository.findByDishImages(dishId)
       .map { it -> DishImageDTO(it.dishImageId, getImageURL(it.dishImageKey)) }
+  }
+
+
+  /**
+   * 料理に紐づいた料理画像一覧から、最初の要素を取得する
+   */
+  override fun getDishImage(dishId: String): DishImageDTO {
+    return getDishImages(dishId)[0]
   }
 
   /**

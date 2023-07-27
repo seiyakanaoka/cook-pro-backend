@@ -13,8 +13,8 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface JpaDishRepository : DishRepository, JpaRepository<Dish, String> {
-  @Query("select d from Dish d order by d.createTimestamp desc")
-  override fun findAllByOrderByCreateTimestampDesc(): List<Dish>
+  @Query("select d from Dish d where d.user.userId = :userId order by d.createTimestamp desc")
+  override fun findAllByOrderByCreateTimestampDesc(@Param("userId") userId: String): List<Dish>
 
   @Query("select d from Dish d where d.dishName like %?1% order by d.createTimestamp desc")
   override fun findByDishNameContainingOrderByCreateTimestampDesc(dishName: String): List<Dish>
