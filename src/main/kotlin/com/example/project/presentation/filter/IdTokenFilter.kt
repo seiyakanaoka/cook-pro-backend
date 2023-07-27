@@ -1,5 +1,6 @@
 package com.example.project.presentation.filter
 
+import com.auth0.jwt.exceptions.JWTVerificationException
 import com.auth0.jwt.interfaces.DecodedJWT
 import com.example.project.util.IdTokenValidator
 import jakarta.servlet.Filter
@@ -32,22 +33,27 @@ class IdTokenFilter(private val idTokenValidator: IdTokenValidator) : Filter {
 
     // Authorizationヘッダーがnullの場合はエラー
     if (header == null) {
-      response?.sendError(HttpServletResponse.SC_UNAUTHORIZED, "ログインしてください。")
+      response?.sendError(HttpServletResponse.SC_UNAUTHORIZED, "ログインしてください")
       return;
     }
 
     // トークンがなかったらエラー
     val token = header.replaceFirst("Bearer ", "");
     if (token == "") {
-      response?.sendError(HttpServletResponse.SC_UNAUTHORIZED, "ログインしてください。")
+      response?.sendError(HttpServletResponse.SC_UNAUTHORIZED, "ログインしてください")
       return;
     }
 
-    decodedToken = idTokenValidator.idTokenVerify(token)
+    try {
+      decodedToken = idTokenValidator.idTokenVerify(token)
+    } catch (e: JWTVerificationException) {
+      response?.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.message)
+      return;
+    }
 
     // デコードできなかったらエラー
     if (decodedToken == null) {
-      response?.sendError(HttpServletResponse.SC_UNAUTHORIZED, "不正な操作です。")
+      response?.sendError(HttpServletResponse.SC_UNAUTHORIZED, "トークンがデコードできませんでした")
       return;
     }
 

@@ -87,7 +87,7 @@ class IdTokenValidator {
     // synchronizedで複数スレッドが実行した場合、同期処理として扱うようにしてスレッドセーフにする
     synchronized(jwt) {
       if (decodedToken.expiresAt.time < Date().time) {
-//        throw ExpiredIdTokenException(401, "有効期限が切れています")
+        throw TokenExpiredException("有効期限が切れています")
       }
       val http = UrlJwkProvider(URL(jwksUrl(decodedToken.issuer)))
       val provider = GuavaCachedJwkProvider(http)
