@@ -25,9 +25,11 @@ class DishControllerImpl(
   @GetMapping("/dish")
   fun getDishes(
     @RequestAttribute("userId") userId: String,
-    @RequestParam(name = "category", required = false) categories: List<CategoryEnum>?
-  ): DishesResponse? =
-    DishesResponse(dishUseCaseImpl.getDishes(userId, categories))
+    @RequestParam(name = "categories", required = false) categories: List<CategoryEnum>?
+  ): DishesResponse? {
+    println("categories : $categories")
+    return DishesResponse(dishUseCaseImpl.getDishes(userId, categories))
+  }
 
   /**
    * 料理詳細取得API
@@ -39,8 +41,11 @@ class DishControllerImpl(
    * 料理検索一覧取得API
    */
   @GetMapping("/dish/search")
-  fun getSearchDishes(@RequestParam("dishName") dishName: String): DishesSearchResponse =
-    DishesSearchResponse(dishResponseMapper.toSearchResponse(dishUseCaseImpl.getSearchDishes(dishName)))
+  fun getSearchDishes(
+    @RequestAttribute("userId") userId: String,
+    @RequestParam("dishName", required = false) dishName: String
+  ): DishesSearchResponse =
+    DishesSearchResponse(dishResponseMapper.toSearchResponse(dishUseCaseImpl.getSearchDishes(userId, dishName)))
 
   /**
    * 料理材料一覧取得API

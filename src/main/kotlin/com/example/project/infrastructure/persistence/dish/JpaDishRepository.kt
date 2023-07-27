@@ -16,8 +16,11 @@ interface JpaDishRepository : DishRepository, JpaRepository<Dish, String> {
   @Query("select d from Dish d where d.user.userId = :userId order by d.createTimestamp desc")
   override fun findAllByOrderByCreateTimestampDesc(@Param("userId") userId: String): List<Dish>
 
-  @Query("select d from Dish d where d.dishName like %?1% order by d.createTimestamp desc")
-  override fun findByDishNameContainingOrderByCreateTimestampDesc(dishName: String): List<Dish>
+  @Query("select d from Dish d where d.user.userId = :userId and d.dishName like %:dishName% order by d.createTimestamp desc")
+  override fun findByDishNameContainingOrderByCreateTimestampDesc(
+    @Param("userId") userId: String,
+    @Param("dishName") dishName: String?
+  ): List<Dish>
 
   @Query("select m from Dish d inner join Material m on d.dishId = m.dish.dishId where d.dishId = :dishId order by d.createTimestamp desc")
   override fun findByMaterialsOrderByCreateTimestampDesc(@Param("dishId") dishId: String): List<Material>

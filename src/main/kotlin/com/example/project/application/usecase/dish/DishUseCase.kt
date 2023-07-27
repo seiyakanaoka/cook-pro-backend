@@ -12,7 +12,7 @@ interface DishUseCase {
 
   fun getDish(dishId: String): DishDTO
 
-  fun getSearchDishes(dishName: String): List<DishSearchDTO>
+  fun getSearchDishes(userId: String, dishName: String?): List<DishSearchDTO>
 
   fun getMaterials(dishId: String): MaterialsDTO
 

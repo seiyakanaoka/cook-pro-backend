@@ -47,8 +47,8 @@ class DishUseCaseImpl(
   /**
    * 料理一覧をサジェスト検索用に加工する
    */
-  override fun getSearchDishes(dishName: String): List<DishSearchDTO> =
-    dishRepository.findByDishNameContainingOrderByCreateTimestampDesc(dishName)
+  override fun getSearchDishes(userId: String, dishName: String?): List<DishSearchDTO> =
+    dishRepository.findByDishNameContainingOrderByCreateTimestampDesc(userId, dishName)
       .map { it -> DishSearchDTO(it.dishId, it.dishName) }
 
   /**
