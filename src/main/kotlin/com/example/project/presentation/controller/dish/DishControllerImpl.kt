@@ -26,10 +26,8 @@ class DishControllerImpl(
   fun getDishes(
     @RequestAttribute("userId") userId: String,
     @RequestParam(name = "categories", required = false) categories: List<CategoryEnum>?
-  ): DishesResponse? {
-    println("categories : $categories")
-    return DishesResponse(dishUseCaseImpl.getDishes(userId, categories))
-  }
+  ): DishesResponse? = DishesResponse(dishUseCaseImpl.getDishes(userId, categories))
+
 
   /**
    * 料理詳細取得API
