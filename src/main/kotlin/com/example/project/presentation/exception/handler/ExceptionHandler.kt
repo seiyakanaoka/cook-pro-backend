@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.client.HttpClientErrorException.Unauthorized
+import java.sql.SQLException
 
 @RestControllerAdvice
 class ExceptionHandler {
@@ -200,6 +201,26 @@ class ExceptionHandler {
     val status: HttpStatus = getStatus(request)
 
     val error = ApplicationError("入力エラー発生", status.value(), request.method);
+
+    return ResponseEntity<ApplicationError>(error, status);
+  }
+
+  /**
+   * 500 Error
+   * データベース接続例外
+   * */
+  @ExceptionHandler(SQLException::class)
+  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+  @ResponseBody
+  fun sqlException(
+    request: HttpServletRequest,
+    ex: SQLException
+  ): ResponseEntity<ApplicationError> {
+    log.error(ex.message)
+
+    val status: HttpStatus = getStatus(request)
+
+    val error = ApplicationError("データベース接続エラーが発生しました", status.value(), request.method);
 
     return ResponseEntity<ApplicationError>(error, status);
   }
