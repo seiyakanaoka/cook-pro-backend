@@ -114,7 +114,7 @@ class ExceptionHandler {
    * @valid, @RequestBodyがある場合のバリデーションで発生
    * */
   @ExceptionHandler(Unauthorized::class)
-  @ResponseStatus(HttpStatus.UNAUTHORIZED)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
   @ResponseBody
   fun unauthorizedException(
     request: HttpServletRequest,
@@ -124,27 +124,7 @@ class ExceptionHandler {
 
     val error = ex.message?.let { ApplicationError(it, HttpStatus.BAD_REQUEST.value(), request.method) };
 
-    return ResponseEntity<ApplicationError>(error, HttpStatus.UNAUTHORIZED);
-  }
-
-  /**
-   * 401 Error
-   * HTTPメソッドとリクエスト内容が一致しない場合の例外
-   * */
-  @ExceptionHandler(HttpRequestMethodNotSupportedException::class)
-  @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
-  @ResponseBody
-  fun invalidTokenException(
-    request: HttpServletRequest,
-    ex: HttpRequestMethodNotSupportedException
-  ): ResponseEntity<ApplicationError> {
-    log.error(ex.message)
-
-    val status: HttpStatus = getStatus(request)
-
-    val error = ApplicationError("リクエスト方法が間違っています", status.value(), request.method);
-
-    return ResponseEntity<ApplicationError>(error, status);
+    return ResponseEntity<ApplicationError>(error, HttpStatus.BAD_REQUEST);
   }
 
   /**
