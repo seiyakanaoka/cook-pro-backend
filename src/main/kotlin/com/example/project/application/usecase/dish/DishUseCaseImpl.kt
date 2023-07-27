@@ -25,15 +25,15 @@ class DishUseCaseImpl(
   /**
    * 料理一覧を取得する
    */
-  override fun getDishes(userId: String, categories: List<CategoryEnum>?): List<DishDTO>? {
+  override fun getDishes(userId: String, categories: List<CategoryEnum>?): List<DishesDTO>? {
     if (categories == null) {
       return dishRepository.findAllByOrderByCreateTimestampDesc(userId)
-        .map { it -> DishDTO(it.dishId, it.dishName, getDishImage(it.dishId), it.dishCreateRequiredTime) }
+        .map { it -> DishesDTO(it.dishId, it.dishName, getDishImage(it.dishId), it.dishCreateRequiredTime) }
     } else if (categories.isEmpty()) {
-      return listOf<DishDTO>()
+      return listOf<DishesDTO>()
     }
     return dishRepository.findByCategoriesCategoryIdInOrderByCreateTimestampDesc(categories.map { it -> it.name })
-      .map { it1 -> DishDTO(it1.dishId, it1.dishName, getDishImage(it1.dishId), it1.dishCreateRequiredTime) }
+      .map { it1 -> DishesDTO(it1.dishId, it1.dishName, getDishImage(it1.dishId), it1.dishCreateRequiredTime) }
   }
 
   /**

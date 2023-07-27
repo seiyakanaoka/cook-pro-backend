@@ -6,6 +6,6 @@ import lombok.Data
 data class DishDTO(
   val dishId: String,
   val dishName: String,
-  val image: List<DishImageDTO>,
+  val images: List<DishImageDTO>,
   val dishCreateRequiredTime: Int
 )

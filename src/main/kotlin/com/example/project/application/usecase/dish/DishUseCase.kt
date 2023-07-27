@@ -1,17 +1,14 @@
 package com.example.project.application.usecase.dish
 
 import com.amazonaws.services.s3.AmazonS3
-import com.example.project.application.dto.dish.DishDTO
-import com.example.project.application.dto.dish.DishImageDTO
-import com.example.project.application.dto.dish.DishProcessesDTO
-import com.example.project.application.dto.dish.DishSearchDTO
+import com.example.project.application.dto.dish.*
 import com.example.project.application.dto.material.MaterialsDTO
 import com.example.project.domain.enums.category.CategoryEnum
 
 interface DishUseCase {
   val s3: AmazonS3
 
-  fun getDishes(userId: String, categories: List<CategoryEnum>?): List<DishDTO>?
+  fun getDishes(userId: String, categories: List<CategoryEnum>?): List<DishesDTO>?
 
   fun getDish(dishId: String): DishDTO
 
