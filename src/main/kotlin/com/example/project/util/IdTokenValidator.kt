@@ -73,7 +73,7 @@ class IdTokenValidator {
       getVerifier(decodedJWT)?.verify(decodedJWT)
 
     } catch (e: Exception) {
-      throw InvalidTokenException(500, e.message)
+      throw InvalidTokenException(401, e.message)
     }
   }
 
@@ -90,13 +90,13 @@ class IdTokenValidator {
   @Throws(MalformedURLException::class, JwkException::class)
   private fun getVerifier(decodedToken: DecodedJWT): JWTVerifier? {
     if (decodedToken.expiresAt.time < Date().time) {
-      throw InvalidTokenException(500, "有効期限が切れています")
+      throw InvalidTokenException(401, "有効期限が切れています")
     }
 
     // synchronizedで複数スレッドが実行した場合、同期処理として扱うようにしてスレッドセーフにする
     synchronized(jwt) {
       if (decodedToken.expiresAt.time < Date().time) {
-        throw InvalidTokenException(500, "有効期限が切れています")
+        throw InvalidTokenException(401, "有効期限が切れています")
       }
       val http = UrlJwkProvider(URL(jwksUrl(decodedToken.issuer)))
       val provider = GuavaCachedJwkProvider(http)

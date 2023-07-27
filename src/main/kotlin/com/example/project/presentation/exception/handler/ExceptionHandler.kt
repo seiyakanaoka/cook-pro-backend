@@ -128,6 +128,26 @@ class ExceptionHandler {
   }
 
   /**
+   * 401 Error
+   * HTTPメソッドとリクエスト内容が一致しない場合の例外
+   * */
+  @ExceptionHandler(HttpRequestMethodNotSupportedException::class)
+  @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
+  @ResponseBody
+  fun invalidTokenException(
+    request: HttpServletRequest,
+    ex: HttpRequestMethodNotSupportedException
+  ): ResponseEntity<ApplicationError> {
+    log.error(ex.message)
+
+    val status: HttpStatus = getStatus(request)
+
+    val error = ApplicationError("リクエスト方法が間違っています", status.value(), request.method);
+
+    return ResponseEntity<ApplicationError>(error, status);
+  }
+
+  /**
    * 405 Error
    * HTTPメソッドとリクエスト内容が一致しない場合の例外
    * */
@@ -160,7 +180,7 @@ class ExceptionHandler {
   ): ResponseEntity<ApplicationError> {
     log.error(ex.message)
 
-    val error = ApplicationError("リクエストされた要素が見つかりません", HttpStatus.BAD_REQUEST.value(), request.method);
+    val error = ApplicationError("サーバーエラーが発生しました", HttpStatus.BAD_REQUEST.value(), request.method);
 
     return ResponseEntity<ApplicationError>(error, HttpStatus.BAD_REQUEST);
   }
@@ -180,7 +200,7 @@ class ExceptionHandler {
 
     val status: HttpStatus = getStatus(request)
 
-    val error = ApplicationError("数値に変換できない文字列です", status.value(), request.method);
+    val error = ApplicationError("サーバーエラーが発生しました", status.value(), request.method);
 
     return ResponseEntity<ApplicationError>(error, status);
   }
@@ -200,7 +220,7 @@ class ExceptionHandler {
 
     val status: HttpStatus = getStatus(request)
 
-    val error = ApplicationError("入力エラー発生", status.value(), request.method);
+    val error = ApplicationError("サーバーエラーが発生しました", status.value(), request.method);
 
     return ResponseEntity<ApplicationError>(error, status);
   }
@@ -220,7 +240,7 @@ class ExceptionHandler {
 
     val status: HttpStatus = getStatus(request)
 
-    val error = ApplicationError("データベース接続エラーが発生しました", status.value(), request.method);
+    val error = ApplicationError("サーバーエラーが発生しました", status.value(), request.method);
 
     return ResponseEntity<ApplicationError>(error, status);
   }
