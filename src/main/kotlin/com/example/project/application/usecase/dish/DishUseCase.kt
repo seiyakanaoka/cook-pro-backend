@@ -23,5 +23,7 @@ interface DishUseCase {
 
   fun getDishImages(dishId: String): List<DishImageDTO>
 
+  fun getDishImage(dishId: String): DishImageDTO
+
   fun getImageURL(objectKey: String): String
 }
