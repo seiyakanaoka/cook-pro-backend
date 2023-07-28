@@ -32,7 +32,9 @@ class DishUseCaseImpl(
     } else if (categories.isEmpty()) {
       return listOf<DishesDTO>()
     }
-    return dishRepository.findByCategoriesCategoryIdInOrderByCreateTimestampDesc(categories.map { it -> it.name })
+    return dishRepository.findByCategoryDishes(
+      userId,
+      categories.map { it -> it.name })
       .map { it1 -> DishesDTO(it1.dishId, it1.dishName, getDishImage(it1.dishId), it1.dishCreateRequiredTime) }
   }
 
