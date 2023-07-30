@@ -87,7 +87,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserSignupRequest'
+              $ref: '#/components/schemas/UserSignUpRequest'
       responses:
         '200':
           description: OK
@@ -464,7 +464,7 @@ paths:
                 $ref: '#/components/schemas/Forbidden'
 components:
   schemas:
-    UserSignupRequest:
+    UserSignUpRequest:
       type: object
       required:
         - lastName
@@ -524,12 +524,12 @@ components:
     UserResponse:
       type: object
       required:
-        - userName
+        - name
         - image
         - email
         - telNumber
       properties:
-        userName:
+        name:
           type: string
           description: ユーザー名
           example: リョーリタロー
@@ -545,6 +545,10 @@ components:
           type: string
           description: 電話番号
           example: 000-0000-0000
+        nickname:
+          type: string
+          description: 表示用ユーザ名（ニックネーム）
+          example: タロー
     DishFavoriteRequest:
       type: object
       required:
