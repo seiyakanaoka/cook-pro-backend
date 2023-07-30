@@ -4,6 +4,7 @@ import com.example.project.application.usecase.user.UserUseCase
 import com.example.project.presentation.form.user.UserForm
 import com.example.project.presentation.form.user.UserNameForm
 import com.example.project.presentation.mapper.user.UserFormMapper
+import com.example.project.presentation.response.user.UserResponse
 import lombok.RequiredArgsConstructor
 import org.springframework.web.bind.annotation.*
 
@@ -26,7 +27,7 @@ class UserControllerImpl(private val userUseCase: UserUseCase, private val userM
    * ユーザー取得API
    */
   @GetMapping("/user")
-  override fun getUser(@RequestAttribute("userId") userId: String) = userUseCase.getUser(userId)
+  override fun getUser(@RequestAttribute("userId") userId: String): UserResponse = userUseCase.getUser(userId)
 
   /**
    * ユーザー情報編集API
