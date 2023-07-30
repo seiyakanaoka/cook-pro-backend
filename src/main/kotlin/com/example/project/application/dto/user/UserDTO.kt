@@ -7,6 +7,7 @@ data class UserDTO(
   val userName: String,
   val image: String?,
   val email: String,
-  val telNumber: String
+  val telNumber: String,
+  val displayUserName: String? = null,
 )
 

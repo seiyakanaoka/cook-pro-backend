@@ -31,7 +31,7 @@ interface JpaDishRepository : DishRepository, JpaRepository<Dish, String> {
   @Query("select di from Dish d inner join DishImage di on d.dishId = di.dish.dishId where d.dishId = :dishId")
   override fun findByDishImages(@Param("dishId") dishId: String): List<DishImage>
 
-  @Query("select d from Dish d inner join d.categories c where c.id in :categoryIds and d.user.userId = :userId")
+  @Query("select d from Dish d inner join d.categories c where c.id in :categoryIds and d.user.userId = :userId order by d.createTimestamp desc")
   override fun findByCategoryDishes(
     @Param("userId") userId: String,
     @Param("categoryIds") categoryIds: List<String>
