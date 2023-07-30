@@ -21,7 +21,8 @@ class UserMapper {
       user.userName,
       image,
       user.email,
-      user.telNumber
+      user.telNumber,
+      user.displayUserName
     )
   }
 }
