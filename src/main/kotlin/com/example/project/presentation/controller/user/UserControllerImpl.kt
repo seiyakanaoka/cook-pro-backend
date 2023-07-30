@@ -4,6 +4,7 @@ import com.example.project.application.usecase.user.UserUseCase
 import com.example.project.presentation.form.user.UserForm
 import com.example.project.presentation.form.user.UserNameForm
 import com.example.project.presentation.mapper.user.UserFormMapper
+import com.example.project.presentation.mapper.user.UserResponseMapper
 import com.example.project.presentation.response.user.UserResponse
 import lombok.RequiredArgsConstructor
 import org.springframework.web.bind.annotation.*
@@ -11,7 +12,11 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("api/v1")
 @RequiredArgsConstructor
-class UserControllerImpl(private val userUseCase: UserUseCase, private val userMapper: UserFormMapper) :
+class UserControllerImpl(
+  private val userUseCase: UserUseCase,
+  private val userMapper: UserFormMapper,
+  private val userResponseMapper: UserResponseMapper
+) :
   UserController {
   /**
    * 新規登録API
@@ -27,7 +32,8 @@ class UserControllerImpl(private val userUseCase: UserUseCase, private val userM
    * ユーザー取得API
    */
   @GetMapping("/user")
-  override fun getUser(@RequestAttribute("userId") userId: String): UserResponse = userUseCase.getUser(userId)
+  override fun getUser(@RequestAttribute("userId") userId: String): UserResponse =
+    userResponseMapper.toResponse(userUseCase.getUser(userId))
 
   /**
    * ユーザー情報編集API
