@@ -1,13 +1,12 @@
-package com.example.project.application.dto.user
+package com.example.project.presentation.response.user
 
 import lombok.Data
 
 @Data
-data class UserDTO(
-  val userName: String,
+data class UserResponse(
+  val name: String,
   val image: String?,
   val email: String,
   val telNumber: String,
   val displayUserName: String? = null,
 )
-
