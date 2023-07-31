@@ -1,5 +1,6 @@
 package com.example.project.presentation.mapper.dish
 
+import com.example.project.application.dto.dish.DishDTO
 import com.example.project.application.dto.dish.DishSearchDTO
 import com.example.project.application.dto.dish.DishesDTO
 import com.example.project.presentation.response.dish.*
@@ -19,11 +20,23 @@ class DishResponseMapper {
         it.dishCreateRequiredTime
       )
     })
-
   }
 
   fun toSearchResponse(dishesSearch: List<DishSearchDTO>): DishesSearchResponse {
     val dishesSearchResponse = dishesSearch.map { it -> DishSearchResponse(it.dishId, it.dishName) }
     return DishesSearchResponse(dishesSearchResponse)
+  }
+
+  fun toDetailResponse(dishDTO: DishDTO): DishDetailResponse {
+    val newImages = dishDTO.images.map { it -> DishImageResponse(it.dishImageId, it.dishImageUrl) }
+    return DishDetailResponse(
+      dishDTO.dishId,
+      dishDTO.dishName,
+      newImages,
+      dishDTO.dishCreateRequiredTime,
+//      TODO: falseをやめる
+      false,
+      dishDTO.categories
+    )
   }
 }

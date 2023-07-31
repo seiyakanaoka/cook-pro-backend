@@ -10,13 +10,13 @@ interface DishUseCase {
 
   fun getDishes(userId: String, categories: List<CategoryEnum>?): List<DishesDTO>?
 
-  fun getDish(dishId: String): DishDTO
+  fun getDish(userId: String, dishId: String): DishDTO
 
   fun getSearchDishes(userId: String, dishName: String?): List<DishSearchDTO>
 
   fun getMaterials(dishId: String): MaterialsDTO
 
-  fun getProcesses(dishId: String): DishProcessesDTO
+  fun getProcesses(userId: String, dishId: String): DishProcessesDTO
 
   fun getDishImages(dishId: String): List<DishImageDTO>
 

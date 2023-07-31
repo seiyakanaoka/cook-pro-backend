@@ -41,9 +41,10 @@ class DishUseCaseImpl(
   /**
    * 料理詳細を取得する
    */
-  override fun getDish(dishId: String): DishDTO {
-    val dish = dishRepository.findById(dishId).orElseThrow { RuntimeException() }
-    return DishDTO(dish.dishId, dish.dishName, getDishImages(dishId), dish.dishCreateRequiredTime)
+  override fun getDish(userId: String, dishId: String): DishDTO {
+    val dish = dishRepository.findByDishWithCategories(userId, dishId).orElseThrow { RuntimeException("料理が見つかりません") }
+
+    return DishDTO(dish.dishId, dish.dishName, getDishImages(dish.dishId), dish.dishCreateRequiredTime, dish.categories)
   }
 
   /**
@@ -64,10 +65,10 @@ class DishUseCaseImpl(
   /**
    * 料理に紐づいた料理工程を取得する
    */
-  override fun getProcesses(dishId: String): DishProcessesDTO {
+  override fun getProcesses(userId: String, dishId: String): DishProcessesDTO {
     val processes = dishRepository.findByProcesses(dishId)
       .map { it -> DishProcessDTO(it.dishProcessId, it.dishProcessText) }
-    val dish = getDish(dishId)
+    val dish = getDish(userId, dishId)
     return DishProcessesDTO(processes, dish.dishName)
   }
 

@@ -9,12 +9,19 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
+import java.util.*
 
 
 @Repository
 interface JpaDishRepository : DishRepository, JpaRepository<Dish, String> {
   @Query("select d from Dish d where d.user.userId = :userId order by d.createTimestamp desc")
   override fun findAllByOrderByCreateTimestampDesc(@Param("userId") userId: String): List<Dish>
+
+  @Query("select distinct d from Dish d left join d.categories dc where d.user.userId = :userId and d.dishId = :dishId")
+  override fun findByDishWithCategories(
+    @Param("userId") userId: String,
+    @Param("dishId") dishId: String
+  ): Optional<Dish>
 
   @Query("select d from Dish d where d.user.userId = :userId and d.dishName like %:dishName% order by d.createTimestamp desc")
   override fun findByDishNameContainingOrderByCreateTimestampDesc(
