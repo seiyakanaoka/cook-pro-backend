@@ -9,5 +9,5 @@ data class DishDTO(
   val dishName: String,
   val images: List<DishImageDTO>,
   val dishCreateRequiredTime: Int,
-  val categories: MutableSet<Category>
+  val categories: List<Category>
 )

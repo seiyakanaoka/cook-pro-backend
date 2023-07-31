@@ -1,5 +1,6 @@
 package com.example.project.infrastructure.persistence.dish
 
+import com.example.project.domain.model.category.Category
 import com.example.project.domain.model.dish.Dish
 import com.example.project.domain.model.dish.DishImage
 import com.example.project.domain.model.dish.DishProcess
@@ -17,11 +18,11 @@ interface JpaDishRepository : DishRepository, JpaRepository<Dish, String> {
   @Query("select d from Dish d where d.user.userId = :userId order by d.createTimestamp desc")
   override fun findAllByOrderByCreateTimestampDesc(@Param("userId") userId: String): List<Dish>
 
-  @Query("select distinct d from Dish d left join d.categories dc where d.user.userId = :userId and d.dishId = :dishId")
-  override fun findByDishWithCategories(
+  @Query("select c from Dish d join d.categories c where d.user.userId = :userId and d.dishId = :dishId")
+  override fun findByDishCategories(
     @Param("userId") userId: String,
     @Param("dishId") dishId: String
-  ): Optional<Dish>
+  ): List<Category>
 
   @Query("select d from Dish d where d.user.userId = :userId and d.dishName like %:dishName% order by d.createTimestamp desc")
   override fun findByDishNameContainingOrderByCreateTimestampDesc(

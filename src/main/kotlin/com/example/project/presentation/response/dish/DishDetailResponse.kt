@@ -1,6 +1,6 @@
 package com.example.project.presentation.response.dish
 
-import com.example.project.domain.model.category.Category
+import com.example.project.domain.enums.category.CategoryEnum
 import lombok.Data
 
 @Data
@@ -10,5 +10,5 @@ data class DishDetailResponse(
   val images: List<DishImageResponse>,
   val createRequiredTime: Int,
   val favoriteFlag: Boolean,
-  val categories: MutableSet<Category>
+  val categories: List<CategoryEnum>
 )

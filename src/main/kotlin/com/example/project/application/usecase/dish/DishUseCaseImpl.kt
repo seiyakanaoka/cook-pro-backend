@@ -42,9 +42,10 @@ class DishUseCaseImpl(
    * 料理詳細を取得する
    */
   override fun getDish(userId: String, dishId: String): DishDTO {
-    val dish = dishRepository.findByDishWithCategories(userId, dishId).orElseThrow { RuntimeException("料理が見つかりません") }
+    val dish = dishRepository.findById(dishId).orElseThrow { RuntimeException("料理が見つかりません") }
+    val categories = dishRepository.findByDishCategories(userId, dishId)
 
-    return DishDTO(dish.dishId, dish.dishName, getDishImages(dish.dishId), dish.dishCreateRequiredTime, dish.categories)
+    return DishDTO(dish.dishId, dish.dishName, getDishImages(dish.dishId), dish.dishCreateRequiredTime, categories)
   }
 
   /**

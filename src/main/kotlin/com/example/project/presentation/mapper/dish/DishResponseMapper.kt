@@ -36,7 +36,7 @@ class DishResponseMapper {
       dishDTO.dishCreateRequiredTime,
 //      TODO: falseをやめる
       false,
-      dishDTO.categories
+      dishDTO.categories.map { it -> it.categoryType }
     )
   }
 }
