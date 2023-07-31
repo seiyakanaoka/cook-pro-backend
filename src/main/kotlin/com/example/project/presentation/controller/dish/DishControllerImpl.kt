@@ -26,7 +26,10 @@ class DishControllerImpl(
   fun getDishes(
     @RequestAttribute("userId") userId: String,
     @RequestParam(name = "categories", required = false) categories: List<CategoryEnum>?
-  ): DishesResponse? = DishesResponse(dishUseCaseImpl.getDishes(userId, categories))
+  ): DishesResponse? {
+    val dishes = dishUseCaseImpl.getDishes(userId, categories)
+    return dishResponseMapper.toDishesResponse(dishes)
+  }
 
 
   /**
@@ -42,8 +45,10 @@ class DishControllerImpl(
   fun getSearchDishes(
     @RequestAttribute("userId") userId: String,
     @RequestParam("dishName", required = false) dishName: String
-  ): DishesSearchResponse =
-    DishesSearchResponse(dishResponseMapper.toSearchResponse(dishUseCaseImpl.getSearchDishes(userId, dishName)))
+  ): DishesSearchResponse {
+    val searchDishes = dishUseCaseImpl.getSearchDishes(userId, dishName)
+    return dishResponseMapper.toSearchResponse(searchDishes)
+  }
 
   /**
    * 料理材料一覧取得API
