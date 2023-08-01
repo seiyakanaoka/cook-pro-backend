@@ -462,6 +462,38 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Forbidden'
+  /image/upload:
+    post:
+      tags:
+        - Image
+      summary: 画像アップロードAPI
+      description: 画像をS3にアップロードして、IDを返す
+      responses:
+        '200':
+          description: |-
+            IDを返す
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImageResponse'
+        '400':
+          description: 不正リクエストエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestException'
+        '401':
+          description: 認証エラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        '403':
+          description: 操作権限エラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Forbidden'
 components:
   schemas:
     UserSignUpRequest:
@@ -614,18 +646,18 @@ components:
     DishDetailResponse:
       type: object
       required:
-        - dishId
-        - dishName
+        - id
+        - nane
         - images
         - categories
-        - dishCreateRequiredTime
+        - createRequiredTime
         - favoriteFlag
       properties:
-        dishId:
+        id:
           description: ID
           type: string
           example: f59fa544-abfe-423d-a20c-2799eed2d606
-        dishName:
+        name:
           description: 料理名
           type: string
           example: 季節の野菜たっぷりのカレー
@@ -636,11 +668,11 @@ components:
             type: object
             description: 画像
             properties:
-              dishImageId:
+              id:
                 type: string
                 description: 料理画像ID
                 example: f59fa544-abfe-423d-a20c-2799eed2d606
-              dishImageUrl:
+              url:
                 type: string
                 description: 料理画像パス
                 example: https://image.png
@@ -649,7 +681,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Category'
-        dishCreateRequiredTime:
+        createRequiredTime:
           description: 所要時間（分）
           type: number
           example: 20
@@ -739,6 +771,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Category'
+    ImageResponse:
+      type: object
+      properties:
+        id:
+          description: 画像ID
+          type: string
+          example: f59fa544-abfe-423d-a20c-2799eed2d606
     BadRequestException:
       type: object
       required:
