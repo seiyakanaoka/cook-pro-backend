@@ -32,7 +32,7 @@ class S3Impl(private val s3Config: S3Config) : S3 {
     val imageUrlRequest = GeneratePresignedUrlRequest(bucketName, objectKey)
       .withExpiration(expirationDate)
     val url: URL = s3Client.generatePresignedUrl(imageUrlRequest)
-//    s3Client.shutdown()
+
     return url.toString()
   }
 
@@ -41,7 +41,7 @@ class S3Impl(private val s3Config: S3Config) : S3 {
    * @param prefix 画像のprefix
    * @param multipartFile アップロードする画像
    */
-  override fun uploadImage(objectKey: String, multipartFile: MultipartFile): Unit {
+  override fun uploadImage(prefix: String, multipartFile: MultipartFile): String {
     // アップロードする画像のヘッダー情報
     val metadata = ObjectMetadata()
     metadata.contentLength = multipartFile.size
@@ -49,8 +49,12 @@ class S3Impl(private val s3Config: S3Config) : S3 {
 
     val inputStream = ByteArrayInputStream(multipartFile.bytes)
 
+    val objectKey = prefix + UUID.randomUUID().toString()
+
     val request = PutObjectRequest(bucketName, objectKey, inputStream, metadata)
+
     s3Client.putObject(request)
-//    s3Client.shutdown()
+
+    return objectKey
   }
 }

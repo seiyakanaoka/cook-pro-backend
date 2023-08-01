@@ -9,5 +9,5 @@ interface S3 {
 
   fun getImageURL(objectKey: String, expirationDate: Date? = Date(System.currentTimeMillis() + 3600000)): String
 
-  fun uploadImage(prefix: String, multipartFile: MultipartFile): Unit
+  fun uploadImage(prefix: String, multipartFile: MultipartFile): String
 }
