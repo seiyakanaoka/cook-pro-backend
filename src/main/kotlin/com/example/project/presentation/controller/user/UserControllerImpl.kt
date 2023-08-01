@@ -39,7 +39,7 @@ class UserControllerImpl(
   /**
    * ユーザー情報編集API
    */
-  @PatchMapping("/user")
+  @PutMapping("/user")
   override fun putUser(
     @RequestAttribute("userId") userId: String,
     @RequestBody userPatchForm: UserPatchForm
