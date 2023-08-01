@@ -16,10 +16,10 @@ data class User(
   @Column(name = "user_id", updatable = false, nullable = false)
   val userId: String,
   var userName: String,
-  val email: String,
-  val telNumber: String,
-  val displayUserName: String? = null,
-  val userImageKey: String? = null,
+  var email: String,
+  var telNumber: String,
+  var displayUserName: String? = null,
+  var userImageKey: String? = null,
   val createTimestamp: Timestamp? = Timestamp(Date().time),
   val updateTimestamp: Timestamp? = Timestamp(Date().time),
 )

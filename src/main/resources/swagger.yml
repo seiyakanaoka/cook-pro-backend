@@ -42,18 +42,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Forbidden'
-    patch:
+    put:
       tags:
         - User
-      summary: ユーザー名編集API
-      description: ユーザー名を編集する
+      summary: ユーザー情報編集API
+      description: ユーザー情報を編集する
       requestBody:
-        description: 編集するユーザー名
+        description: 編集するユーザー情報
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserNameRequest'
+              $ref: '#/components/schemas/PutUserRequest'
       responses:
         '200':
           description: OK
@@ -147,40 +147,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/BadRequestException'
-  /user/image:
-    post:
-      tags:
-        - User
-      summary: ユーザー画像変更API
-      description: ユーザーを新規登録する
-      requestBody:
-        description: 画像
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UserImageRequest'
-      responses:
-        '200':
-          description: OK
-        '400':
-          description: 不正リクエストエラー
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BadRequestException'
-        '401':
-          description: 認証エラー
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Unauthorized'
-        '403':
-          description: 操作権限エラー
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Forbidden'
   /dish:
     get:
       tags:
@@ -517,15 +483,28 @@ components:
           type: string
           description: 電話番号
           example: "000-0000-0000"
-    UserNameRequest:
+    PutUserRequest:
       type: object
       required:
-        - userName
+        - email
+        - telNumber
       properties:
-        userName:
+        email:
           type: string
-          description: ユーザー名
+          description: Eメール
+          example: hoge@hoge.com
+        telNumber:
+          type: string
+          description: 電話番号
+          example: "00000000000"
+        displayName:
+          type: string
+          description: 表示用ユーザー名
           example: リョーリタロー
+        imageId:
+          type: string
+          description: 画像アップロードAPIカラ取得した画像ID
+          example: f59fa544-abfe-423d-a20c-2799eed2d606
     UserPasswordChangeMailRequest:
       type: object
       required:
@@ -544,15 +523,6 @@ components:
           type: string
           description: パスワード
           example: "**********"
-    UserImageRequest:
-      type: object
-      required:
-        - image
-      properties:
-        image:
-          type: string
-          format: binary
-          description: 画像のバイナリ
     UserResponse:
       type: object
       required:

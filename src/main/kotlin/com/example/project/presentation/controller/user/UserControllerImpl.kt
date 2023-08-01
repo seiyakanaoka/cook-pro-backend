@@ -1,8 +1,9 @@
 package com.example.project.presentation.controller.user
 
+import com.example.project.application.dto.user.UserPatchFormDTO
 import com.example.project.application.usecase.user.UserUseCase
 import com.example.project.presentation.form.user.UserForm
-import com.example.project.presentation.form.user.UserNameForm
+import com.example.project.presentation.form.user.UserPatchForm
 import com.example.project.presentation.mapper.user.UserFormMapper
 import com.example.project.presentation.mapper.user.UserResponseMapper
 import com.example.project.presentation.response.user.UserResponse
@@ -38,11 +39,17 @@ class UserControllerImpl(
   /**
    * ユーザー情報編集API
    */
-  @PatchMapping("/user")
-  override fun patchUser(
+  @PutMapping("/user")
+  override fun putUser(
     @RequestAttribute("userId") userId: String,
-    @RequestAttribute("email") email: String,
-    @RequestBody userNameForm: UserNameForm
-  ) =
-    userUseCase.patchUserName(userId, email, userNameForm)
+    @RequestBody userPatchForm: UserPatchForm
+  ) {
+    val userPatchFormDTO = UserPatchFormDTO(
+      userPatchForm.email,
+      userPatchForm.telNumber,
+      userPatchForm.displayName,
+      userPatchForm.imageId
+    )
+    userUseCase.putUser(userId, userPatchFormDTO)
+  }
 }

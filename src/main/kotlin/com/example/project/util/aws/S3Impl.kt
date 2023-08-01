@@ -32,11 +32,13 @@ class S3Impl(private val s3Config: S3Config) : S3 {
     val imageUrlRequest = GeneratePresignedUrlRequest(bucketName, objectKey)
       .withExpiration(expirationDate)
     val url: URL = s3Client.generatePresignedUrl(imageUrlRequest)
+
     return url.toString()
   }
 
   /**
    * S3に画像をアップロードする
+   * @param prefix 画像のprefix
    * @param multipartFile アップロードする画像
    */
   override fun uploadImage(prefix: String, multipartFile: MultipartFile): String {
