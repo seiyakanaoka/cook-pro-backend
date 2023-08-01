@@ -6,7 +6,7 @@ import lombok.Data
 data class UserPatchForm(
   val email: String,
   val telNumber: String,
-  val displayUserName: String?,
+  val displayName: String?,
   val imageId: String?,
 )
 

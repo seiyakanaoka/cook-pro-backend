@@ -47,7 +47,7 @@ class UserControllerImpl(
     val userPatchFormDTO = UserPatchFormDTO(
       userPatchForm.email,
       userPatchForm.telNumber,
-      userPatchForm.displayUserName,
+      userPatchForm.displayName,
       userPatchForm.imageId
     )
     userUseCase.putUser(userId, userPatchFormDTO)
