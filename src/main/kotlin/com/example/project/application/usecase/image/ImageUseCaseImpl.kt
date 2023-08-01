@@ -9,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile
 @RequiredArgsConstructor
 @Service
 class ImageUseCaseImpl(private val s3: S3) : ImageUseCase {
-  @Value("\${aws.s3.bucket.name.object-key-prefix}")
+  @Value("\${aws.s3.object-key-prefix}")
   private val userObjectKeyPrefix = ""
 
   override fun uploadImage(image: MultipartFile): String {
