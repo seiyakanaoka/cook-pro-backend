@@ -32,7 +32,6 @@ class S3Impl(private val s3Config: S3Config) : S3 {
     val imageUrlRequest = GeneratePresignedUrlRequest(bucketName, objectKey)
       .withExpiration(expirationDate)
     val url: URL = s3Client.generatePresignedUrl(imageUrlRequest)
-//    s3Client.shutdown()
     return url.toString()
   }
 
@@ -51,10 +50,9 @@ class S3Impl(private val s3Config: S3Config) : S3 {
     val objectKey = prefix + UUID.randomUUID().toString()
 
     val request = PutObjectRequest(bucketName, objectKey, inputStream, metadata)
-    
+
     s3Client.putObject(request)
 
-//    s3Client.shutdown()
     return objectKey
   }
 }
