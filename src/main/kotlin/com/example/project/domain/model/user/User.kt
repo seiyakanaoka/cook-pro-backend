@@ -19,7 +19,7 @@ data class User(
   var email: String,
   var telNumber: String,
   var displayUserName: String? = null,
-  val userImageKey: String? = null,
+  var userImageKey: String? = null,
   val createTimestamp: Timestamp? = Timestamp(Date().time),
   val updateTimestamp: Timestamp? = Timestamp(Date().time),
 )

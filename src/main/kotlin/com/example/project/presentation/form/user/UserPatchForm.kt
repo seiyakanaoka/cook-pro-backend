@@ -7,6 +7,6 @@ data class UserPatchForm(
   val email: String,
   val telNumber: String,
   val displayUserName: String?,
-  val userImage: String?,
+  val imageId: String?,
 )
 

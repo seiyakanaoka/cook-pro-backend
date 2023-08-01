@@ -40,7 +40,7 @@ class UserControllerImpl(
    * ユーザー情報編集API
    */
   @PatchMapping("/user")
-  override fun patchUser(
+  override fun putUser(
     @RequestAttribute("userId") userId: String,
     @RequestBody userPatchForm: UserPatchForm
   ) {
@@ -48,8 +48,8 @@ class UserControllerImpl(
       userPatchForm.email,
       userPatchForm.telNumber,
       userPatchForm.displayUserName,
-      userPatchForm.userImage
+      userPatchForm.imageId
     )
-    userUseCase.patchUserName(userId, userPatchFormDTO)
+    userUseCase.putUser(userId, userPatchFormDTO)
   }
 }

@@ -11,7 +11,7 @@ interface UserController {
 
   fun getUser(@RequestAttribute("userId") userId: String): UserResponse
 
-  fun patchUser(
+  fun putUser(
     @RequestAttribute("userId") userId: String,
     @RequestBody userPatchForm: UserPatchForm
   ): Unit

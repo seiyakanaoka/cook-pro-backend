@@ -10,5 +10,5 @@ interface UserUseCase {
 
   fun getUser(userId: String): UserDTO
 
-  fun patchUser(userId: String, userPatchFormDTO: UserPatchFormDTO): Unit
+  fun putUser(userId: String, userPatchFormDTO: UserPatchFormDTO): Unit
 }
