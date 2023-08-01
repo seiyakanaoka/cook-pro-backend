@@ -1,5 +1,6 @@
 package com.example.project.presentation.controller.user
 
+import com.example.project.application.dto.user.UserPatchFormDTO
 import com.example.project.application.usecase.user.UserUseCase
 import com.example.project.presentation.form.user.UserForm
 import com.example.project.presentation.form.user.UserPatchForm
@@ -42,6 +43,13 @@ class UserControllerImpl(
   override fun patchUser(
     @RequestAttribute("userId") userId: String,
     @RequestBody userPatchForm: UserPatchForm
-  ) =
-    userUseCase.patchUserName(userId, userPatchForm)
+  ) {
+    val userPatchFormDTO = UserPatchFormDTO(
+      userPatchForm.email,
+      userPatchForm.telNumber,
+      userPatchForm.displayUserName,
+      userPatchForm.userImage
+    )
+    userUseCase.patchUserName(userId, userPatchFormDTO)
+  }
 }

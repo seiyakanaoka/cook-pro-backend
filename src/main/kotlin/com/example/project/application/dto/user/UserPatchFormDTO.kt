@@ -1,12 +1,11 @@
-package com.example.project.presentation.form.user
+package com.example.project.application.dto.user
 
 import lombok.Data
 
 @Data
-data class UserPatchForm(
+data class UserPatchFormDTO(
   val email: String,
   val telNumber: String,
   val displayUserName: String?,
   val userImage: String?,
 )
-
