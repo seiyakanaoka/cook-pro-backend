@@ -6,7 +6,7 @@ import com.example.project.application.mapper.user.UserMapper
 import com.example.project.config.aws.CognitoConfig
 import com.example.project.config.aws.S3Config
 import com.example.project.domain.repository.user.UserRepository
-import com.example.project.presentation.form.user.UserNameForm
+import com.example.project.presentation.form.user.UserPatchForm
 import lombok.RequiredArgsConstructor
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
@@ -52,7 +52,7 @@ class UserUseCaseImpl(
    * ユーザー名編集
    * TODO: CognitoもしくはDBへの変更が失敗した場合、両方とも変更しない構造にする
    */
-  override fun patchUserName(userId: String, email: String, userNameForm: UserNameForm) {
+  override fun patchUserName(userId: String, email: String, userNameForm: UserPatchForm) {
     val user = userRepository.findById(userId).orElseThrow() { RuntimeException() }
     user.userName = userNameForm.userName
     userRepository.save(user)

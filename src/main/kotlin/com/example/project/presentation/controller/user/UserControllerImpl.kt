@@ -2,7 +2,7 @@ package com.example.project.presentation.controller.user
 
 import com.example.project.application.usecase.user.UserUseCase
 import com.example.project.presentation.form.user.UserForm
-import com.example.project.presentation.form.user.UserNameForm
+import com.example.project.presentation.form.user.UserPatchForm
 import com.example.project.presentation.mapper.user.UserFormMapper
 import com.example.project.presentation.mapper.user.UserResponseMapper
 import com.example.project.presentation.response.user.UserResponse
@@ -41,8 +41,7 @@ class UserControllerImpl(
   @PatchMapping("/user")
   override fun patchUser(
     @RequestAttribute("userId") userId: String,
-    @RequestAttribute("email") email: String,
-    @RequestBody userNameForm: UserNameForm
+    @RequestBody userPatchForm: UserPatchForm
   ) =
-    userUseCase.patchUserName(userId, email, userNameForm)
+    userUseCase.patchUserName(userId, userPatchForm)
 }
