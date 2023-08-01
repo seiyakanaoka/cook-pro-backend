@@ -496,7 +496,7 @@ components:
         telNumber:
           type: string
           description: 電話番号
-          example: 00000000000
+          example: "00000000000"
         displayName:
           type: string
           description: 表示用ユーザー名
