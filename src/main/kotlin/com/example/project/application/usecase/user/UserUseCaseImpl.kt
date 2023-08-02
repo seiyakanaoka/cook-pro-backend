@@ -45,7 +45,10 @@ class UserUseCaseImpl(
     user.displayUserName = userPatchFormDTO.displayUserName
     user.email = userPatchFormDTO.email
     user.telNumber = userPatchFormDTO.telNumber
-    user.userImageKey = userPatchFormDTO.imageId
+    // S3のurlの場合はスルーさせる
+    if (userPatchFormDTO.imageId?.contains("https://cook-pro-") == false) {
+      user.userImageKey = userPatchFormDTO.imageId
+    }
     userRepository.save(user)
   }
 }
