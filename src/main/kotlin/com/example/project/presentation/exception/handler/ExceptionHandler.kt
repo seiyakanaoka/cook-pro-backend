@@ -47,7 +47,7 @@ class ExceptionHandler {
 
   /**
    * 400 Error　独自例外
-   * タイトルが既にDBに存在する場合に発生
+   * ユーザーが存在しない場合に発生
    * */
   @ExceptionHandler(UserNotExistsException::class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
