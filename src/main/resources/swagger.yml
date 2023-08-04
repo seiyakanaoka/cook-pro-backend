@@ -207,7 +207,19 @@ paths:
               $ref: '#/components/schemas/PostDishRequest'
       responses:
         '200':
-          description: OK
+          description: |-
+            料理idを返す
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - id
+                properties:
+                  id:
+                    type: string
+                    description: 料理id
+                    example: f59fa544-abfe-423d-a20c-2799eed2d606
         '400':
           description: 不正リクエストエラー
           content:
