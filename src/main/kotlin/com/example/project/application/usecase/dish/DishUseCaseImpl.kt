@@ -38,6 +38,13 @@ class DishUseCaseImpl(
   }
 
   /**
+   * 料理を登録する
+   */
+  override fun postDish(userId: String, dishFormDTO: DishFormDTO): String {
+    return "id"
+  }
+
+  /**
    * 料理詳細を取得する
    */
   override fun getDish(userId: String, dishId: String): DishDTO {
