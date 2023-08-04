@@ -5,6 +5,6 @@ import lombok.Data
 
 @Data
 data class DishCategoryForm(
-  val categoryId: CategoryEnum,
+  val categoryId: String,
   val categoryType: CategoryEnum
 )

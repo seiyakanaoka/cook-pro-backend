@@ -57,7 +57,7 @@ create table if not exists category (
 );
 
 create table if not exists dish_category (
-  dish_category_id varchar(36) not null primary key comment '料理とカテゴリーの中間ID',
+  dish_category_id bigint auto_increment not null primary key comment '料理とカテゴリーの中間ID',
   dish_id varchar(36) not null comment '料理ID',
   category_id varchar(255) not null comment 'カテゴリーID',
   create_timestamp timestamp default current_timestamp comment '作成日時',

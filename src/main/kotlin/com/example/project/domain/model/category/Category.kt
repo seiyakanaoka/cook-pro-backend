@@ -15,5 +15,5 @@ data class Category(
   val categoryId: String = UUID.randomUUID().toString(),
   @Enumerated(EnumType.STRING)
   val categoryType: CategoryEnum,
-  @ManyToMany(mappedBy = "categories") var dishes: MutableSet<Dish> = mutableSetOf()
+  @ManyToMany(mappedBy = "categories") var dishes: MutableList<Dish> = mutableListOf()
 )

@@ -14,14 +14,14 @@ data class Material(
   @Id
   @Column(name = "id", updatable = false, nullable = false)
   val id: String = UUID.randomUUID().toString(),
-  @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "dish_id") val dish: Dish,
   val name: String,
   val quantity: Int,
   // ENUMを適切な値に変換するための設定（設定しない場合「Cannot determine value type from string ''」が発生する）
   @Enumerated(EnumType.STRING)
   val unit: MaterialEnum,
+  @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "dish_id") val dish: Dish,
   val createTimestamp: Timestamp? = Timestamp(
     Date().time
   ),
-  val updateTimestamp: Timestamp? = Timestamp(Date().time)
+  val updateTimestamp: Timestamp? = Timestamp(Date().time),
 )
