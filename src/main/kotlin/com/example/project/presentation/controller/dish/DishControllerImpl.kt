@@ -3,11 +3,9 @@ package com.example.project.presentation.controller.dish
 import com.example.project.application.dto.dish.DishProcessesDTO
 import com.example.project.application.usecase.dish.DishUseCaseImpl
 import com.example.project.domain.enums.category.CategoryEnum
+import com.example.project.presentation.form.dish.DishForm
 import com.example.project.presentation.mapper.dish.DishResponseMapper
-import com.example.project.presentation.response.dish.DishDetailResponse
-import com.example.project.presentation.response.dish.DishMaterialsResponse
-import com.example.project.presentation.response.dish.DishesResponse
-import com.example.project.presentation.response.dish.DishesSearchResponse
+import com.example.project.presentation.response.dish.*
 import lombok.RequiredArgsConstructor
 import org.springframework.web.bind.annotation.*
 
@@ -31,6 +29,15 @@ class DishControllerImpl(
     return dishResponseMapper.toDishesResponse(dishes)
   }
 
+  /**
+   * 料理登録API
+   */
+  @PostMapping("/dish")
+  override fun postDish(@RequestAttribute("userId") userId: String, @RequestBody dishForm: DishForm): PostDishResponse {
+    val dishFormDTO = dishResponseMapper.toDishFormDTO(dishForm);
+    val dishId = dishUseCaseImpl.postDish(userId, dishFormDTO);
+    return PostDishResponse(dishId)
+  }
 
   /**
    * 料理詳細取得API

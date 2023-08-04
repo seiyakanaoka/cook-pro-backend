@@ -12,6 +12,8 @@ interface DishUseCase {
 
   fun getDish(userId: String, dishId: String): DishDTO
 
+  fun postDish(userId: String, dishFormDTO: DishFormDTO): String
+
   fun getSearchDishes(userId: String, dishName: String?): List<DishSearchDTO>
 
   fun getMaterials(dishId: String): List<MaterialDTO>

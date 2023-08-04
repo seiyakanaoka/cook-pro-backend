@@ -5,5 +5,5 @@ import lombok.Data
 
 @Data
 data class DishMaterialsResponse(
-  val material: List<MaterialResponse>
+  val materials: List<MaterialResponse>
 )

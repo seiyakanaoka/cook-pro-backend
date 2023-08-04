@@ -193,6 +193,51 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Forbidden'
+    post:
+      tags:
+        - Dish
+      summary: 料理登録API
+      description: 料理登録を行うAPI
+      requestBody:
+        description: 新規登録する料理情報
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostDishRequest'
+      responses:
+        '200':
+          description: |-
+            料理idを返す
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - id
+                properties:
+                  id:
+                    type: string
+                    description: 料理id
+                    example: f59fa544-abfe-423d-a20c-2799eed2d606
+        '400':
+          description: 不正リクエストエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestException'
+        '401':
+          description: 認証エラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        '403':
+          description: 操作権限エラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Forbidden'
 
   /dish/search:
     get:
@@ -434,6 +479,16 @@ paths:
         - Image
       summary: 画像アップロードAPI
       description: 画像をS3にアップロードして、IDを返す
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
       responses:
         '200':
           description: |-
@@ -591,6 +646,49 @@ components:
           description: 所要時間（分）
           type: number
           example: 20
+    PostDishRequest:
+      type: object
+      required:
+        - dishName
+        - createRequiredTime
+        - imageIds
+        - materials
+        - category
+      properties:
+        dishName:
+          type: string
+          description: 料理名
+          example: お好み焼き
+        createRequiredTime:
+          type: number
+          description: 所要時間
+          example: 20
+        imageIds:
+          description: 画像アップロードAPIで取得したid配列
+          type: array
+          items:
+            type: string
+            example: f59fa544-abfe-423d-a20c-2799eed2d606
+        materials:
+          type: array
+          items:
+            $ref: '#/components/schemas/PostMaterialRequest'
+        category:
+          type: array
+          items:
+            type: object
+            required:
+              - dishId
+              - dishName
+            properties:
+              categoryId:
+                description: カテゴリーID
+                type: string
+                example: JAPAN_FOOD
+              categoryType:
+                description: カテゴリータイプ
+                type: string
+                example: JAPAN_FOOD
     DishesSearchResponse:
       type: object
       properties:
@@ -693,6 +791,26 @@ components:
       type: object
       description: 材料
       properties:
+        id:
+          type: string
+          description: 材料ID
+          example: f59fa544-abfe-423d-a20c-2799eed2d606
+        name:
+          type: string
+          description: 材料名
+          example: にんじん
+        quantity:
+          type: number
+          description: 個数
+          example: 2
+        unit:
+          type: string
+          description: 単位
+          example: 大さじ
+    PostMaterialRequest:
+      type: object
+      description: 材料
+      properties:
         materialId:
           type: string
           description: 材料ID
@@ -700,7 +818,15 @@ components:
         materialName:
           type: string
           description: 材料名
-          example: にんじん2本
+          example: にんじん
+        quantity:
+          type: number
+          description: 個数
+          example: 2
+        unit:
+          type: string
+          description: 単位
+          example: UNIT
     CategoryResponse:
       $ref: '#/components/schemas/Categories'
     Category:
