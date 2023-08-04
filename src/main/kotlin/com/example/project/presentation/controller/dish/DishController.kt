@@ -20,7 +20,7 @@ interface DishController {
 
   fun getDish(@RequestAttribute("userId") userId: String, @PathVariable dishId: String): DishDetailResponse
 
-  fun postDish(@RequestAttribute("userId") userId: String, @RequestBody dishForm: DishForm): DishDetailResponse
+  fun postDish(@RequestAttribute("userId") userId: String, @RequestBody dishForm: DishForm): Unit
 
   fun getSearchDishes(
     @RequestAttribute("userId") userId: String,
