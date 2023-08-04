@@ -1,11 +1,11 @@
 package com.example.project.presentation.controller.dish
 
 import com.example.project.application.dto.dish.DishProcessesDTO
-import com.example.project.application.dto.material.MaterialsDTO
 import com.example.project.application.usecase.dish.DishUseCaseImpl
 import com.example.project.domain.enums.category.CategoryEnum
 import com.example.project.presentation.mapper.dish.DishResponseMapper
 import com.example.project.presentation.response.dish.DishDetailResponse
+import com.example.project.presentation.response.dish.DishMaterialsResponse
 import com.example.project.presentation.response.dish.DishesResponse
 import com.example.project.presentation.response.dish.DishesSearchResponse
 import lombok.RequiredArgsConstructor
@@ -55,8 +55,10 @@ class DishControllerImpl(
    * 料理材料一覧取得API
    */
   @GetMapping("/dish/{dishId}/material")
-  override fun getMaterials(@PathVariable dishId: String): MaterialsDTO =
-    dishUseCaseImpl.getMaterials(dishId)
+  override fun getMaterials(@PathVariable dishId: String): DishMaterialsResponse {
+    val dishMaterials = dishUseCaseImpl.getMaterials(dishId)
+    return dishResponseMapper.toDishMaterials(dishMaterials)
+  }
 
   /**
    * 料理工程取得API

@@ -2,7 +2,6 @@ package com.example.project.application.usecase.dish
 
 import com.example.project.application.dto.dish.*
 import com.example.project.application.dto.material.MaterialDTO
-import com.example.project.application.dto.material.MaterialsDTO
 import com.example.project.config.aws.S3Config
 import com.example.project.domain.enums.category.CategoryEnum
 import com.example.project.domain.repository.dish.DishRepository
@@ -58,10 +57,9 @@ class DishUseCaseImpl(
   /**
    * 料理に紐づいた材料一覧を取得する
    */
-  override fun getMaterials(dishId: String): MaterialsDTO =
-    MaterialsDTO(
-      dishRepository.findByMaterialsOrderByCreateTimestampDesc(dishId)
-        .map { it -> MaterialDTO(it.materialId, it.materialName) })
+  override fun getMaterials(dishId: String): List<MaterialDTO> =
+    dishRepository.findByDishMaterials(dishId)
+      .map { it -> MaterialDTO(it.id, it.name, it.quantity, it.unit) }
 
   /**
    * 料理に紐づいた料理工程を取得する

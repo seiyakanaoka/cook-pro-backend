@@ -14,7 +14,7 @@ interface DishRepository {
   fun findByDishCategories(@Param("userId") userId: String, @Param("dishId") dishId: String): List<Category>
   fun findAllByOrderByCreateTimestampDesc(@Param("userId") userId: String): List<Dish>
   fun findByDishNameContainingOrderByCreateTimestampDesc(@Param("userId") userId: String, dishName: String?): List<Dish>
-  fun findByMaterialsOrderByCreateTimestampDesc(@Param("dishId") dishId: String): List<Material>
+  fun findByDishMaterials(@Param("dishId") dishId: String): List<Material>
   fun findByProcesses(@Param("dishId") dishId: String): List<DishProcess>
   fun findByDishImages(@Param("dishId") dishId: String): List<DishImage>
   fun findByCategoryDishes(

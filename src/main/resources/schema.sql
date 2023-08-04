@@ -23,11 +23,12 @@ create table if not exists dish (
   foreign key (user_id) references user (user_id) on delete cascade
 );
 
-
 create table if not exists material (
-  material_id varchar(36) not null primary key comment '材料ID',
+  id varchar(36) not null primary key comment '材料ID',
   dish_id varchar(36) not null comment '料理ID',
-  material_name varchar(255) not null comment '料理名',
+  name varchar(36) not null comment '材料名',
+  quantity bigint not null comment '個数',
+  unit varchar(36) not null comment '単位',
   create_timestamp timestamp default current_timestamp comment '作成日時',
   update_timestamp timestamp default current_timestamp on update current_timestamp comment '更新日時'
 );
