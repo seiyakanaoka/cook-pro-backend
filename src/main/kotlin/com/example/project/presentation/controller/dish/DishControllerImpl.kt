@@ -5,10 +5,7 @@ import com.example.project.application.usecase.dish.DishUseCaseImpl
 import com.example.project.domain.enums.category.CategoryEnum
 import com.example.project.presentation.form.dish.DishForm
 import com.example.project.presentation.mapper.dish.DishResponseMapper
-import com.example.project.presentation.response.dish.DishDetailResponse
-import com.example.project.presentation.response.dish.DishMaterialsResponse
-import com.example.project.presentation.response.dish.DishesResponse
-import com.example.project.presentation.response.dish.DishesSearchResponse
+import com.example.project.presentation.response.dish.*
 import lombok.RequiredArgsConstructor
 import org.springframework.web.bind.annotation.*
 
@@ -36,7 +33,8 @@ class DishControllerImpl(
    * 料理登録API
    */
   @GetMapping("/dish")
-  override fun postDish(@RequestAttribute("userId") userId: String, @RequestBody dishForm: DishForm) {
+  override fun postDish(@RequestAttribute("userId") userId: String, @RequestBody dishForm: DishForm): PostDishResponse {
+    return PostDishResponse("id")
   }
 
   /**
