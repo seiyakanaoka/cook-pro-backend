@@ -814,7 +814,7 @@ components:
         unit:
           type: string
           description: 単位
-          example: 大さじ
+          example: UNIT
     CategoryResponse:
       $ref: '#/components/schemas/Categories'
     Category:

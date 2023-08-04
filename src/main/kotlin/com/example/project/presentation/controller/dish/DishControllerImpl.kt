@@ -32,7 +32,7 @@ class DishControllerImpl(
   /**
    * 料理登録API
    */
-  @GetMapping("/dish")
+  @PostMapping("/dish")
   override fun postDish(@RequestAttribute("userId") userId: String, @RequestBody dishForm: DishForm): PostDishResponse {
     return PostDishResponse("id")
   }
