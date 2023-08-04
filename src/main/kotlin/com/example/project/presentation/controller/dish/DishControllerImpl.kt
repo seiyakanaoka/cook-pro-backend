@@ -1,6 +1,5 @@
 package com.example.project.presentation.controller.dish
 
-import com.example.project.application.dto.dish.DishFormDTO
 import com.example.project.application.dto.dish.DishProcessesDTO
 import com.example.project.application.usecase.dish.DishUseCaseImpl
 import com.example.project.domain.enums.category.CategoryEnum
@@ -35,13 +34,7 @@ class DishControllerImpl(
    */
   @PostMapping("/dish")
   override fun postDish(@RequestAttribute("userId") userId: String, @RequestBody dishForm: DishForm): PostDishResponse {
-    val dishFormDTO = DishFormDTO(
-      dishForm.dishName,
-      dishForm.createRequiredTime,
-      dishForm.imageIds,
-      dishForm.materials,
-      dishForm.category
-    )
+    val dishFormDTO = dishResponseMapper.toDishFormDTO(dishForm);
     val dishId = dishUseCaseImpl.postDish(userId, dishFormDTO);
     return PostDishResponse(dishId)
   }
