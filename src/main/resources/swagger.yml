@@ -676,7 +676,19 @@ components:
         category:
           type: array
           items:
-            $ref: '#/components/schemas/Category'
+            type: object
+            required:
+              - dishId
+              - dishName
+            properties:
+              categoryId:
+                description: カテゴリーID
+                type: string
+                example: JAPAN_FOOD
+              categoryType:
+                description: カテゴリータイプ
+                type: string
+                example: JAPAN_FOOD
     DishesSearchResponse:
       type: object
       properties:
