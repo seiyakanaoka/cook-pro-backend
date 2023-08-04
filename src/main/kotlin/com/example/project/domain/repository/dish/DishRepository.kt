@@ -12,6 +12,8 @@ import java.util.*
 
 
 interface DishRepository {
+  fun save(dish: Dish): Unit
+
   fun findById(dishId: String): Optional<Dish>
 
   fun findByDishCategories(@Param("userId") userId: String, @Param("dishId") dishId: String): List<Category>

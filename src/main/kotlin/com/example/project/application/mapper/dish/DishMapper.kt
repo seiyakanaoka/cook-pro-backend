@@ -8,7 +8,7 @@ import java.util.*
 
 @Component
 class DishMapper {
-  fun toDomainEntity(user: User, dishFormDTO: DishFormDTO): Dish {
+  fun toDishDomainEntity(user: User, dishFormDTO: DishFormDTO): Dish {
     val dishId = UUID.randomUUID().toString()
     return Dish(dishId, user, dishFormDTO.dishName, dishFormDTO.createRequiredTime)
   }

@@ -2,6 +2,7 @@ package com.example.project.application.usecase.dish
 
 import com.example.project.application.dto.dish.*
 import com.example.project.application.dto.material.MaterialDTO
+import com.example.project.application.mapper.dish.DishMapper
 import com.example.project.config.aws.S3Config
 import com.example.project.domain.enums.category.CategoryEnum
 import com.example.project.domain.repository.dish.DishRepository
@@ -14,7 +15,8 @@ import java.util.*
 @RequiredArgsConstructor
 class DishUseCaseImpl(
   private val dishRepository: DishRepository,
-  private val s3Client: S3Config
+  private val s3Client: S3Config,
+  private val dishMapper: DishMapper
 ) : DishUseCase {
   @Value("\${aws.s3.bucket.name}")
   private val bucketName = ""
@@ -41,7 +43,10 @@ class DishUseCaseImpl(
    * 料理を登録する
    */
   override fun postDish(userId: String, dishFormDTO: DishFormDTO): String {
-    return "id"
+    val user = dishRepository.findByDishesUser(userId)
+    val dish = dishMapper.toDishDomainEntity(user, dishFormDTO)
+    dishRepository.save(dish)
+    return dish.dishId
   }
 
   /**
