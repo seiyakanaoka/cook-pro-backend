@@ -17,8 +17,6 @@ import java.util.*
 
 @Repository
 interface JpaDishRepository : DishRepository, JpaRepository<Dish, String> {
-  override fun delete(dish: Dish): Unit
-
   @Query("select d from Dish d where d.user.userId = :userId order by d.createTimestamp desc")
   override fun findAllByOrderByCreateTimestampDesc(@Param("userId") userId: String): List<Dish>
 

@@ -51,6 +51,7 @@ class DishControllerImpl(
    */
   @DeleteMapping("/dish/{dishId}")
   override fun deleteDish(@PathVariable dishId: String): Unit {
+    dishUseCaseImpl.deleteDish(dishId)
   }
 
   /**
