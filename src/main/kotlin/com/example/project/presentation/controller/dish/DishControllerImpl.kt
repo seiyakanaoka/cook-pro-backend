@@ -57,6 +57,7 @@ class DishControllerImpl(
   @GetMapping("/dish/{dishId}/material")
   override fun getMaterials(@PathVariable dishId: String): DishMaterialsResponse {
     val dishMaterials = dishUseCaseImpl.getMaterials(dishId)
+    return dishResponseMapper.toDishMaterials(dishMaterials)
   }
 
   /**

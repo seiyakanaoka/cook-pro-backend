@@ -31,7 +31,7 @@ interface JpaDishRepository : DishRepository, JpaRepository<Dish, String> {
   ): List<Dish>
 
   @Query("select m from Dish d inner join Material m on d.dishId = m.dish.dishId where d.dishId = :dishId order by d.createTimestamp desc")
-  override fun findByMaterialsOrderByCreateTimestampDesc(@Param("dishId") dishId: String): List<Material>
+  override fun findByDishMaterials(@Param("dishId") dishId: String): List<Material>
 
   @Query("select dp from Dish d inner join DishProcess dp on d.dishId = dp.dish.dishId where d.dishId = :dishId")
   override fun findByProcesses(@Param("dishId") dishId: String): List<DishProcess>

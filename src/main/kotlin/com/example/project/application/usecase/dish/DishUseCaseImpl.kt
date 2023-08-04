@@ -58,7 +58,7 @@ class DishUseCaseImpl(
    * 料理に紐づいた材料一覧を取得する
    */
   override fun getMaterials(dishId: String): List<MaterialDTO> =
-    dishRepository.findByMaterialsOrderByCreateTimestampDesc(dishId)
+    dishRepository.findByDishMaterials(dishId)
       .map { it -> MaterialDTO(it.id, it.name, it.quantity, it.unit) }
 
   /**

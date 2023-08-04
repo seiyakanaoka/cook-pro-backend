@@ -26,9 +26,9 @@ create table if not exists dish (
 create table if not exists material (
   id varchar(36) not null primary key comment '材料ID',
   dish_id varchar(36) not null comment '料理ID',
-  name varchar(255) not null comment '材料名',
+  name varchar(36) not null comment '材料名',
   quantity bigint not null comment '個数',
-  unit varchar(255) not null comment '単位',
+  unit varchar(36) not null comment '単位',
   create_timestamp timestamp default current_timestamp comment '作成日時',
   update_timestamp timestamp default current_timestamp on update current_timestamp comment '更新日時'
 );
