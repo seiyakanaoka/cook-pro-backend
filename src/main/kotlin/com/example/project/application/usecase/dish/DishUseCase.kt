@@ -2,7 +2,7 @@ package com.example.project.application.usecase.dish
 
 import com.amazonaws.services.s3.AmazonS3
 import com.example.project.application.dto.dish.*
-import com.example.project.application.dto.material.MaterialsDTO
+import com.example.project.application.dto.material.MaterialDTO
 import com.example.project.domain.enums.category.CategoryEnum
 
 interface DishUseCase {
@@ -14,7 +14,7 @@ interface DishUseCase {
 
   fun getSearchDishes(userId: String, dishName: String?): List<DishSearchDTO>
 
-  fun getMaterials(dishId: String): MaterialsDTO
+  fun getMaterials(dishId: String): List<MaterialDTO>
 
   fun getProcesses(userId: String, dishId: String): DishProcessesDTO
 
