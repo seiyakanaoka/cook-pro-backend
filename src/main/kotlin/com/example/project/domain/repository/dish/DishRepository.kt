@@ -5,7 +5,8 @@ import com.example.project.domain.model.dish.Dish
 import com.example.project.domain.model.dish.DishImage
 import com.example.project.domain.model.dish.DishProcess
 import com.example.project.domain.model.material.Material
-import org.apache.catalina.User
+import com.example.project.domain.model.user.User
+
 import org.springframework.data.repository.query.Param
 import java.util.*
 

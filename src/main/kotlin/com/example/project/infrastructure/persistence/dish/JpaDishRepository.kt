@@ -5,7 +5,9 @@ import com.example.project.domain.model.dish.Dish
 import com.example.project.domain.model.dish.DishImage
 import com.example.project.domain.model.dish.DishProcess
 import com.example.project.domain.model.material.Material
+import com.example.project.domain.model.user.User
 import com.example.project.domain.repository.dish.DishRepository
+
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
@@ -44,4 +46,7 @@ interface JpaDishRepository : DishRepository, JpaRepository<Dish, String> {
     @Param("userId") userId: String,
     @Param("categoryIds") categoryIds: List<String>
   ): List<Dish>
+
+  @Query("select u from Dish d inner join User u on u.userId = dish.user.userId where u.userId = :userId")
+  override fun findByDishesUser(@Param("userId") userId: String): User
 }
