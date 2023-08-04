@@ -359,6 +359,91 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Forbidden'
+    put:
+      tags:
+        - Dish
+      summary: 料理編集API
+      description: 料理を編集するAPI
+      parameters:
+        - name: dishId
+          in: path
+          description: 料理ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: 新規登録する料理情報
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PutDishRequest'
+      responses:
+        '200':
+          description: |-
+            料理idを返す
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - id
+                properties:
+                  id:
+                    type: string
+                    description: 料理id
+                    example: f59fa544-abfe-423d-a20c-2799eed2d606
+        '400':
+          description: 不正リクエストエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestException'
+        '401':
+          description: 認証エラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        '403':
+          description: 操作権限エラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Forbidden'
+    delete:
+      tags:
+        - Dish
+      summary: 料理削除API
+      description: 料理を削除するAPI
+      parameters:
+        - name: dishId
+          in: path
+          description: 料理ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: 不正リクエストエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestException'
+        '401':
+          description: 認証エラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        '403':
+          description: 操作権限エラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Forbidden'
   /dish/{dishId}/process:
     get:
       tags:
@@ -647,6 +732,49 @@ components:
           type: number
           example: 20
     PostDishRequest:
+      type: object
+      required:
+        - dishName
+        - createRequiredTime
+        - imageIds
+        - materials
+        - category
+      properties:
+        dishName:
+          type: string
+          description: 料理名
+          example: お好み焼き
+        createRequiredTime:
+          type: number
+          description: 所要時間
+          example: 20
+        imageIds:
+          description: 画像アップロードAPIで取得したid配列
+          type: array
+          items:
+            type: string
+            example: f59fa544-abfe-423d-a20c-2799eed2d606
+        materials:
+          type: array
+          items:
+            $ref: '#/components/schemas/PostMaterialRequest'
+        category:
+          type: array
+          items:
+            type: object
+            required:
+              - dishId
+              - dishName
+            properties:
+              categoryId:
+                description: カテゴリーID
+                type: string
+                example: JAPAN_FOOD
+              categoryType:
+                description: カテゴリータイプ
+                type: string
+                example: JAPAN_FOOD
+    PutDishRequest:
       type: object
       required:
         - dishName
