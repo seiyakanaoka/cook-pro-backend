@@ -3,7 +3,9 @@ package com.example.project.presentation.mapper.dish
 import com.example.project.application.dto.dish.DishDTO
 import com.example.project.application.dto.dish.DishSearchDTO
 import com.example.project.application.dto.dish.DishesDTO
+import com.example.project.application.dto.material.MaterialDTO
 import com.example.project.presentation.response.dish.*
+import com.example.project.presentation.response.material.MaterialResponse
 import org.springframework.stereotype.Component
 
 @Component
@@ -38,5 +40,10 @@ class DishResponseMapper {
       false,
       dishDTO.categories.map { it -> it.categoryType }
     )
+  }
+
+  fun toDishMaterials(dishMaterialDTO: List<MaterialDTO>): DishMaterialsResponse {
+    val materialsResponse = dishMaterialDTO.map { it -> MaterialResponse(it.id, it.name, it.quantity, it.unit) }
+    return DishMaterialsResponse(materialsResponse)
   }
 }
