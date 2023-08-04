@@ -19,6 +19,8 @@ interface DishController {
 
   fun postDish(@RequestAttribute("userId") userId: String, @RequestBody dishForm: DishForm): PostDishResponse
 
+  fun deleteDish(@PathVariable dishId: String): Unit
+
   fun getSearchDishes(
     @RequestAttribute("userId") userId: String,
     @RequestParam("dishName") dishName: String

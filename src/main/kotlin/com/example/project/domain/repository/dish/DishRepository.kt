@@ -16,6 +16,8 @@ interface DishRepository {
 
   fun findById(dishId: String): Optional<Dish>
 
+  fun delete(dish: Dish): Unit
+
   fun findByDishCategories(@Param("userId") userId: String, @Param("dishId") dishId: String): List<Category>
 
   fun findAllByOrderByCreateTimestampDesc(@Param("userId") userId: String): List<Dish>

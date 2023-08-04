@@ -16,7 +16,7 @@ import java.util.*
 class DishUseCaseImpl(
   private val dishRepository: DishRepository,
   private val s3Client: S3Config,
-  private val dishMapper: DishMapper
+  private val dishMapper: DishMapper,
 ) : DishUseCase {
   @Value("\${aws.s3.bucket.name}")
   private val bucketName = ""
@@ -47,6 +47,14 @@ class DishUseCaseImpl(
     val dish = dishMapper.toDishDomainEntity(user, dishFormDTO)
     dishRepository.save(dish)
     return dish.dishId
+  }
+
+  /**
+   * 料理を削除する
+   */
+  override fun deleteDish(dishId: String): Unit {
+    val dish = dishRepository.findById(dishId).orElseThrow { RuntimeException("料理が存在しません") }
+    dishRepository.delete(dish)
   }
 
   /**
