@@ -47,6 +47,6 @@ interface JpaDishRepository : DishRepository, JpaRepository<Dish, String> {
     @Param("categoryIds") categoryIds: List<String>
   ): List<Dish>
 
-  @Query("select u from Dish d inner join User u on u.userId = dish.user.userId where u.userId = :userId")
+  @Query("select u from Dish d inner join User u on u.userId = d.user.userId where u.userId = :userId")
   override fun findByDishesUser(@Param("userId") userId: String): User
 }
