@@ -1,5 +1,6 @@
 package com.example.project.domain.model.material
 
+import com.example.project.domain.enums.material.MaterialEnum
 import com.example.project.domain.model.dish.Dish
 import jakarta.persistence.*
 import lombok.Data
@@ -12,9 +13,11 @@ import java.util.*
 data class Material(
   @Id
   @Column(name = "material_id", updatable = false, nullable = false)
-  val materialId: String = UUID.randomUUID().toString(),
+  val id: String = UUID.randomUUID().toString(),
   @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "dish_id") val dish: Dish,
-  val materialName: String,
+  val name: String,
+  val quantity: Int,
+  val unit: MaterialEnum,
   val createTimestamp: Timestamp? = Timestamp(
     Date().time
   ),

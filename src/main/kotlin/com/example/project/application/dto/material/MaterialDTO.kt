@@ -1,10 +1,12 @@
 package com.example.project.application.dto.material
 
+import com.example.project.domain.enums.material.MaterialEnum
 import lombok.Data
-import java.util.*
 
 @Data
 data class MaterialDTO(
-  val materialId: String = UUID.randomUUID().toString(),
-  val materialName: String,
+  val id: String,
+  val name: String,
+  val quantity: Int,
+  val unit: MaterialEnum,
 )
