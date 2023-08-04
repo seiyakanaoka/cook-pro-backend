@@ -47,6 +47,13 @@ class DishControllerImpl(
     dishResponseMapper.toDetailResponse(dishUseCaseImpl.getDish(userId, dishId))
 
   /**
+   * 料理削除API
+   */
+  @DeleteMapping("/dish/{dishId}")
+  override fun deleteDish(@PathVariable dishId: String): Unit {
+  }
+
+  /**
    * 料理検索一覧取得API
    */
   @GetMapping("/dish/search")
