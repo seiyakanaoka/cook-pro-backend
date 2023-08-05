@@ -50,6 +50,17 @@ class DishUseCaseImpl(
   }
 
   /**
+   * 料理を編集する
+   */
+  override fun putDish(userId: String, dishId: String, putDishFormDTO: PutDishFormDTO): String {
+    val user = dishRepository.findByDishesUser(userId)
+    val dish = dishMapper.toPutDishDomainEntity(user, putDishFormDTO)
+    dish.dishId = dishId
+    dishRepository.save(dish)
+    return dishId
+  }
+
+  /**
    * 料理を削除する
    */
   override fun deleteDish(dishId: String): Unit {
