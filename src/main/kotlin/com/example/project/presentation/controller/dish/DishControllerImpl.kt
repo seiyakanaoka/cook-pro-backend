@@ -4,6 +4,7 @@ import com.example.project.application.dto.dish.DishProcessesDTO
 import com.example.project.application.usecase.dish.DishUseCaseImpl
 import com.example.project.domain.enums.category.CategoryEnum
 import com.example.project.presentation.form.dish.DishForm
+import com.example.project.presentation.form.dish.PutDishForm
 import com.example.project.presentation.mapper.dish.DishResponseMapper
 import com.example.project.presentation.response.dish.*
 import lombok.RequiredArgsConstructor
@@ -45,6 +46,20 @@ class DishControllerImpl(
   @GetMapping("/dish/{dishId}")
   override fun getDish(@RequestAttribute("userId") userId: String, @PathVariable dishId: String): DishDetailResponse =
     dishResponseMapper.toDetailResponse(dishUseCaseImpl.getDish(userId, dishId))
+
+  /**
+   * 料理編集API
+   */
+  @PutMapping("/dish/{dishId}")
+  override fun putDish(
+    @RequestAttribute("userId") userId: String,
+    @PathVariable dishId: String,
+    @RequestBody putDishForm: PutDishForm
+  ): PutDishResponse {
+    val putDishFormDTO = dishResponseMapper.toPutDishFormDTO(putDishForm)
+    val id = dishUseCaseImpl.putDish(userId, dishId, putDishFormDTO)
+    return PutDishResponse(id)
+  }
 
   /**
    * 料理削除API
