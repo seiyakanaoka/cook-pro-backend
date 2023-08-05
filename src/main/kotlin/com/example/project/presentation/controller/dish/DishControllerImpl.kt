@@ -56,7 +56,9 @@ class DishControllerImpl(
     @PathVariable dishId: String,
     @RequestBody putDishForm: PutDishForm
   ): PutDishResponse {
-    return PutDishResponse("id")
+    val putDishFormDTO = dishResponseMapper.toPutDishFormDTO(putDishForm)
+    val id = dishUseCaseImpl.putDish(userId, dishId, putDishFormDTO)
+    return PutDishResponse(id)
   }
 
   /**

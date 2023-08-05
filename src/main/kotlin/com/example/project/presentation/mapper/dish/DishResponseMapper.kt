@@ -3,6 +3,7 @@ package com.example.project.presentation.mapper.dish
 import com.example.project.application.dto.dish.*
 import com.example.project.application.dto.material.MaterialDTO
 import com.example.project.presentation.form.dish.DishForm
+import com.example.project.presentation.form.dish.PutDishForm
 import com.example.project.presentation.response.dish.*
 import com.example.project.presentation.response.material.MaterialResponse
 import org.springframework.stereotype.Component
@@ -53,6 +54,17 @@ class DishResponseMapper {
       dishForm.createRequiredTime,
       dishForm.imageIds,
       dishForm.materials,
+      dishCategoryFormDTO
+    )
+  }
+
+  fun toPutDishFormDTO(putDishForm: PutDishForm): PutDishFormDTO {
+    val dishCategoryFormDTO = putDishForm.category.map { it -> DishCategoryFormDTO(it.categoryId, it.categoryType) }
+    return PutDishFormDTO(
+      putDishForm.dishName,
+      putDishForm.createRequiredTime,
+      putDishForm.imageIds,
+      putDishForm.materials,
       dishCategoryFormDTO
     )
   }
