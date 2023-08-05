@@ -20,7 +20,11 @@ interface DishController {
 
   fun postDish(@RequestAttribute("userId") userId: String, @RequestBody dishForm: DishForm): PostDishResponse
 
-  fun putDish(@RequestAttribute("userId") userId: String, @RequestBody putDishForm: PutDishForm): PutDishResponse
+  fun putDish(
+    @RequestAttribute("userId") userId: String,
+    @PathVariable dishId: String,
+    @RequestBody putDishForm: PutDishForm
+  ): PutDishResponse
 
   fun deleteDish(@PathVariable dishId: String): Unit
 
