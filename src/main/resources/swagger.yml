@@ -939,10 +939,6 @@ components:
       type: object
       description: 材料
       properties:
-        materialId:
-          type: string
-          description: 材料ID
-          example: f59fa544-abfe-423d-a20c-2799eed2d606
         materialName:
           type: string
           description: 材料名

@@ -5,7 +5,6 @@ import lombok.Data
 
 @Data
 data class MaterialForm(
-  val materialId: String,
   val materialName: String,
   val quantity: Int,
   val unit: MaterialEnum,

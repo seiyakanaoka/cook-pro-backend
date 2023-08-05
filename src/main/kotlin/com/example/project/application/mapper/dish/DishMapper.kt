@@ -17,7 +17,15 @@ class DishMapper {
     val categories = dishFormDTO.category.map { it -> Category(it.categoryId, it.categoryType) }.toMutableList()
     dish.categories = categories
     val materials =
-      dishFormDTO.materials.map { it -> Material(it.materialId, it.materialName, it.quantity, it.unit, dish) }
+      dishFormDTO.materials.map { it ->
+        Material(
+          UUID.randomUUID().toString(),
+          it.materialName,
+          it.quantity,
+          it.unit,
+          dish
+        )
+      }
         .toMutableList()
     dish.materials = materials
     return dish
@@ -29,7 +37,15 @@ class DishMapper {
     val categories = putDishFormDTO.category.map { it -> Category(it.categoryId, it.categoryType) }.toMutableList()
     dish.categories = categories
     val materials =
-      putDishFormDTO.materials.map { it -> Material(it.materialId, it.materialName, it.quantity, it.unit, dish) }
+      putDishFormDTO.materials.map { it ->
+        Material(
+          UUID.randomUUID().toString(),
+          it.materialName,
+          it.quantity,
+          it.unit,
+          dish
+        )
+      }
         .toMutableList()
     dish.materials = materials
     return dish
