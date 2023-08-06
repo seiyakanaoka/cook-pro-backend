@@ -600,6 +600,38 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Forbidden'
+  /material:
+    get:
+      tags:
+        - Material
+      summary: 料理材料単位一覧取得API
+      description: フロントエンドでプルダウン表示する用のAPI
+      responses:
+        '200':
+          description: |-
+            配列形式で返す
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MaterialUnitsResponse'
+        '400':
+          description: 不正リクエストエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestException'
+        '401':
+          description: 認証エラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        '403':
+          description: 操作権限エラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Forbidden'
 components:
   schemas:
     UserSignUpRequest:
@@ -998,6 +1030,48 @@ components:
           description: 画像ID
           type: string
           example: f59fa544-abfe-423d-a20c-2799eed2d606
+    MaterialUnit:
+      type: string
+      description: |-
+        - JAPAN_FOOD - 和食
+        
+        - WESTERN_FOOD - 洋食
+        
+        - CHINESE_FOOD - 中華
+        
+        - MEAT_DISH - 肉料理
+        
+        - FISH_DISH - 魚料理
+        
+        - NOODLE - 麺
+        
+        - RICE - 米
+        
+        - SALAD - サラダ
+        
+        - WITH_ALCOHOL - お酒に合う
+      enum:
+        - GRAMS
+        - TABLESPOON
+        - TEASPOON
+        - CC
+        - ML
+        - PIECE
+        - BUNCH
+        - CHO
+        - PACK
+        - SHEET
+        - UNIT
+    MaterialUnitsResponse:
+      type: object
+      required:
+        - materialUnits
+      properties:
+        materialUnits:
+          description: 材料単位配列
+          type: array
+          items:
+            $ref: '#/components/schemas/MaterialUnit'
     BadRequestException:
       type: object
       required:
