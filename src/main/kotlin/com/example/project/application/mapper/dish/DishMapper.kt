@@ -4,6 +4,7 @@ import com.example.project.application.dto.dish.DishFormDTO
 import com.example.project.application.dto.dish.PutDishFormDTO
 import com.example.project.domain.model.category.Category
 import com.example.project.domain.model.dish.Dish
+import com.example.project.domain.model.dish.DishImage
 import com.example.project.domain.model.material.Material
 import com.example.project.domain.model.user.User
 import org.springframework.stereotype.Component
@@ -28,6 +29,7 @@ class DishMapper {
       }
         .toMutableList()
     dish.materials = materials
+    dish.imageIds = dishFormDTO.imageIds.map { it -> DishImage(UUID.randomUUID().toString(), dish, it) }.toMutableList()
     return dish
   }
 
@@ -48,6 +50,8 @@ class DishMapper {
       }
         .toMutableList()
     dish.materials = materials
+    dish.imageIds =
+      putDishFormDTO.imageIds.map { it -> DishImage(UUID.randomUUID().toString(), dish, it) }.toMutableList()
     return dish
   }
 }

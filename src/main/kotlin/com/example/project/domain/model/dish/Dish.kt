@@ -28,5 +28,7 @@ data class Dish(
   )
   var categories: MutableList<Category> = mutableListOf(),
   @OneToMany(mappedBy = "dish", cascade = [CascadeType.ALL], orphanRemoval = true)
-  var materials: MutableList<Material> = mutableListOf()
+  var materials: MutableList<Material> = mutableListOf(),
+  @OneToMany(mappedBy = "dish", cascade = [CascadeType.ALL], orphanRemoval = true)
+  var imageIds: MutableList<DishImage> = mutableListOf()
 )
