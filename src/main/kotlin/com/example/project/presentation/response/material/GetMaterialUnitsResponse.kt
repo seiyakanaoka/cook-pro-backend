@@ -5,5 +5,5 @@ import lombok.Data
 
 @Data
 data class GetMaterialUnitsResponse(
-  val materialUnit: List<MaterialEnum>
+  val materialUnits: List<MaterialEnum>
 )

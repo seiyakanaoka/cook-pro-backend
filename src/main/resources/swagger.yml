@@ -600,7 +600,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Forbidden'
-  /material:
+  /material/units:
     get:
       tags:
         - Material
