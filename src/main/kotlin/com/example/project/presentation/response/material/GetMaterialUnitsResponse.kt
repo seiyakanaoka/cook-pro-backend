@@ -4,6 +4,6 @@ import com.example.project.domain.enums.material.MaterialEnum
 import lombok.Data
 
 @Data
-data class MaterialUnitsResponse(
+data class GetMaterialUnitsResponse(
   val materialUnit: List<MaterialEnum>
 )

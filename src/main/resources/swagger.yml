@@ -613,7 +613,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MaterialUnitsResponse'
+                $ref: '#/components/schemas/GetMaterialUnitsResponse'
         '400':
           description: 不正リクエストエラー
           content:
@@ -1062,7 +1062,7 @@ components:
         - PACK
         - SHEET
         - UNIT
-    MaterialUnitsResponse:
+    GetMaterialUnitsResponse:
       type: object
       required:
         - materialUnits
