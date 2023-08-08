@@ -33,7 +33,7 @@ class DishMapper {
     return dish
   }
 
-  fun toPutDishDomainEntity(user: User, putDishFormDTO: PutDishFormDTO): Dish {
+  fun toPutDishDomainEntity(user: User, dishImages: List<DishImage>, putDishFormDTO: PutDishFormDTO): Dish {
     val dishId = UUID.randomUUID().toString()
     val dish = Dish(dishId, user, putDishFormDTO.dishName, putDishFormDTO.createRequiredTime)
     val categories = putDishFormDTO.category.map { it -> Category(it.categoryId, it.categoryType) }.toMutableList()
@@ -50,8 +50,20 @@ class DishMapper {
       }
         .toMutableList()
     dish.materials = materials
-    dish.imageIds =
-      putDishFormDTO.imageIds.map { it -> DishImage(UUID.randomUUID().toString(), dish, it) }.toMutableList()
+    // s3のulrの場合は、既存のimageIdを代入する
+    val imageIds = putDishFormDTO.imageIds.mapIndexed { index, imageId ->
+      if (imageId.contains("https://cook-pro-")) {
+        try {
+          val dishImage = dishImages.elementAt(index)
+          DishImage(dishImage.dishImageId, dish, dishImage.dishImageKey)
+        } catch (e: IndexOutOfBoundsException) {
+          throw e
+        }
+      } else {
+        DishImage(UUID.randomUUID().toString(), dish, imageId)
+      }
+    }.toMutableList()
+    dish.imageIds = imageIds
     return dish
   }
 }

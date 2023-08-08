@@ -54,7 +54,8 @@ class DishUseCaseImpl(
    */
   override fun putDish(userId: String, dishId: String, putDishFormDTO: PutDishFormDTO): String {
     val user = dishRepository.findByDishesUser(userId)
-    val dish = dishMapper.toPutDishDomainEntity(user, putDishFormDTO)
+    val dishImages = dishRepository.findByDishImages(dishId)
+    val dish = dishMapper.toPutDishDomainEntity(user, dishImages, putDishFormDTO)
     dish.dishId = dishId
     dishRepository.save(dish)
     return dishId
