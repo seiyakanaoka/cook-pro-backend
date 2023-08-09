@@ -2,6 +2,7 @@ package com.example.project.presentation.exception.handler
 
 import com.example.project.domain.exception.ApplicationError
 import com.example.project.domain.exception.FieldError
+import com.example.project.presentation.exception.exception.ImageUploadException
 import com.example.project.presentation.exception.exception.TitleExistException
 import com.example.project.presentation.exception.exception.UserNotExistsException
 import jakarta.servlet.http.HttpServletRequest
@@ -22,6 +23,26 @@ import java.sql.SQLException
 @RestControllerAdvice
 class ExceptionHandler {
   private val log = LogFactory.getLog(ExceptionHandler::class.java)
+
+  /**
+   * 400 Error　独自例外
+   * 画像アップロード時のエラー
+   * */
+  @ExceptionHandler(ImageUploadException::class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  @ResponseBody
+  fun imageUploadException(
+    request: HttpServletRequest,
+    ex: ImageUploadException
+  ): ResponseEntity<ApplicationError> {
+    log.error(ex)
+
+    val message = ex.message ?: "入力エラー発生"
+
+    val error = ApplicationError(message, HttpStatus.BAD_REQUEST.value(), request.method);
+
+    return ResponseEntity<ApplicationError>(error, HttpStatus.BAD_REQUEST);
+  }
 
   /**
    * 400 Error　独自例外
